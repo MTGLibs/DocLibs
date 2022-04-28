@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wxiwei.office">
+
+
+    <application>
+        <activity android:name=".officereader.FileListActivity" />
+        <activity android:name=".officereader.DocReaderActivity" />
+        <activity android:name=".officereader.SettingActivity" />
+        <activity android:name=".officereader.SysActivity" />
+    </application>
+</manifest>
