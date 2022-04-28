@@ -5,7 +5,7 @@
 
     <application>
         <activity android:name=".officereader.FileListActivity" />
-        <activity android:name=".officereader.DocReaderActivity" />
+        <activity android:name=".officereader.BaseDocActivity" />
         <activity android:name=".officereader.SettingActivity" />
         <activity android:name=".officereader.SysActivity" />
     </application>

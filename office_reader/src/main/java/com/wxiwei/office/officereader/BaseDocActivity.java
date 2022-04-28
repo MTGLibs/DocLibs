@@ -2,16 +2,17 @@ package com.wxiwei.office.officereader;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.LinearLayoutCompat;
 
 import com.wxiwei.office.R;
 import com.wxiwei.office.constant.MainConstant;
@@ -28,7 +29,7 @@ import java.io.File;
 import java.util.List;
 
 
-public class DocReaderActivity extends AppCompatActivity implements IMainFrame {
+public abstract class BaseDocActivity extends AppCompatActivity implements IMainFrame {
     private MainControl control;
     private DBService dbService;
     private String filePath;
@@ -36,7 +37,7 @@ public class DocReaderActivity extends AppCompatActivity implements IMainFrame {
     private boolean isThumbnail;
     private boolean writeLog = true;
     private final Object bg = -3355444;
-    private LinearLayoutCompat appFrame;
+    private FrameLayout appFrame;
 
     @Override
     public void changePage() {
@@ -160,11 +161,22 @@ public class DocReaderActivity extends AppCompatActivity implements IMainFrame {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_office);
-        appFrame = findViewById(R.id.app_frame);
+        setContentView(getLayoutId());
+        appFrame = getFrameLayoutDoc();
         this.control = new MainControl(this);
         init();
+        initView();
+        addEvent();
     }
+
+    protected abstract int getLayoutId();
+
+    protected abstract FrameLayout getFrameLayoutDoc();
+
+    protected abstract void initView();
+
+    protected abstract void addEvent();
+
 
     @Override
     public void onActivityResult(int i, int i2, Intent intent) {
@@ -190,14 +202,14 @@ public class DocReaderActivity extends AppCompatActivity implements IMainFrame {
     private void init() {
         Intent intent = getIntent();
         this.dbService = new DBService(getApplicationContext());
-        Uri fileUri = null;
+        Uri fileUri;
         if ("android.intent.action.VIEW".equals(intent.getAction())) {
             Uri data = intent.getData();
             fileUri = data;
             if (data != null) {
                 StringBuilder sb = new StringBuilder();
                 sb.append(" fileUri = ");
-                sb.append(fileUri.toString());
+                sb.append(fileUri);
                 this.filePath = RealPathUtil.getRealPath(this, fileUri);
             }
         } else {
