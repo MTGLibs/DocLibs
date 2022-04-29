@@ -1170,6 +1170,26 @@ public class AppActivity extends Activity implements IMainFrame {
 
     }
 
+    @Override
+    public void pageChanged(int page, int pageCount) {
+
+    }
+
+    @Override
+    public void error(Throwable t) {
+
+    }
+
+    @Override
+    public void onLoadComplete(int nbPages) {
+
+    }
+
+    @Override
+    public boolean tap(MotionEvent e) {
+        return false;
+    }
+
     //
     private boolean isDispose;
     // 当前标星状态

@@ -345,4 +345,13 @@ public interface IMainFrame
 
     public void onWordScrollPercentY(float scrollY);
 
+
+    void pageChanged(int page, int pageCount);
+
+    void error(Throwable t);
+
+    void onLoadComplete(int nbPages);
+
+    boolean tap(MotionEvent e);
+
 }

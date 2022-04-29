@@ -4,6 +4,7 @@ import static com.wxiwei.office.constant.MainConstant.INTENT_FILED_FILE_PATH;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -42,4 +43,9 @@ public class DocReaderActivity extends BaseDocActivity {
         });
     }
 
+    @Override
+    public void pageChanged(int page, int pageCount) {
+        super.pageChanged(page, pageCount);
+        Log.d("TAG", "pageChanged: "+page+"__"+pageCount);
+    }
 }

@@ -2,7 +2,6 @@ package com.wxiwei.office.officereader;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +13,11 @@ import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnErrorListener;
+import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
+import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
+import com.github.barteksc.pdfviewer.listener.OnTapListener;
 import com.wxiwei.office.R;
 import com.wxiwei.office.constant.MainConstant;
 import com.wxiwei.office.macro.DialogListener;
@@ -38,6 +42,31 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     private boolean writeLog = true;
     private final Object bg = -3355444;
     private FrameLayout appFrame;
+
+    private final OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
+        @Override
+        public void onPageChanged(int page, int pageCount) {
+            pageChanged(page, pageCount);
+        }
+    };
+    private final OnErrorListener errorListener = new OnErrorListener() {
+        @Override
+        public void onError(Throwable t) {
+            error(t);
+        }
+    };
+    private final OnLoadCompleteListener onLoadListener = new OnLoadCompleteListener() {
+        @Override
+        public void loadComplete(int nbPages) {
+            onLoadComplete(nbPages);
+        }
+    };
+    private final OnTapListener onTapListener = new OnTapListener() {
+        @Override
+        public boolean onTap(MotionEvent e) {
+            return tap(e);
+        }
+    };
 
     @Override
     public void changePage() {
@@ -163,7 +192,6 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         appFrame = getFrameLayoutDoc();
-        this.control = new MainControl(this);
         init();
         initView();
         addEvent();
@@ -210,11 +238,17 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
                 StringBuilder sb = new StringBuilder();
                 sb.append(" fileUri = ");
                 sb.append(fileUri);
-                this.filePath = RealPathUtil.getRealPath(this, fileUri);
+                this.filePath = RealPathUtil.getPathFromData(this, fileUri);
             }
         } else {
             this.filePath = intent.getStringExtra(MainConstant.INTENT_FILED_FILE_PATH);
         }
+        if (filePath.toLowerCase().endsWith(".pdf")) {
+            readPdfFile();
+            return;
+        }
+        this.control = new MainControl(this);
+
         if (TextUtils.isEmpty(this.filePath)) {
             this.filePath = intent.getDataString();
             int indexOf = getFilePath().indexOf(":");
@@ -231,6 +265,13 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
         this.control.openFile(this.filePath, fileName, Uri.fromFile(new File(filePath)));
 
+    }
+
+    private void readPdfFile() {
+        PDFView pdfView = new PDFView(this);
+        pdfView.fromFile(new File(filePath)).onPageChange(pageChangeListener)
+                .onError(errorListener).onLoad(onLoadListener).onTap(onTapListener).load();
+        appFrame.addView(pdfView);
     }
 
     @Override
@@ -352,5 +393,25 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     @Override
     public void onWordScrollPercentY(float scrollY) {
 
+    }
+
+    @Override
+    public void pageChanged(int page, int pageCount) {
+
+    }
+
+    @Override
+    public void error(Throwable t) {
+
+    }
+
+    @Override
+    public void onLoadComplete(int nbPages) {
+
+    }
+
+    @Override
+    public boolean tap(MotionEvent e) {
+        return false;
     }
 }
