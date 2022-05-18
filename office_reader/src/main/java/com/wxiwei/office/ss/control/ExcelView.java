@@ -1,6 +1,7 @@
 package com.wxiwei.office.ss.control;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,8 @@ public class ExcelView extends RelativeLayout {
         LinearLayout linearLayout = (LinearLayout) ((HorizontalScrollView) findViewById(R.id.hsvButtons)).findViewById(R.id.llButtons);
         int i3 = 0;
         while (i3 < linearLayout.getChildCount()) {
-            ((TextView) linearLayout.getChildAt(i3)).setBackground(getContext().getResources().getDrawable(i3 == i2 ? R.drawable.bg_sheet_button_selected : R.drawable.bg_sheet_button_unselected));
+            ((TextView) linearLayout.getChildAt(i3)).setTextColor(i2 == 0 ? Color.parseColor("#00733B") : Color.parseColor("#838388"));
+            ((TextView) linearLayout.getChildAt(i3)).setBackground(getContext().getResources().getDrawable(R.drawable.bg_sheet_button_selected));
             i3++;
         }
     }
@@ -48,7 +50,8 @@ public class ExcelView extends RelativeLayout {
             View inflate = from.inflate(R.layout.layout_sheet_buttons, (ViewGroup) null, false);
             LayoutParams layoutParams = new LayoutParams(-1, -2);
             layoutParams.addRule(12);
-            LinearLayout linearLayout = (LinearLayout) inflate.findViewById(R.id.llButtons);
+            LinearLayout linearLayout = inflate.findViewById(R.id.llButtons);
+
             Vector vector = (Vector) this.control.getActionValue(EventConstant.SS_GET_ALL_SHEET_NAME, null);
             int size = vector.size();
             int i2 = 0;
@@ -56,7 +59,8 @@ public class ExcelView extends RelativeLayout {
                 TextView textView = (TextView) from.inflate(R.layout.layout_sheet_button_item, (ViewGroup) null, false);
                 textView.setText((String) vector.get(i2));
                 linearLayout.addView(textView);
-                textView.setBackground(getContext().getResources().getDrawable(i2 == 0 ? R.drawable.bg_sheet_button_selected : R.drawable.bg_sheet_button_unselected));
+                textView.setTextColor(i2 == 0 ? Color.parseColor("#00733B") : Color.parseColor("#838388"));
+                textView.setBackground(getContext().getResources().getDrawable(R.drawable.bg_sheet_button_selected));
                 int finalI = i2;
                 textView.setOnClickListener(new OnClickListener() { // from class: b.o.a.f.a.a
                     @Override // android.view.View.OnClickListener

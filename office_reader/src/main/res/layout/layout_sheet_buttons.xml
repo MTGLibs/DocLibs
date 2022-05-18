@@ -2,16 +2,14 @@
 <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/hsvButtons"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#FFF"
+    android:layout_height="50dp"
+    android:background="#E4E4E4"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/llButtons"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="7dp"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal" />
 </HorizontalScrollView>
