@@ -2,6 +2,7 @@ package com.wxiwei.office.ss.control;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,8 +39,9 @@ public class ExcelView extends RelativeLayout {
         LinearLayout linearLayout = (LinearLayout) ((HorizontalScrollView) findViewById(R.id.hsvButtons)).findViewById(R.id.llButtons);
         int i3 = 0;
         while (i3 < linearLayout.getChildCount()) {
-            ((TextView) linearLayout.getChildAt(i3)).setTextColor(i2 == 0 ? Color.parseColor("#00733B") : Color.parseColor("#838388"));
-            ((TextView) linearLayout.getChildAt(i3)).setBackground(getContext().getResources().getDrawable(R.drawable.bg_sheet_button_selected));
+            ((TextView) linearLayout.getChildAt(i3)).setTextColor(i3 == i2 ? Color.parseColor("#00733B") : Color.parseColor("#838388"));
+            ((TextView) linearLayout.getChildAt(i3)).setBackground(getContext().getResources().getDrawable(i3 == i2 ? R.drawable.bg_sheet_button_selected : R.drawable.bg_sheet_button_unselected));
+            ((TextView) linearLayout.getChildAt(i3)).setTypeface(null, i3 == i2 ? Typeface.BOLD : Typeface.NORMAL);
             i3++;
         }
     }
@@ -60,7 +62,8 @@ public class ExcelView extends RelativeLayout {
                 textView.setText((String) vector.get(i2));
                 linearLayout.addView(textView);
                 textView.setTextColor(i2 == 0 ? Color.parseColor("#00733B") : Color.parseColor("#838388"));
-                textView.setBackground(getContext().getResources().getDrawable(R.drawable.bg_sheet_button_selected));
+                textView.setTypeface(null, i2 == 0 ? Typeface.BOLD : Typeface.NORMAL);
+                textView.setBackground(getContext().getResources().getDrawable(0 == i2 ? R.drawable.bg_sheet_button_selected : R.drawable.bg_sheet_button_unselected));
                 int finalI = i2;
                 textView.setOnClickListener(new OnClickListener() { // from class: b.o.a.f.a.a
                     @Override // android.view.View.OnClickListener
