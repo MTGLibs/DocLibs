@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/btnSheet"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_sheet_button_unselected"
+    android:gravity="center"
+    android:minWidth="80dp"
+    android:padding="7dp"
+    android:text="Sheet1"
+    android:textAllCaps="false"
+    android:textColor="@android:color/black"
+    android:textSize="13sp"
+    android:textStyle="normal" />
