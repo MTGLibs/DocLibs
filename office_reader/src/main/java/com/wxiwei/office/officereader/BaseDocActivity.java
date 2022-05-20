@@ -46,7 +46,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     private final OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
         @Override
         public void onPageChanged(int page, int pageCount) {
-            pageChanged(page, pageCount);
+            pageChanged(page+1, pageCount);
         }
     };
     private final OnErrorListener errorListener = new OnErrorListener() {
