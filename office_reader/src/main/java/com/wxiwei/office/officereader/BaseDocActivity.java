@@ -120,7 +120,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
     @Override
     public boolean isDrawPageNumber() {
-        return true;
+        return false;
     }
 
     @Override
@@ -292,6 +292,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
         }
     }
 
+
     public IControl getControl() {
         return this.control;
     }
@@ -390,13 +391,9 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
         }
     }
 
+
     @Override
     public void onWordScrollPercentY(float scrollY) {
-
-    }
-
-    @Override
-    public void pageChanged(int page, int pageCount) {
 
     }
 

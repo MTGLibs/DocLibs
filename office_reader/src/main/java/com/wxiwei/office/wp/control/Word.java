@@ -107,11 +107,13 @@ public class Word extends LinearLayout implements IWord {
             setOnClickListener(null);
         }
         minScroll = -convertDpToPixel(48f);
-        Log.d(TAG, "Word: "+minScroll);
+        Log.d(TAG, "Word: " + minScroll);
     }
-    public  int convertDpToPixel(float dp){
-        return (int) (dp *  getContext().getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+
+    public int convertDpToPixel(float dp) {
+        return (int) (dp * getContext().getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
+
     /**
      *
      */
@@ -160,6 +162,7 @@ public class Word extends LinearLayout implements IWord {
      *
      */
     private static final String TAG = "WordTime";
+
     public void onDraw(Canvas canvas) {
         long time = System.currentTimeMillis();
         if (!initFinish || currentRootType == WPViewConstant.PRINT_ROOT) {
@@ -167,7 +170,7 @@ public class Word extends LinearLayout implements IWord {
         }
         try {
             if (getCurrentRootType() == WPViewConstant.PAGE_ROOT) {
-                canvas.scale(zoom/2f,zoom/2f);
+                canvas.scale(zoom / 2f, zoom / 2f);
                 pageRoot.draw(canvas, 0, 0, 2f);
                 drawPageNubmer(canvas, zoom);
             } else if (getCurrentRootType() == WPViewConstant.NORMAL_ROOT) {
@@ -181,7 +184,7 @@ public class Word extends LinearLayout implements IWord {
         } catch (Exception e) {
             control.getSysKit().getErrorKit().writerLog(e);
         }
-        Log.d(TAG, "onDraw: "+(System.currentTimeMillis() - time));
+        Log.d(TAG, "onDraw: " + (System.currentTimeMillis() - time));
     }
 
     /**
@@ -527,6 +530,7 @@ public class Word extends LinearLayout implements IWord {
         }
         return 0;
     }
+
     private void scrollToFocusXY(float newScale, float oldScale, int focusScreenX, int focusScreenY) {
         if (focusScreenX == Integer.MIN_VALUE && focusScreenY == Integer.MIN_VALUE) {
             focusScreenX = getWidth() / 2;
@@ -562,20 +566,24 @@ public class Word extends LinearLayout implements IWord {
      *
      */
     public int minScroll = -100;
+
     public void scrollTo(int x, int y) {
         x = Math.min(Math.max(x, 0), (int) (getWordWidth() * getZoom() - getWidth()));
         y = Math.min(Math.max(y, minScroll), (int) (getWordHeight() * getZoom() - getHeight()));
         super.scrollTo(Math.max(x, 0), Math.max(y, minScroll));
         getControl().getMainFrame().onWordScrollPercentY(getScrollPercentY());
     }
+
     public void scrollToY(float y) {
-        int scroll = minScroll+(int) ((getWordHeight() * getZoom() - getHeight()-minScroll)*y);
+        int scroll = minScroll + (int) ((getWordHeight() * getZoom() - getHeight() - minScroll) * y);
         super.scrollTo(getScrollX(), Math.max(scroll, minScroll));
     }
-    public float getScrollPercentY(){
-        return  (float)(getScrollY()-minScroll)/(getWordHeight() * getZoom() - getHeight()-minScroll);
+
+    public float getScrollPercentY() {
+        return (float) (getScrollY() - minScroll) / (getWordHeight() * getZoom() - getHeight() - minScroll);
     }
-    public int getMinScroll(){
+
+    public int getMinScroll() {
         return minScroll;
     }
 
@@ -589,17 +597,19 @@ public class Word extends LinearLayout implements IWord {
         if (getCurrentRootType() == WPViewConstant.PRINT_ROOT) {
             return printWord.getCurrentPageNumber();
         }
-        Log.d("hhh", "getCurrentPageNumber: "+(getScrollY())/zoom  +" "+getPageCount()+" "+getWordHeight());
-        int page =  (int) (((getScrollY())/zoom)*getPageCount()/getWordHeight())+1;
-
-        if (getScrollY() - (getWordHeight() * getZoom() - 1.2f*getHeight())>0f){
-            return getPageCount();
+        int page = (int) (((getScrollY()) / zoom) * getPageCount() / getWordHeight()) + 1;
+        Log.d("hhh", "getCurrentPageNumber: " + page);
+        if (getScrollY() - (getWordHeight() * getZoom() - 1.2f * getHeight()) > 0f) {
+            page = getPageCount();
+            control.getMainFrame().pageChanged(page, getPageCount());
+            return page;
         }
-        return Math.max(page,1);
+        page = Math.max(page, 1);
+        control.getMainFrame().pageChanged(page, getPageCount());
+        return page;
 
 
-
-            //        PageView pv = WPViewKit.instance().getPageView(pageRoot, (int) (getScrollX() / zoom),
+        //        PageView pv = WPViewKit.instance().getPageView(pageRoot, (int) (getScrollX() / zoom),
 //                (int) (getScrollY() / zoom) + getHeight() / 3);
 //        if (getScrollY()/zoom >= getWordHeight()*(getPageCount()-0.5f)/(getPageCount())){
 //            return getPageCount();
@@ -790,13 +800,13 @@ public class Word extends LinearLayout implements IWord {
     public void setSize(int w, int h) {
         mWidth = w;
         mHeight = h;
-        if (isFullScreen && w != 0){
+        if (isFullScreen && w != 0) {
             if (firstSetSize) {
                 firstSetSize = false;
                 float scale = (float) getWidth() / mWidth;
                 fullScreenZoom = scale;
-                setZoom(scale,getWidth()/2,0);
-                scrollTo(0,minScroll);
+                setZoom(scale, getWidth() / 2, 0);
+                scrollTo(0, minScroll);
             }
         }
     }
@@ -880,10 +890,10 @@ public class Word extends LinearLayout implements IWord {
      * specific area of page to image. if area is not completely contained in the page, return null
      *
      * @param pageNumber page number
-     * @param srcLeft          The x coordinate
-     * @param srcTop          The y coordinate
-     * @param desWidth      area width
-     * @param desHeight     area height
+     * @param srcLeft    The x coordinate
+     * @param srcTop     The y coordinate
+     * @param desWidth   area width
+     * @param desHeight  area height
      * @return bitmap
      */
     public Bitmap pageAreaToImage(int pageNumber, int srcLeft, int srcTop, int srcWidth, int srcHeight, int desWidth, int desHeight) {
@@ -998,7 +1008,7 @@ public class Word extends LinearLayout implements IWord {
         }
         // page mode
         else if (currentRootType == WPViewConstant.PAGE_ROOT) {
-            if (isFullScreen){
+            if (isFullScreen) {
                 return fullScreenZoom;
             }
             IView view = pageRoot.getChildView();
