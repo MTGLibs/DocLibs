@@ -2,6 +2,7 @@ package com.masterlibs.alldoclibs;
 
 import static com.wxiwei.office.constant.MainConstant.INTENT_FILED_FILE_PATH;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -15,6 +16,7 @@ import java.io.File;
 
 public class DocReaderActivity extends BaseDocActivity {
     private TextView title;
+    private AlertDialog dialog;
 
     public static void start(Context context, String path) {
         Intent starter = new Intent(context, DocReaderActivity.class);
@@ -54,5 +56,25 @@ public class DocReaderActivity extends BaseDocActivity {
     public void pageChanged(int page, int pageCount) {
         title.setText(page + "/" + pageCount);
         Log.d("TAG", "pageChanged: " + page + "__" + pageCount);
+    }
+
+    @Override
+    public void errorLoadPdf(Throwable t) {
+
+    }
+
+    @Override
+    public void showDialogLoading() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Loading...");
+        dialog = builder.create();
+        dialog.show();
+    }
+
+    @Override
+    public void dismissDialogLoading() {
+        if (dialog != null) {
+            dialog.dismiss();
+        }
     }
 }

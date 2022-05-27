@@ -1190,6 +1190,21 @@ public class AppActivity extends Activity implements IMainFrame {
         return false;
     }
 
+    @Override
+    public void errorLoadPdf(Throwable t) {
+
+    }
+
+    @Override
+    public void showDialogLoading() {
+
+    }
+
+    @Override
+    public void dismissDialogLoading() {
+
+    }
+
     //
     private boolean isDispose;
     // 当前标星状态
@@ -1236,4 +1251,9 @@ public class AppActivity extends Activity implements IMainFrame {
     private boolean fullscreen;
     //
     private String tempFilePath;
+
+    @Override
+    public long getTimeLoading() {
+        return 0;
+    }
 }

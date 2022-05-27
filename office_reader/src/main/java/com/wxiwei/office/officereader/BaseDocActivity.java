@@ -46,13 +46,13 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     private final OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
         @Override
         public void onPageChanged(int page, int pageCount) {
-            pageChanged(page+1, pageCount);
+            pageChanged(page + 1, pageCount);
         }
     };
     private final OnErrorListener errorListener = new OnErrorListener() {
         @Override
         public void onError(Throwable t) {
-            error(t);
+            errorLoadPdf(t);
         }
     };
     private final OnLoadCompleteListener onLoadListener = new OnLoadCompleteListener() {
@@ -192,7 +192,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         appFrame = getFrameLayoutDoc();
-        init();
+        appFrame.post(this::init);
         initView();
         addEvent();
     }
@@ -244,7 +244,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
             this.filePath = intent.getStringExtra(MainConstant.INTENT_FILED_FILE_PATH);
         }
         if (filePath.toLowerCase().endsWith(".pdf")) {
-            readPdfFile();
+            readPdfFile("");
             return;
         }
         this.control = new MainControl(this);
@@ -267,10 +267,11 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
     }
 
-    private void readPdfFile() {
+    protected void readPdfFile(String password) {
         PDFView pdfView = new PDFView(this);
         pdfView.fromFile(new File(filePath)).onPageChange(pageChangeListener)
-                .onError(errorListener).onLoad(onLoadListener).onTap(onTapListener).load();
+                .onError(errorListener).onLoad(onLoadListener).password(password).onTap(onTapListener).load();
+        appFrame.removeAllViews();
         appFrame.addView(pdfView);
     }
 
@@ -410,5 +411,20 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     @Override
     public boolean tap(MotionEvent e) {
         return false;
+    }
+
+    @Override
+    public void showDialogLoading() {
+
+    }
+
+    @Override
+    public void dismissDialogLoading() {
+
+    }
+
+    @Override
+    public long getTimeLoading() {
+        return 1500;
     }
 }

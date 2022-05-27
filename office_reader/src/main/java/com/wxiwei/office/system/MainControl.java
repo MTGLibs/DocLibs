@@ -74,9 +74,6 @@ public class MainControl extends AbstractControl {
         // listener
         initListener();
         //
-        toast = Toast.makeText(getActivity().getApplicationContext(), "", 0);
-
-        // 自动测试
         Intent intent = getActivity().getIntent();
         String autoTest = intent.getStringExtra("autoTest");
         isAutoTest = autoTest != null && autoTest.equals("true");
@@ -115,28 +112,19 @@ public class MainControl extends AbstractControl {
                 final Message message = msg;
                 switch (msg.what) {
                     case MainConstant.HANDLER_MESSAGE_SUCCESS:
-                        post(new Runnable() {
-                            public void run() {
-                                try {
-                                    Log.e("datcoi", "run: 0");
-                                    if (getMainFrame().isShowProgressBar()) {
-                                        try {
-                                            Log.d("zzzzz", "run: "+getView().getClass().getName());
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                        if (applicationType != MainConstant.APPLICATION_TYPE_SS) {
-                                            dismissProgressDialog();
-                                        }
-                                    } else {
-                                        if (customDialog != null) {
-                                            customDialog.dismissDialog(ICustomDialog.DIALOGTYPE_LOADING);
-                                        }
+                        post(() -> {
+                            try {
+                                frame.showDialogLoading();
+                                new Handler().postDelayed(() -> {
+                                    try {
+                                        frame.dismissDialogLoading();
+                                        createApplication(message.obj);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
                                     }
-                                    createApplication(message.obj);
-                                } catch (Exception e) {
-                                    sysKit.getErrorKit().writerLog(e, true);
-                                }
+                                }, frame.getTimeLoading());
+                            } catch (Exception e) {
+                                sysKit.getErrorKit().writerLog(e, true);
                             }
                         });
                         break;
@@ -185,7 +173,8 @@ public class MainControl extends AbstractControl {
             }
         };
     }
-    public void workbookReaderSuccess(){
+
+    public void workbookReaderSuccess() {
         if (getView() instanceof ExcelView) {
 //            ((ExcelView) getView()).dataLoadSuccess();
         }
@@ -316,7 +305,7 @@ public class MainControl extends AbstractControl {
     /**
      *
      */
-    public boolean  openFile(String filePath, String extension, Uri uri) {
+    public boolean openFile(String filePath, String extension, Uri uri) {
         this.filePath = filePath;
         this.uri = uri;
         String fileName = extension.toLowerCase();
@@ -500,7 +489,7 @@ public class MainControl extends AbstractControl {
                 break;
 
             case EventConstant.TXT_DIALOG_FINISH_ID:
-                TXTKit.instance().reopenFile(this, handler, filePath, (String) obj,uri);
+                TXTKit.instance().reopenFile(this, handler, filePath, (String) obj, uri);
                 break;
 
             case EventConstant.TXT_REOPNE_ID:
@@ -508,7 +497,7 @@ public class MainControl extends AbstractControl {
                 if (strings.length == 2) {
                     this.filePath = strings[0];
                     applicationType = MainConstant.APPLICATION_TYPE_WP;
-                    TXTKit.instance().reopenFile(this, handler, filePath, strings[1],uri);
+                    TXTKit.instance().reopenFile(this, handler, filePath, strings[1], uri);
                 }
                 break;
 

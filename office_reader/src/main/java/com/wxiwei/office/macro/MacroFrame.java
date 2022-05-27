@@ -691,6 +691,26 @@ class MacroFrame implements IMainFrame {
         return false;
     }
 
+    @Override
+    public void errorLoadPdf(Throwable t) {
+
+    }
+
+    @Override
+    public void showDialogLoading() {
+
+    }
+
+    @Override
+    public void dismissDialogLoading() {
+
+    }
+
+    @Override
+    public long getTimeLoading() {
+        return 0;
+    }
+
     // support touch zoom in / zoom out
     private boolean isTouchZoom = true;
     // is draw page number
