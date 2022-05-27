@@ -6,16 +6,10 @@
  */
 package com.wxiwei.office.ss.view;
 
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.DashPathEffect;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.PathEffect;
-import android.graphics.Rect;
-import android.graphics.RectF;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 import com.wxiwei.office.common.PaintKit;
 import com.wxiwei.office.common.picture.PictureKit;
@@ -49,10 +43,16 @@ import com.wxiwei.office.ss.other.FocusCell;
 import com.wxiwei.office.ss.other.SheetScroller;
 import com.wxiwei.office.ss.util.ModelUtil;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.DashPathEffect;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PathEffect;
+import android.graphics.Rect;
+import android.graphics.RectF;
 
 /**
  * 负责sheet表绘制和布局计算

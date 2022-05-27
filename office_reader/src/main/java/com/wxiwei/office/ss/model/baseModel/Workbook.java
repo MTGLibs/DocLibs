@@ -6,8 +6,10 @@
  */
 package com.wxiwei.office.ss.model.baseModel;
 
-import android.graphics.Color;
-import android.os.Message;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import com.wxiwei.office.common.bg.BackgroundAndFill;
 import com.wxiwei.office.common.picture.Picture;
@@ -18,10 +20,8 @@ import com.wxiwei.office.ss.model.style.CellStyle;
 import com.wxiwei.office.ss.model.table.TableFormatManager;
 import com.wxiwei.office.system.ReaderHandler;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import android.graphics.Color;
+import android.os.Message;
 
 /**
  * Excel model 数据

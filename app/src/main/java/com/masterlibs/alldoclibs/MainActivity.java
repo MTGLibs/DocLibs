@@ -29,8 +29,9 @@ public class MainActivity extends AppCompatActivity {
         //sdcard/Download/351_ Trần Thị Thu Hà_Đường lối quốc phòng và an ninh Đảng cộng sản Việt Nam done.doc
         //sdcard/Download/DS CẤM THI HỆ CQ  KỲ 2 NĂM 2021-2022 - gốc.xlsx
         ///storage/emulated/0/UnRAR/FileDecompressed/Compressed_20220415_1335/JD-Android-VNT.pdf
+        ///storage/emulated/0/Download/1.xlsx
         findViewById(R.id.readeFile).setOnClickListener(view -> DocReaderActivity.start(this,
-                "sdcard/Download/Dickinson_Sample_Slides.pptx"));
+                "/storage/emulated/0/Download/1.xlsx"));
 //        findViewById(R.id.readeFile).setOnClickListener(view -> DocReaderActivity.
 //                start(this,"/storage/emulated/0/UnRAR/FileDecompressed/Compressed_20220415_1335/JD-Android-VNT.pdf"));
     }

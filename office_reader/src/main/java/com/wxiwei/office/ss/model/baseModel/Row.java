@@ -7,13 +7,13 @@
 
 package com.wxiwei.office.ss.model.baseModel;
 
+import java.util.Collection;
+import java.util.Hashtable;
+
 import com.wxiwei.office.common.bg.BackgroundAndFill;
 import com.wxiwei.office.constant.SSConstant;
 import com.wxiwei.office.ss.model.style.CellStyle;
 import com.wxiwei.office.ss.other.ExpandedCellRangeAddress;
-
-import java.util.Collection;
-import java.util.Hashtable;
 
 
 /**

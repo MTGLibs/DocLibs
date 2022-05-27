@@ -6,16 +6,6 @@
  */
 package com.wxiwei.office.ss.view;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Paint.FontMetrics;
-import android.graphics.Paint.Style;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.Shader;
-
 import com.wxiwei.office.common.PaintKit;
 import com.wxiwei.office.common.bg.AShader;
 import com.wxiwei.office.common.bg.BackgroundAndFill;
@@ -60,6 +50,15 @@ import com.wxiwei.office.ss.util.ModelUtil;
 import com.wxiwei.office.ss.util.format.NumericFormatter;
 import com.wxiwei.office.system.IControl;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Paint.FontMetrics;
+import android.graphics.Paint.Style;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Shader;
 /**
  * draw cells of sheet
  * <p>
