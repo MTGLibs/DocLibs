@@ -7,7 +7,13 @@
 
 package com.wxiwei.office.ss.control;
 
-import java.io.File;
+import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.os.Message;
+import android.widget.LinearLayout;
 
 import com.wxiwei.office.common.IOfficeToPicture;
 import com.wxiwei.office.common.hyperlink.Hyperlink;
@@ -29,13 +35,7 @@ import com.wxiwei.office.system.beans.AEventManage;
 import com.wxiwei.office.system.beans.CalloutView.CalloutView;
 import com.wxiwei.office.system.beans.CalloutView.IExportListener;
 
-import android.content.Context;
-import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.os.Message;
-import android.widget.LinearLayout;
+import java.io.File;
 
 /**
  * 文件注释

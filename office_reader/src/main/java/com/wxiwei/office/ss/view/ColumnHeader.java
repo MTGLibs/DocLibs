@@ -6,17 +6,17 @@
  */
 package com.wxiwei.office.ss.view;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Paint.FontMetrics;
+import android.graphics.Rect;
+
 import com.wxiwei.office.common.PaintKit;
 import com.wxiwei.office.constant.SSConstant;
 import com.wxiwei.office.ss.model.baseModel.Sheet;
 import com.wxiwei.office.ss.model.baseModel.Workbook;
 import com.wxiwei.office.ss.other.SheetScroller;
 import com.wxiwei.office.ss.util.HeaderUtil;
-
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Paint.FontMetrics;
-import android.graphics.Rect;
 
 /**
  * 列标题

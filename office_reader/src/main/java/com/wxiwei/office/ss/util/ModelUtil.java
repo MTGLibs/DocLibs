@@ -6,6 +6,9 @@
  */
 package com.wxiwei.office.ss.util;
 
+import android.graphics.Rect;
+import android.graphics.RectF;
+
 import com.wxiwei.office.constant.SSConstant;
 import com.wxiwei.office.fc.hssf.formula.eval.ErrorEval;
 import com.wxiwei.office.java.awt.Rectangle;
@@ -19,9 +22,6 @@ import com.wxiwei.office.ss.model.style.CellStyle;
 import com.wxiwei.office.ss.other.SheetScroller;
 import com.wxiwei.office.ss.util.format.NumericFormatter;
 import com.wxiwei.office.ss.view.SheetView;
-
-import android.graphics.Rect;
-import android.graphics.RectF;
 
 
 /**

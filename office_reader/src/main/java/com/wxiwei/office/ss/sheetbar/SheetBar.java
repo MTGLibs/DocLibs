@@ -6,11 +6,6 @@
  */
 package com.wxiwei.office.ss.sheetbar;
 
-import java.util.Vector;
-
-import com.wxiwei.office.constant.EventConstant;
-import com.wxiwei.office.system.IControl;
-
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
@@ -19,6 +14,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+
+import com.wxiwei.office.constant.EventConstant;
+import com.wxiwei.office.system.IControl;
+
+import java.util.Vector;
 
 /**
  * 

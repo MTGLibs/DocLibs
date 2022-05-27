@@ -6,6 +6,10 @@
  */
 package com.wxiwei.office.ss.view;
 
+import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.util.DisplayMetrics;
+
 import com.wxiwei.office.common.BackgroundDrawer;
 import com.wxiwei.office.common.PaintKit;
 import com.wxiwei.office.common.autoshape.AutoShapeKit;
@@ -27,12 +31,8 @@ import com.wxiwei.office.simpletext.model.IDocument;
 import com.wxiwei.office.simpletext.model.STDocument;
 import com.wxiwei.office.simpletext.model.SectionElement;
 import com.wxiwei.office.simpletext.view.STRoot;
-import com.wxiwei.office.ss.model.baseModel.Sheet;
 import com.wxiwei.office.system.IControl;
 
-import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.util.DisplayMetrics;
 /**
  * draw  shapes of sheet
  * <p>

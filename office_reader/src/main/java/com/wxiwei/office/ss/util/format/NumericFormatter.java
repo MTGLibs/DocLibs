@@ -6,6 +6,14 @@
  */
 package com.wxiwei.office.ss.util.format;
 
+import android.graphics.Color;
+
+import com.wxiwei.office.fc.ss.usermodel.DataFormatter;
+import com.wxiwei.office.simpletext.font.Font;
+import com.wxiwei.office.ss.model.baseModel.Cell;
+import com.wxiwei.office.ss.model.baseModel.Workbook;
+import com.wxiwei.office.ss.model.sheetProperty.Palette;
+
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.Format;
@@ -17,15 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.wxiwei.office.fc.ss.usermodel.DataFormatter;
-import com.wxiwei.office.simpletext.font.Font;
-import com.wxiwei.office.ss.model.baseModel.Cell;
-import com.wxiwei.office.ss.model.baseModel.Workbook;
-import com.wxiwei.office.ss.model.sheetProperty.Palette;
-
-import android.graphics.Color;
-
 
 
 /**
