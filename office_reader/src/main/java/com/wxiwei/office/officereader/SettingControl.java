@@ -41,6 +41,21 @@ public class SettingControl extends AbstractControl
        dbService = new DBService(activity);
     }
 
+    @Override
+    public boolean canBackLayout() {
+        return false;
+    }
+
+    @Override
+    public void setLayoutThreadDied(boolean isDied) {
+
+    }
+
+    @Override
+    public void setStopDraw(boolean isStopDraw) {
+
+    }
+
     /**
      * 
      *

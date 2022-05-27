@@ -43,6 +43,21 @@ public class SysControl extends AbstractControl
        toast = Toast.makeText(activity, "", Toast.LENGTH_SHORT);
     }
 
+    @Override
+    public boolean canBackLayout() {
+        return false;
+    }
+
+    @Override
+    public void setLayoutThreadDied(boolean isDied) {
+
+    }
+
+    @Override
+    public void setStopDraw(boolean isStopDraw) {
+
+    }
+
     /**
      * 
      *

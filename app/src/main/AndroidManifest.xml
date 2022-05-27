@@ -69,6 +69,7 @@
             </intent-filter>
 
         </activity>
+        <activity android:name=".Dialog" />
     </application>
 
 </manifest>

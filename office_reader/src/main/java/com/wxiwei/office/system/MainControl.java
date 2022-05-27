@@ -16,7 +16,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -30,35 +29,22 @@ import com.wxiwei.office.constant.EventConstant;
 import com.wxiwei.office.constant.MainConstant;
 import com.wxiwei.office.fc.doc.TXTKit;
 import com.wxiwei.office.fc.pdf.PDFLib;
+import com.wxiwei.office.fc.pdf.PDFReader;
 import com.wxiwei.office.pg.control.PGControl;
 import com.wxiwei.office.pg.model.PGModel;
 import com.wxiwei.office.simpletext.model.IDocument;
-import com.wxiwei.office.ss.control.ExcelView;
 import com.wxiwei.office.ss.control.SSControl;
 import com.wxiwei.office.ss.model.baseModel.Workbook;
 import com.wxiwei.office.wp.control.WPControl;
 
-/**
- * application control
- * <p>
- * <p>
- * Read版本:        Read V1.0
- * <p>
- * 作者:            ljj8494
- * <p>
- * 日期:            2012-5-14
- * <p>
- * 负责人:          ljj8494
- * <p>
- * 负责小组:
- * <p>
- * <p>
- */
-public class MainControl extends AbstractControl {
+import org.jetbrains.annotations.NotNull;
 
-    /**
-     *
-     */
+import java.io.File;
+import java.lang.reflect.Method;
+
+public class MainControl extends AbstractControl {
+    private Uri uri;
+
     public MainControl(IMainFrame frame) {
         this.frame = frame;
         uncaught = new AUncaughtExceptionHandler(this);
@@ -67,75 +53,62 @@ public class MainControl extends AbstractControl {
         init();
     }
 
-    /**
-     *
-     */
     private void init() {
-        // listener
         initListener();
-        //
+        toast = Toast.makeText(getActivity().getApplicationContext(), "", Toast.LENGTH_LONG);
         Intent intent = getActivity().getIntent();
         String autoTest = intent.getStringExtra("autoTest");
         isAutoTest = autoTest != null && autoTest.equals("true");
     }
 
-
     @SuppressLint("HandlerLeak")
     private void initListener() {
-        Log.e("datcoi", "initListener: ");
-        /**
-         *
-         */
-        onKeyListener = new DialogInterface.OnKeyListener() {
-
-            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    dialog.dismiss();
-                    isCancel = true;
-                    if (reader != null) {
-                        reader.abortReader();
-                        reader.dispose();
-                    }
-                    //getMainFrame().destroyEngine();
-                    getActivity().onBackPressed();
-                    return true;
+        onKeyListener = (dialog, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                dialog.dismiss();
+                isCancel = true;
+                if (reader != null) {
+                    reader.abortReader();
+                    reader.dispose();
                 }
-                return false;
+                getActivity().onBackPressed();
+                return true;
             }
+            return false;
         };
 
         handler = new Handler() {
-            public void handleMessage(Message msg) {
+            @SuppressLint("HandlerLeak")
+            public void handleMessage(@NotNull Message msg) {
                 if (isCancel) {
                     return;
                 }
                 final Message message = msg;
                 switch (msg.what) {
                     case MainConstant.HANDLER_MESSAGE_SUCCESS:
-                        post(() -> {
-                            try {
-                                frame.showDialogLoading();
-                                new Handler().postDelayed(() -> {
-                                    try {
-                                        frame.dismissDialogLoading();
-                                        createApplication(message.obj);
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
+                        post(new Runnable() {
+                            public void run() {
+                                try {
+                                    if (getMainFrame().isShowProgressBar()) {
+                                        dismissProgressDialog();
+                                    } else {
+                                        if (customDialog != null) {
+                                            customDialog.dismissDialog(ICustomDialog.DIALOGTYPE_LOADING);
+                                        }
                                     }
-                                }, frame.getTimeLoading());
-                            } catch (Exception e) {
-                                sysKit.getErrorKit().writerLog(e, true);
+                                    createApplication(message.obj);
+                                } catch (Exception e) {
+                                    sysKit.getErrorKit().writerLog(e, true);
+                                }
                             }
                         });
                         break;
 
                     case MainConstant.HANDLER_MESSAGE_ERROR:
-                        post(new Runnable() {
-                            public void run() {
-                                dismissProgressDialog();
-                                if (message.obj instanceof Throwable) {
-                                    sysKit.getErrorKit().writerLog((Throwable) message.obj, true);
-                                }
+                        post(() -> {
+                            dismissProgressDialog();
+                            if (message.obj instanceof Throwable) {
+                                sysKit.getErrorKit().writerLog((Throwable) message.obj, true);
                             }
                         });
                         break;
@@ -144,10 +117,10 @@ public class MainControl extends AbstractControl {
                         if (getMainFrame().isShowProgressBar()) {
                             post(new Runnable() {
                                 public void run() {
-//                                    progressDialog = ProgressDialog.show(getActivity(),
-//                                            frame.getAppName(), "Loading...",
-//                                            false, true, null);
-//                                    progressDialog.setOnKeyListener(onKeyListener);
+                                    progressDialog = ProgressDialog.show(getActivity(),
+                                            frame.getAppName(), frame.getLocalString("DIALOG_LOADING"),
+                                            false, false, null);
+                                    progressDialog.setOnKeyListener(onKeyListener);
                                 }
                             });
                         } else {
@@ -159,11 +132,7 @@ public class MainControl extends AbstractControl {
                         break;
 
                     case MainConstant.HANDLER_MESSAGE_DISMISS_PROGRESS:
-                        post(new Runnable() {
-                            public void run() {
-                                dismissProgressDialog();
-                            }
-                        });
+                        post(() -> dismissProgressDialog());
                         break;
 
                     case MainConstant.HANDLER_MESSAGE_SEND_READER_INSTANCE:
@@ -173,14 +142,6 @@ public class MainControl extends AbstractControl {
             }
         };
     }
-
-    public void workbookReaderSuccess() {
-        if (getView() instanceof ExcelView) {
-//            ((ExcelView) getView()).dataLoadSuccess();
-        }
-        dismissProgressDialog();
-    }
-
 
     /**
      * dismiss progress dialog
@@ -199,14 +160,11 @@ public class MainControl extends AbstractControl {
      *
      */
     private void createApplication(Object obj) throws Exception {
-        Log.e("datcoi", "createApplication: 0:TYPE: " + applicationType);
         if (obj == null) {
             throw new Exception("Document with password");
         }
-
         // word
         if (applicationType == MainConstant.APPLICATION_TYPE_WP) {
-            Log.e("datcoi", "createApplication: WORD");
             appControl = new WPControl(this, (IDocument) obj, filePath);
         }
         // excel
@@ -215,14 +173,13 @@ public class MainControl extends AbstractControl {
         }
         // powerpoint
         else if (applicationType == MainConstant.APPLICATION_TYPE_PPT) {
-            Log.e("datcoi", "createApplication: PPT");
             appControl = new PGControl(this, (PGModel) obj, filePath);
         }
         // PDF
 //        else if (applicationType == MainConstant.APPLICATION_TYPE_PDF) {
 //            appControl = new PDFControl(this, (PDFLib) obj, filePath);
 //        }
-
+//        switchViewMode(appControl, 1);
         View view = appControl.getView();
         if (view != null) {
             Object bg = frame.getViewBackground();
@@ -240,7 +197,7 @@ public class MainControl extends AbstractControl {
             if (!hassPassword) {
                 /*handler.post(new Runnable()
                 {
-                    
+
                     @ Override
                     public void run()
                     {
@@ -263,22 +220,24 @@ public class MainControl extends AbstractControl {
             public void run() {
                 //now lets check for HardwareAcceleration since it is only avaliable since ICS.
                 // 14 = ICS_VERSION_CODE
-//                try {
-//                    View contentView = getView();
-//                    //use reflection to get that Method
-//                    Method isHardwareAccelerated = contentView.getClass().getMethod("isHardwareAccelerated", null);
-//                    Object o = isHardwareAccelerated.invoke(contentView, null);
-//                    if (null != o && o instanceof Boolean && (Boolean) o) {
-//                        //ok we're shure that HardwareAcceleration is on.
-//                        //Now Try to switch it off:
-//                        Method setLayerType = contentView.getClass().getMethod("setLayerType", int.class, android.graphics.Paint.class);
-//                        int LAYER_TYPE_SOFTWARE = contentView.getClass().getField("LAYER_TYPE_SOFTWARE").getInt(null);
-//                        setLayerType.invoke(contentView, LAYER_TYPE_SOFTWARE, null);
-//
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
+                if (android.os.Build.VERSION.SDK_INT >= 11) {
+                    try {
+                        View contentView = getView();
+                        //use reflection to get that Method
+                        Method isHardwareAccelerated = contentView.getClass().getMethod("isHardwareAccelerated", null);
+                        Object o = isHardwareAccelerated.invoke(contentView, null);
+                        if (null != o && o instanceof Boolean && (Boolean) o) {
+                            //ok we're shure that HardwareAcceleration is on.
+                            //Now Try to switch it off:
+                            Method setLayerType = contentView.getClass().getMethod("setLayerType", int.class, android.graphics.Paint.class);
+                            int LAYER_TYPE_SOFTWARE = contentView.getClass().getField("LAYER_TYPE_SOFTWARE").getInt(null);
+                            setLayerType.invoke(contentView, LAYER_TYPE_SOFTWARE, null);
+
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 actionEvent(EventConstant.SYS_SET_PROGRESS_BAR_ID, false);
                 // 初始化数
@@ -294,7 +253,7 @@ public class MainControl extends AbstractControl {
                 //
                 getView().postInvalidate();
             }
-        });       
+        });
         /*// 初始化数
         actionEvent(EventConstant.SYS_INIT_ID, null);
         // 更新状态
@@ -307,8 +266,8 @@ public class MainControl extends AbstractControl {
      */
     public boolean openFile(String filePath, String extension, Uri uri) {
         this.filePath = filePath;
-        this.uri = uri;
-        String fileName = extension.toLowerCase();
+        this.uri=uri;
+        String fileName = filePath.toLowerCase();
         // word
         if (fileName.endsWith(MainConstant.FILE_TYPE_DOC)
                 || fileName.endsWith(MainConstant.FILE_TYPE_DOCX)
@@ -316,7 +275,6 @@ public class MainControl extends AbstractControl {
                 || fileName.endsWith(MainConstant.FILE_TYPE_DOT)
                 || fileName.endsWith(MainConstant.FILE_TYPE_DOTX)
                 || fileName.endsWith(MainConstant.FILE_TYPE_DOTM)) {
-            Log.d("openWord", "openFile: ");
             applicationType = MainConstant.APPLICATION_TYPE_WP;
         }
         // excel
@@ -345,50 +303,44 @@ public class MainControl extends AbstractControl {
         }
 
         boolean isSupport = FileKit.instance().isSupport(fileName);
-        // txt or no support
         if (fileName.endsWith(MainConstant.FILE_TYPE_TXT)
                 || !isSupport) {
             TXTKit.instance().readText(this, handler, uri);
         } else {
-            /*if (applicationType == MainConstant.APPLICATION_TYPE_PDF)
-            {
-                try
-                {
+            if (applicationType == MainConstant.APPLICATION_TYPE_PDF) {
+                try {
                     reader = new PDFReader(this, filePath);
                     createApplication(reader.getModel());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                catch (Exception e)
-                {
-                    ErrorUtil.instance().writerLog(e, true);
-                }
-            }
-            else*/
+            } else
             {
-                new FileReaderThread(this, handler, fileName, null, uri).start();
+                new FileReaderThread(this, handler, filePath, null,uri).start();
             }
         }
-        Log.e("datcoi", "openFile: " + applicationType);
         return true;
     }
 
-    /**
-     * 布局视图
-     *
-     * @param x
-     * @param y
-     * @param w
-     * @param h
-     */
-    public void layoutView(int x, int y, int w, int h) {
-        //appControl.layoutView(x, y, w, h);
+    @Override
+    public boolean canBackLayout() {
+        return appControl.canBackLayout();
     }
 
-    /**
-     * action派发
-     *
-     * @param actionID 动作ID
-     * @param obj      动作ID的Value
-     */
+    @Override
+    public void setLayoutThreadDied(boolean isDied) {
+        appControl.setLayoutThreadDied(isDied);
+    }
+
+    @Override
+    public void setStopDraw(boolean isStopDraw) {
+        appControl.setStopDraw(isStopDraw);
+    }
+
+    public void layoutView(int x, int y, int w, int h) {
+    }
+
+
     public void actionEvent(int actionID, final Object obj) {
         if (actionID == EventConstant.SYS_READER_FINSH_ID) {
             if (reader != null) {
@@ -420,12 +372,8 @@ public class MainControl extends AbstractControl {
             case EventConstant.SYS_SET_PROGRESS_BAR_ID:
                 if (handler != null) {
                     handler.post(new Runnable() {
-                        /**
-                         *
-                         */
                         public void run() {
                             if (!isDispose) {
-//                                frame.getActivity().setProgressBarIndeterminateVisibility((Boolean)obj);
                                 frame.showProgressBar((Boolean) obj);
                             }
                         }
@@ -508,19 +456,13 @@ public class MainControl extends AbstractControl {
         }
     }
 
-    /**
-     *
-     */
+
     public IFind getFind() {
         return appControl.getFind();
     }
 
 
-    /**
-     * 得到action的状态
-     *
-     * @return obj
-     */
+
     public Object getActionValue(int actionID, Object obj) {
         switch (actionID) {
             case EventConstant.SYS_FILEPAHT_ID: // 文件路径
@@ -625,24 +567,18 @@ public class MainControl extends AbstractControl {
     }
 
 
-    /**
-     *
-     */
+
     public byte getApplicationType() {
         return applicationType;
     }
 
 
-    /**
-     * set OfficeToPicture instance
-     */
+
     public void setOffictToPicture(IOfficeToPicture opt) {
         officeToPicture = opt;
     }
 
-    /**
-     *
-     */
+
     public void setCustomDialog(ICustomDialog dlg) {
         this.customDialog = dlg;
     }
@@ -719,6 +655,23 @@ public class MainControl extends AbstractControl {
         }
     }
 
+    public void switchViewMode() {
+        if (appControl != null) {
+            appControl.actionEvent(EventConstant.WP_SWITCH_VIEW, null);
+        }
+    }
+
+
+    public void switchViewMode(IControl control, int viewMode) {
+        if (control == null) {
+            return;
+        }
+        if (viewMode < 0 || viewMode > 2) {
+            viewMode = 0;
+        }
+        control.actionEvent(EventConstant.WP_SWITCH_VIEW, viewMode);
+    }
+
     /**
      *
      */
@@ -753,7 +706,7 @@ public class MainControl extends AbstractControl {
     private IReader reader;
     //toast
     private Toast toast;
-    // 
+    //
     private ProgressDialog progressDialog;
     //
     private DialogInterface.OnKeyListener onKeyListener;
@@ -765,8 +718,8 @@ public class MainControl extends AbstractControl {
     public SysKit sysKit;
     //
     private AUncaughtExceptionHandler uncaught;
-    //
-    private Uri uri;
 
-    private boolean isXlSX = false;
+    public void workbookReaderSuccess() {
+
+    }
 }

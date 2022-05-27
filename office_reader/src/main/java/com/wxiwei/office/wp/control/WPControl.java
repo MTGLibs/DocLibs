@@ -63,6 +63,21 @@ public class WPControl extends AbstractControl {
         wpView = new Word(mainControl.getMainFrame().getActivity().getApplicationContext(), doc, filePath, this);
     }
 
+    @Override
+    public boolean canBackLayout() {
+        return false;
+    }
+
+    @Override
+    public void setLayoutThreadDied(boolean isDied) {
+
+    }
+
+    @Override
+    public void setStopDraw(boolean isStopDraw) {
+
+    }
+
     /**
      * 布局视图
      *

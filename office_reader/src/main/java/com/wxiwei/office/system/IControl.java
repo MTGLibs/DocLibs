@@ -39,6 +39,10 @@ public interface IControl {
      * @param w
      * @param h
      */
+    public boolean canBackLayout();
+    public void setLayoutThreadDied(boolean isDied);
+    public void setStopDraw(boolean isStopDraw);
+
     public void layoutView(int x, int y, int w, int h);
 
     /**

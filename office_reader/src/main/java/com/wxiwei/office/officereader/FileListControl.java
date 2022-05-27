@@ -39,6 +39,21 @@ public class FileListControl extends AbstractControl
         this.activity = activity;
     }
 
+    @Override
+    public boolean canBackLayout() {
+        return false;
+    }
+
+    @Override
+    public void setLayoutThreadDied(boolean isDied) {
+
+    }
+
+    @Override
+    public void setStopDraw(boolean isStopDraw) {
+
+    }
+
     /**
      * 
      *
