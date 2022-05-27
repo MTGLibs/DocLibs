@@ -1,9 +1,9 @@
 package com.wxiwei.office.ss.model.table;
 
-import com.wxiwei.office.ss.model.style.CellStyle;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import com.wxiwei.office.ss.model.style.CellStyle;
 
 public class TableFormatManager 
 {

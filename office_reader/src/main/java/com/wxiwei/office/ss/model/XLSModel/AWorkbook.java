@@ -6,7 +6,13 @@
  */
 package com.wxiwei.office.ss.model.XLSModel;
 
-import android.os.Message;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import com.wxiwei.office.constant.MainConstant;
 import com.wxiwei.office.fc.hssf.OldExcelFormatException;
@@ -35,13 +41,7 @@ import com.wxiwei.office.system.AbstractReader;
 import com.wxiwei.office.system.IControl;
 import com.wxiwei.office.system.ReaderHandler;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import android.os.Message;
 
 /**
  * TODO: 文件注释
