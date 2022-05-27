@@ -6,8 +6,6 @@
  */
 package com.wxiwei.office.ss.model.style;
 
-import com.wxiwei.office.ss.model.sheetProperty.Palette;
-
 
 /**
  * TODO: 文件注释

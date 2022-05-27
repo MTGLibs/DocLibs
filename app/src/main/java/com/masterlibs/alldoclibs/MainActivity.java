@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 //            this.startActivityForResult(intent, 1);
 //        }
         ///storage/emulated/0/UnRAR/FileDecompressed/Compressed_20220415_1335/JD-Android-VNT.pdf
-        findViewById(R.id.readeFile).setOnClickListener(view -> DocReaderActivity.start(this, "/storage/emulated/0/Download/1.xlsx"));
+        findViewById(R.id.readeFile).setOnClickListener(view -> DocReaderActivity.start(this, "/storage/emulated/0/Documents/f hfvfghhj.xlsx"));
 //        findViewById(R.id.readeFile).setOnClickListener(view -> DocReaderActivity.
 //                start(this,"/storage/emulated/0/UnRAR/FileDecompressed/Compressed_20220415_1335/JD-Android-VNT.pdf"));
     }

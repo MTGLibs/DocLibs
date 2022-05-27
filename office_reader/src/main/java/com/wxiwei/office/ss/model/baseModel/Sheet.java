@@ -6,13 +6,6 @@
  */
 package com.wxiwei.office.ss.model.baseModel;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import com.wxiwei.office.common.bg.BackgroundAndFill;
 import com.wxiwei.office.common.shape.IShape;
 import com.wxiwei.office.constant.SSConstant;
@@ -23,6 +16,13 @@ import com.wxiwei.office.ss.model.sheetProperty.ColumnInfo;
 import com.wxiwei.office.ss.model.sheetProperty.PaneInformation;
 import com.wxiwei.office.ss.model.style.CellStyle;
 import com.wxiwei.office.ss.model.table.SSTable;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 
 /**

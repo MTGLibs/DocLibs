@@ -7,8 +7,11 @@
 
 package com.wxiwei.office.ss.control;
 
+import android.graphics.Rect;
+import android.view.MotionEvent;
+import android.view.View;
+
 import com.wxiwei.office.constant.EventConstant;
-import com.wxiwei.office.constant.SSConstant;
 import com.wxiwei.office.ss.model.CellRangeAddress;
 import com.wxiwei.office.ss.model.baseModel.Cell;
 import com.wxiwei.office.ss.model.baseModel.Row;
@@ -21,10 +24,6 @@ import com.wxiwei.office.system.IControl;
 import com.wxiwei.office.system.ITimerListener;
 import com.wxiwei.office.system.beans.AEventManage;
 import com.wxiwei.office.system.beans.ATimer;
-
-import android.graphics.Rect;
-import android.view.MotionEvent;
-import android.view.View;
 
 /**
  * SS的事件管理，包括触摸、手型等事件

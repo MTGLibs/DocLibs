@@ -1205,6 +1205,11 @@ public class AppActivity extends Activity implements IMainFrame {
 
     }
 
+    @Override
+    public long getTimeLoading() {
+        return 0;
+    }
+
     //
     private boolean isDispose;
     // 当前标星状态
@@ -1251,9 +1256,4 @@ public class AppActivity extends Activity implements IMainFrame {
     private boolean fullscreen;
     //
     private String tempFilePath;
-
-    @Override
-    public long getTimeLoading() {
-        return 0;
-    }
 }

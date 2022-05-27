@@ -6,10 +6,10 @@
  */
 package com.wxiwei.office.ss.model.table;
 
-import java.util.Map;
-
 import com.wxiwei.office.constant.SchemeClrConstant;
 import com.wxiwei.office.ss.util.ColorUtil;
+
+import java.util.Map;
 
 /**
  * TODO: 文件注释

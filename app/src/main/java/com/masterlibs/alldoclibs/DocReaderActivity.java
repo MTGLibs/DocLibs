@@ -77,4 +77,9 @@ public class DocReaderActivity extends BaseDocActivity {
             dialog.dismiss();
         }
     }
+
+    @Override
+    public long getTimeLoading() {
+        return 1500;
+    }
 }

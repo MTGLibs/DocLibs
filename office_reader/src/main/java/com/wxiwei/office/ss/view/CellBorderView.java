@@ -6,6 +6,12 @@
  */
 package com.wxiwei.office.ss.view;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
+
 import com.wxiwei.office.common.PaintKit;
 import com.wxiwei.office.ss.model.CellRangeAddress;
 import com.wxiwei.office.ss.model.baseModel.Cell;
@@ -14,12 +20,6 @@ import com.wxiwei.office.ss.model.baseModel.Sheet;
 import com.wxiwei.office.ss.model.baseModel.Workbook;
 import com.wxiwei.office.ss.model.style.CellStyle;
 import com.wxiwei.office.ss.model.table.SSTableCellStyle;
-
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.RectF;
 
 /**
  * excel 应用控制
