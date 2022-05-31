@@ -316,12 +316,10 @@ public class APageListEventManage implements
                 listView.requestLayout();
             }
         }
-        // 提示
-        if(listView.getPageListViewListener().isShowZoomingMsg())
-        {
-            toast.setText((int)Math.round(zoom * 100) + "%");
-            toast.show();
-        }        
+        toast.setText((int)Math.round(zoom * 100) + "%");
+        toast.show();
+
+
         return true;
     }
 

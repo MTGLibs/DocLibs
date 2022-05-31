@@ -76,6 +76,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     public void changeZoom() {
     }
 
+
     @Override
     public void completeLayout() {
     }

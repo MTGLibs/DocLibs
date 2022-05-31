@@ -1,6 +1,9 @@
 package com.masterlibs.alldoclibs;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,10 +25,14 @@ public class MainActivity extends AppCompatActivity {
 //            intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
 //            this.startActivityForResult(intent, 1);
 //        }
+        //sdcard/Download/351_ Trần Thị Thu Hà_Đường lối quốc phòng và an ninh Đảng cộng sản Việt Nam done.doc
+        //sdcard/Download/Zalo/Dickinson_Template_white.pptx
+        //sdcard/Download/súhsha.xls
         ///storage/emulated/0/UnRAR/FileDecompressed/Compressed_20220415_1335/JD-Android-VNT.pdf
         findViewById(R.id.readeFile).setOnClickListener(view -> {
-            DocReaderActivity.start(this, "/storage/emulated/0/Download/1.xlsx");
-            Dialog.start(this);
+//            DocReaderActivity.start(this, "sdcard/Download/file_example_PPT_500kB.ppt");
+            DocReaderActivity.start(this, "sdcard/Download/351_ Trần Thị Thu Hà_Đường lối quốc phòng và an ninh Đảng cộng sản Việt Nam done.doc");
+//            Dialog.start(this);
         });
 //        findViewById(R.id.readeFile).setOnClickListener(view -> DocReaderActivity.
 //                start(this,"/storage/emulated/0/UnRAR/FileDecompressed/Compressed_20220415_1335/JD-Android-VNT.pdf"));
