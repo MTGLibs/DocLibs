@@ -146,7 +146,7 @@ public interface IPageListViewListener
    /**
     * callback this method after zoom change
     */
-   public void changeZoom();
+   public void changeZoom(int percent);
    
    /**
     *  set change page flag, Only when effectively the PageSize greater than ViewSize.

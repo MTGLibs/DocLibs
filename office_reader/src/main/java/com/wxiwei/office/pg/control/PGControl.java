@@ -211,7 +211,7 @@ public class PGControl extends AbstractControl {
                         @Override
                         public void run() {
                             if (!isDispose) {
-                                getMainFrame().changeZoom();
+                                getMainFrame().changeZoom((int) ((params[0] / (float) MainConstant.STANDARD_RATE) * 100));
                             }
                         }
                     });
@@ -666,6 +666,7 @@ public class PGControl extends AbstractControl {
         pgView = null;
         mainControl = null;
     }
+
     //
     private boolean isDispose;
     //

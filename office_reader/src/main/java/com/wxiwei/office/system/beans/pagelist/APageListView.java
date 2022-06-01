@@ -132,7 +132,7 @@ public class APageListView extends AdapterView<Adapter> {
                     }
                 }, 1);
 
-                pageListViewListener.changeZoom();
+                pageListViewListener.changeZoom((int) (fitZoom * 100));
             }
         }
     }
@@ -649,7 +649,7 @@ public class APageListView extends AdapterView<Adapter> {
         }
         float oldZoom = zoom;
         zoom = zoomValue;
-        pageListViewListener.changeZoom();
+        pageListViewListener.changeZoom((int) (zoom*100));
         post(new Runnable() {
             @Override
             public void run() {

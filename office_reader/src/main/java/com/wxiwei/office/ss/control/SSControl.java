@@ -178,7 +178,7 @@ public class SSControl extends AbstractControl
                     {
                         if (!isDispose)
                         {
-                            getMainFrame().changeZoom();
+                            getMainFrame().changeZoom((int) (spreadSheet.getZoom()*100));
                             updateStatus();
                         }
                     }

@@ -3,11 +3,11 @@ package com.wxiwei.office.officereader;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -30,8 +30,6 @@ import com.wxiwei.office.system.IMainFrame;
 import com.wxiwei.office.system.MainControl;
 import com.wxiwei.office.utils.RealPathUtil;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.util.List;
 
@@ -40,7 +38,6 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     private MainControl control;
     private String filePath;
     private boolean isThumbnail;
-    private boolean writeLog = true;
     private final Object bg = -3355444;
     private FrameLayout appFrame;
     public static int ERROR_PDF = 111;
@@ -55,7 +52,8 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
 
     @Override
-    public void changeZoom() {
+    public void changeZoom(int percent) {
+        Log.d("TAG", "changeZoom: "+percent);
     }
 
     @Override
@@ -81,10 +79,6 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
         return "GBK";
     }
 
-    @Override
-    public int getTopBarHeight() {
-        return 0;
-    }
 
     @Override
     public byte getWordDefaultView() {
@@ -108,16 +102,6 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
     @Override
     public boolean isPopUpErrorDlg() {
-        return true;
-    }
-
-    @Override
-    public boolean isShowFindDlg() {
-        return true;
-    }
-
-    @Override
-    public boolean isShowPasswordDlg() {
         return true;
     }
 
@@ -149,10 +133,6 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     @Override
     public boolean onEventMethod(View view, MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2, byte b) {
         return false;
-    }
-
-    @Override
-    public void setIgnoreOriginalSize(boolean z) {
     }
 
     @Override
@@ -282,14 +262,10 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
         return ResKit.instance().getLocalString(str);
     }
 
-    @Override
-    public void setWriteLog(boolean z) {
-        this.writeLog = z;
-    }
 
     @Override
     public boolean isWriteLog() {
-        return this.writeLog;
+        return true;
     }
 
     @Override
@@ -349,12 +325,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
         return false;
     }
 
-    @Override
-    public void updateServiceGroup(ServiceConnection conn, int group, int importance) {
-        super.updateServiceGroup(conn, group, importance);
-    }
 
-    @NotNull
     public Presentation getPresentation() {
         try {
             return (Presentation) control.getView();
@@ -363,7 +334,10 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
         }
         return null;
     }
+
     public void gotoSlide(int page) {
-        getPresentation().gotoPage(page);
+        if (getPresentation() != null) {
+            getPresentation().gotoPage(page);
+        }
     }
 }

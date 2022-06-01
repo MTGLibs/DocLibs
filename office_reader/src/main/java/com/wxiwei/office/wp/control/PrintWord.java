@@ -442,7 +442,7 @@ public class PrintWord extends FrameLayout implements IPageListViewListener
             {
                 float paintZoom = Math.min(dstBitmap.getWidth() / (float)rW, dstBitmap.getHeight() / (float)rH);
                 float zoom = listView.getZoom() * paintZoom;
-                changeZoom();
+                changeZoom((int) (zoom*100));
                 int left = (int)(pageItem.getLeft() * paintZoom);
                 int top = (int)(pageItem.getTop() * paintZoom);
                 Canvas canvas = new Canvas(dstBitmap);
@@ -598,9 +598,9 @@ public class PrintWord extends FrameLayout implements IPageListViewListener
     /**
      * 
      */
-    public void changeZoom()
+    public void changeZoom(int percent)
     {
-        control.getMainFrame().changeZoom();
+        control.getMainFrame().changeZoom(percent);
     }
     
     /**

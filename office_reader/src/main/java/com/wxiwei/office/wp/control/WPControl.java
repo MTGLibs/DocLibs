@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.ClipboardManager;
+import android.util.Log;
 import android.view.View;
 
 import com.wxiwei.office.common.ICustomDialog;
@@ -61,6 +62,7 @@ public class WPControl extends AbstractControl {
     public WPControl(IControl mainControl, IDocument doc, String filePath) {
         this.mainControl = mainControl;
         wpView = new Word(mainControl.getMainFrame().getActivity().getApplicationContext(), doc, filePath, this);
+        Log.d("TAG", "WPControl: ");
     }
 
     @Override
@@ -194,7 +196,7 @@ public class WPControl extends AbstractControl {
                     @Override
                     public void run() {
                         if (!isDispose) {
-                            getMainFrame().changeZoom();
+                            getMainFrame().changeZoom((int) (wpView.getZoom() * 100));
                         }
                     }
                 });
