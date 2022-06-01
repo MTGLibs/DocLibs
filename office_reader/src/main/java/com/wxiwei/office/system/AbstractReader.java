@@ -28,10 +28,7 @@ import java.io.File;
 public class AbstractReader implements IReader
 {
 
-    /**
-     * 
-     *
-     */
+    
     public Object getModel() throws Exception
     {
         return null;
@@ -45,19 +42,13 @@ public class AbstractReader implements IReader
         return false;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public boolean isReaderFinish()
     {
         return true;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public void backReader() throws Exception
     {
     }
@@ -104,10 +95,7 @@ public class AbstractReader implements IReader
         return this.control;
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
         control = null;

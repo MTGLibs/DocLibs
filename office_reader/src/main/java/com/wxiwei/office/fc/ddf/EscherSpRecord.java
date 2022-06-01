@@ -197,10 +197,7 @@ public class EscherSpRecord
     {
         this.field_2_flags = field_2_flags;
     }
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {  
     }

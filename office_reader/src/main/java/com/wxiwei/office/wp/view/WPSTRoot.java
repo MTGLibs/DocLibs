@@ -303,19 +303,13 @@ public class WPSTRoot extends AbstractView implements IRoot
         canvas.restore();
     }      
     
-    /**
-     * 
-     *
-     */
+    
     public boolean canBackLayout()
     {
         return false;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public void backLayout()
     {
         

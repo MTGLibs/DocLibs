@@ -37,7 +37,6 @@ import com.wxiwei.office.simpletext.model.ParagraphElement;
 import com.wxiwei.office.simpletext.view.STRoot;
 import com.wxiwei.office.system.IControl;
 import com.wxiwei.office.system.IMainFrame;
-import com.wxiwei.office.system.SysKit;
 import com.wxiwei.office.system.beans.pagelist.APageListItem;
 import com.wxiwei.office.system.beans.pagelist.APageListView;
 import com.wxiwei.office.system.beans.pagelist.IPageListViewListener;
@@ -221,6 +220,10 @@ public class PGPrintMode extends FrameLayout implements IPageListViewListener {
      */
     public void nextPageView() {
         listView.nextPageView();
+    }
+
+    public void gotoPage(int page) {
+        listView.gotoPage(page);
     }
 
     /**
@@ -474,7 +477,7 @@ public class PGPrintMode extends FrameLayout implements IPageListViewListener {
                 int x = (int) ((e1.getX() - item.getLeft()) / zoom);
                 int y = (int) ((e1.getY() - item.getTop()) / zoom);
                 IShape shape = pgModel.getSlide(item.getPageIndex()).getTextboxShape(x, y);
-                if (shape != null && shape.getType() == AbstractShape.SHAPE_TEXTBOX) {
+                if (shape != null && shape.getType() == AbstractShape.SHAPE_TEXT) {
                     TextBox textBox = (TextBox) shape;
                     STRoot root = textBox.getRootView();
                     if (root != null) {
@@ -568,7 +571,7 @@ public class PGPrintMode extends FrameLayout implements IPageListViewListener {
      * @param zoom
      */
     private void drawPageNubmer(Canvas canvas) {
-        control.getMainFrame().pageChanged(listView.getCurrentPageNumber(),pgModel.getSlideCount());
+        control.getMainFrame().pageChanged(listView.getCurrentPageNumber(), pgModel.getSlideCount());
 //        if (control.getMainFrame().isDrawPageNumber()) {
 //            String pn = String.valueOf((listView.getCurrentPageNumber()) + " / " + pgModel.getSlideCount());
 //            int w = (int) paint.measureText(pn);

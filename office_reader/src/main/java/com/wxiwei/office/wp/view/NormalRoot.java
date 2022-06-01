@@ -449,10 +449,7 @@ public class NormalRoot extends AbstractView implements IRoot
         return this.viewContainer;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public synchronized void dispose()
     {
         super.dispose();

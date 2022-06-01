@@ -102,10 +102,7 @@ public class AImageFindButton extends LinearLayout implements OnGestureListener,
         super(context, attrs);
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void onConfigurationChanged(Configuration newConfig)
     {
         //setMinimumWidth(this.getResources().getDisplayMetrics().widthPixels);
@@ -120,10 +117,7 @@ public class AImageFindButton extends LinearLayout implements OnGestureListener,
         editText.getLayoutParams().width = width;
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
        super.onLayout(changed, left, top, right, bottom);

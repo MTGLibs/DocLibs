@@ -88,10 +88,7 @@ public class NotesDialog extends ADialog
         dialogFrame.addView(ok);
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void doLayout()
     {
         int mWidth = getContext().getResources().getDisplayMetrics().widthPixels;
@@ -107,28 +104,19 @@ public class NotesDialog extends ADialog
         scrollView.setLayoutParams(params);
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void onConfigurationChanged(Configuration newConfig)
     {        
         doLayout();
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void onClick(View v)
     {
         dismiss();
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
         super.dispose();

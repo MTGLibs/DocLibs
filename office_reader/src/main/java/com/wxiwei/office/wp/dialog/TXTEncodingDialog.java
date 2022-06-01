@@ -122,10 +122,7 @@ public class TXTEncodingDialog extends ADialog
         dialogFrame.addView(ok);
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void doLayout()
     {
         int mWidth = getContext().getResources().getDisplayMetrics().widthPixels;
@@ -141,19 +138,13 @@ public class TXTEncodingDialog extends ADialog
         scrollView.setLayoutParams(params);
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void onConfigurationChanged(Configuration newConfig)
     {        
         doLayout();
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void onClick(View v)
     {
         Vector<Object> vector = new Vector<Object>();
@@ -200,10 +191,7 @@ public class TXTEncodingDialog extends ADialog
         }
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
         super.dispose();

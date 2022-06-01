@@ -27,10 +27,7 @@ public abstract class AShader
 		this.alpha = alpha;
 	}
 
-	 /**
-     * 
-     *
-     */
+	 
     public void dispose()
     {
     	shader = null;

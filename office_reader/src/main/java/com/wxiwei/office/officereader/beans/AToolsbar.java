@@ -78,10 +78,7 @@ public class AToolsbar extends HorizontalScrollView
         super(context, attrs);
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void onConfigurationChanged(Configuration newConfig)
     {
         toolsbarFrame.setMinimumWidth(this.getResources().getDisplayMetrics().widthPixels);
@@ -171,10 +168,7 @@ public class AToolsbar extends HorizontalScrollView
         toolsbarWidth += 1;
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void onDraw(Canvas canvas)
     {
         if (isAnimation())

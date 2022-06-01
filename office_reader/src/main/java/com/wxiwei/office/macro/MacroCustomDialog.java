@@ -35,10 +35,7 @@ public class MacroCustomDialog implements ICustomDialog
         this.dailogListener = listener;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public void showDialog(byte type)
     {
         if (dailogListener != null)
@@ -47,10 +44,7 @@ public class MacroCustomDialog implements ICustomDialog
         }
     }
 
-    /**
-     * 
-     *
-     */
+    
     public void dismissDialog(byte type)
     {
         if (dailogListener != null)

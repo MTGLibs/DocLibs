@@ -449,7 +449,7 @@ public class SlideShowView
         int h = (int)(d.height * zoom);
         int x = (presentation.getmWidth() - w) / 2 ;
         int y = (presentation.getmHeight() - h) / 2;
-        
+
         canvas.save();
         canvas.translate(x, y);
         canvas.clipRect(0, 0, w, h);            

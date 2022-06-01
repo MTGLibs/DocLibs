@@ -90,10 +90,7 @@ public class ExMCIMovie extends RecordContainer { // TODO - instantiable supercl
     public ExVideoContainer getExVideo() {
         return exVideo; }
 
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
         super.dispose();

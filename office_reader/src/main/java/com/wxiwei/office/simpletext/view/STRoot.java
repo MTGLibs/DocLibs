@@ -336,19 +336,13 @@ public class STRoot extends AbstractView implements IRoot
         }
     }      
     
-    /**
-     * 
-     *
-     */
+    
     public boolean canBackLayout()
     {
         return false;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public void backLayout()
     {
         

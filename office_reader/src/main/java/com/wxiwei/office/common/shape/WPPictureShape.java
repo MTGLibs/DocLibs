@@ -25,10 +25,7 @@ package com.wxiwei.office.common.shape;
 public class WPPictureShape extends WPAutoShape
 {
 
-    /**
-     * 
-     *
-     */
+
     public short getType()
     {
         return SHAPE_PICTURE;

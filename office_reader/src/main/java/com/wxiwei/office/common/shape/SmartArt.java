@@ -36,13 +36,10 @@ public class SmartArt extends AbstractShape
         shapes = new ArrayList<IShape>();
     }
     
-    /**
-     * 
-     *
-     */
+
     public short getType()
     {
-        return SHAPE_SMARTART;
+        return SHAPE_SMART_ART;
     }
     
     /**

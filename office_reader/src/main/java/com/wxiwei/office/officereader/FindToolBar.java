@@ -63,10 +63,7 @@ public class FindToolBar extends AToolsbar
 
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void onConfigurationChanged(Configuration newConfig)
     {
         super.onConfigurationChanged(newConfig);

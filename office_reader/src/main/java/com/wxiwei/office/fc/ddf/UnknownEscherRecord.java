@@ -147,10 +147,7 @@ public final class UnknownEscherRecord extends EscherRecord {
         getChildRecords().add( childRecord );
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
         if (_childRecords != null)

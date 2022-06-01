@@ -164,10 +164,7 @@ public class ParagraphView extends AbstractView implements IMemObj
         }
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void free()
     {
         /*IView temp = child;
@@ -186,10 +183,7 @@ public class ParagraphView extends AbstractView implements IMemObj
         }*/
     }
 
-    /**
-     * 
-     *
-     */
+    
     public IMemObj getCopy()
     {
         return null;

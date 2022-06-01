@@ -73,10 +73,7 @@ public class TableElement extends ParagraphElement
         return rowElement.getElementForIndex(index);
     }
     
-    /**
-     * 
-     *
-     */
+    
     public String getText(IDocument doc)
     {
         return "";

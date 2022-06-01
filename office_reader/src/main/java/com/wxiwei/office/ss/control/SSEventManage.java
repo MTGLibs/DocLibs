@@ -863,10 +863,7 @@ public class SSEventManage extends AEventManage  implements ITimerListener
         spreadsheet.postInvalidate();
     }
 
-    /**
-     * 
-     *
-     */
+    
     public void computeScroll()
     {
         super.computeScroll();

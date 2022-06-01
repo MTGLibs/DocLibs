@@ -1,15 +1,11 @@
 /*
  * 文件名称:          PDFe.java
- *  
+ *
  * 编译器:            android2.2
  * 时间:              下午4:05:31
  */
 
 package com.wxiwei.office.system.beans.pagelist;
-
-import java.util.NoSuchElementException;
-
-import com.wxiwei.office.constant.MainConstant;
 
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -24,6 +20,10 @@ import android.view.View.OnTouchListener;
 import android.widget.Scroller;
 import android.widget.Toast;
 
+import com.wxiwei.office.constant.MainConstant;
+
+import java.util.NoSuchElementException;
+
 /**
  * page list view component touch event manage
  * <p>
@@ -36,29 +36,26 @@ import android.widget.Toast;
  * <p>
  * 负责人:          ljj8494
  * <p>
- * 负责小组:         
+ * 负责小组:
  * <p>
  * <p>
  */
 public class APageListEventManage implements
-    ScaleGestureDetector.OnScaleGestureListener, OnGestureListener,Runnable, 
-    OnTouchListener, OnDoubleTapListener, OnClickListener
-{
+        ScaleGestureDetector.OnScaleGestureListener, OnGestureListener, Runnable,
+        OnTouchListener, OnDoubleTapListener, OnClickListener {
 
     private static final int MOVING_DIAGONALLY = 0;
     private static final int MOVING_LEFT = 1;
     private static final int MOVING_RIGHT = 2;
     private static final int MOVING_UP = 3;
     private static final int MOVING_DOWN = 4;
-    
+
     private static final float MAX_ZOOM = 3.0f;
-    
+
     /**
-     * 
      * @param pdfListView
      */
-    public APageListEventManage(APageListView listView)
-    {
+    public APageListEventManage(APageListView listView) {
         this.listView = listView;
         gesture = new GestureDetector(listView.getContext(), this);
         mScroller = new Scroller(listView.getContext());
@@ -67,54 +64,41 @@ public class APageListEventManage implements
     }
 
     /**
-     * 
      * @see com.wxiwei.office.system.beans.AEventManage#zoom(MotionEvent)
-     *
      */
-    protected boolean zoom(MotionEvent event)
-    {
-       return false; 
+    protected boolean zoom(MotionEvent event) {
+        return false;
     }
-    
+
     /**
      * 触摸事件
-     *
      */
-    protected boolean processOnTouch(MotionEvent event)
-    {
+    protected boolean processOnTouch(MotionEvent event) {
         eventPointerCount = event.getPointerCount();
-        if (event.getActionMasked() == MotionEvent.ACTION_DOWN)
-        {           
+        if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
             isOnFling = false;
             isTouchEventIn = true;
         }
-        if (mScaleGestureDetector != null)
-        {
+        if (mScaleGestureDetector != null) {
             mScaleGestureDetector.onTouchEvent(event);
         }
-        if (!isScaling && gesture != null)
-        {
+        if (!isScaling && gesture != null) {
             gesture.onTouchEvent(event);
         }
-        if (event.getActionMasked() == MotionEvent.ACTION_UP)
-        {
+        if (event.getActionMasked() == MotionEvent.ACTION_UP) {
             isProcessOnScroll = true;
             isTouchEventIn = false;
             APageListItem pageView = listView.getCurrentPageView();
-            if (pageView != null)
-            {
-                if (mScroller.isFinished())
-                {
+            if (pageView != null) {
+                if (mScroller.isFinished()) {
                     // If, at the end of user interaction, there is no
                     // current inertial scroll in operation then animate
                     // the view onto screen if necessary
-                    if (!isDoubleTap)
-                    {
+                    if (!isDoubleTap) {
                         slideViewOntoScreen(pageView);
                     }
                 }
-                if (mScroller.isFinished() && isOnScroll)
-                {
+                if (mScroller.isFinished() && isOnScroll) {
                     // If still there is no inertial scroll in operation
                     // then the layout is stable
                     listView.getPageListViewListener().setDrawPictrue(true);
@@ -124,101 +108,82 @@ public class APageListEventManage implements
             isDoubleTap = false;
             isOnScroll = false;
             toast.cancel();
-            
+
         }
         //listView.requestLayout();
         return true;
     }
-    
+
     /**
      * 触摸事件
-     *
      */
-    public boolean onTouch(View v, MotionEvent event)
-    {
+    public boolean onTouch(View v, MotionEvent event) {
         listView.getPageListViewListener().onEventMethod(v, event, null, -1.0f, -1.0f, IPageListViewListener.ON_TOUCH);
         return false;
     }
-    
+
     /**
-     * 
+     *
      */
-    public boolean onDown(MotionEvent e)
-    {
+    public boolean onDown(MotionEvent e) {
         mScroller.forceFinished(true);
         listView.getPageListViewListener().onEventMethod(listView, e, null, -1.0f, -1.0f, IPageListViewListener.ON_DOWN);
         return true;
     }
-    
+
     /**
-     * 
      * @see com.wxiwei.office.system.beans.AEventManage#onFling(MotionEvent, MotionEvent, float, float)
-     *
      */
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
-    {
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         listView.getPageListViewListener().onEventMethod(listView, e1, e2, velocityX, velocityY, IPageListViewListener.ON_FLING);
-        if (!isProcessOnScroll ||  isDoubleTap)
-        {
+        if (!isProcessOnScroll || isDoubleTap) {
             return true;
         }
         View pageView = listView.getCurrentPageView();
-        if (pageView != null)
-        {
+        if (pageView != null) {
             Rect bounds = listView.getScrollBounds(pageView);
-            if(listView.getPageListViewListener().getPageListViewMovingPosition() == IPageListViewListener.Moving_Horizontal)
-            {
-            	if (pageView.getWidth() <= listView.getWidth()
-                        || listView.getPageListViewListener().isChangePage())
-                    {
-                        switch (directionOfTravel(velocityX, velocityY))
-                        {
-                            case MOVING_LEFT:
-                                if (bounds.left >= 0)
-                                {
-                                    isOnFling = true;
-                                    listView.nextPageView();
-                                    return true;
-                                }
-                                break;
-                            case MOVING_RIGHT:
-                                if (bounds.right <= 0)
-                                {
-                                    isOnFling = true;
-                                    listView.previousPageview();
-                                    return true;
-                                }
-                                break;
-                        }
+            if (listView.getPageListViewListener().getPageListViewMovingPosition() == IPageListViewListener.Moving_Horizontal) {
+                if (pageView.getWidth() <= listView.getWidth()
+                        || listView.getPageListViewListener().isChangePage()) {
+                    switch (directionOfTravel(velocityX, velocityY)) {
+                        case MOVING_LEFT:
+                            if (bounds.left >= 0) {
+                                isOnFling = true;
+                                listView.nextPageView();
+                                return true;
+                            }
+                            break;
+                        case MOVING_RIGHT:
+                            if (bounds.right <= 0) {
+                                isOnFling = true;
+                                listView.previousPageview();
+                                return true;
+                            }
+                            break;
                     }
-            }
-            else
-            {
-            	if (pageView.getHeight() <= listView.getHeight()
-                        || listView.getPageListViewListener().isChangePage())
-                    {
-                        switch (directionOfTravel(velocityX, velocityY))
-                        {
-                            case MOVING_UP:
-                                if (bounds.top >= 0)
-                                {
-                                    isOnFling = true;
-                                    listView.nextPageView();
-                                    return true;
-                                }
-                                break;
-                            case MOVING_DOWN:
-                                if (bounds.bottom <= 0)
-                                {
-                                    isOnFling = true;
-                                    listView.previousPageview();
-                                    return true;
-                                }
-                                break;
-                        }
+                }
+            } else {
+                if (pageView.getHeight() <= listView.getHeight()
+                        || listView.getPageListViewListener().isChangePage()) {
+                    switch (directionOfTravel(velocityX, velocityY)) {
+                        case MOVING_UP:
+                            if (bounds.top >= 0) {
+                                isOnFling = true;
+                                listView.nextPageView();
+                                return true;
+                            }
+                            break;
+                        case MOVING_DOWN:
+                            if (bounds.bottom <= 0) {
+                                isOnFling = true;
+                                listView.previousPageview();
+                                return true;
+                            }
+                            break;
                     }
+                }
             }
-            
+
             mScrollerLastX = mScrollerLastY = 0;
             // If the page has been dragged out of bounds then we want to spring back
             // nicely. fling jumps back into bounds instantly, so we don't want to use
@@ -233,46 +198,34 @@ public class APageListEventManage implements
             expandedBounds.inset(-100, -100);
 
             if (withinBoundsInDirectionOfTravel(bounds, velocityX, velocityY)
-                && expandedBounds.contains(0, 0))
-            {
-                mScroller.fling(0, 0, (int)velocityX, (int)velocityY, bounds.left, bounds.right,
-                    bounds.top, bounds.bottom);
+                    && expandedBounds.contains(0, 0)) {
+                mScroller.fling(0, 0, (int) velocityX, (int) velocityY, bounds.left, bounds.right,
+                        bounds.top, bounds.bottom);
                 listView.post(this);
             }
         }
         return true;
     }
-    /**
-     * 
-     *
-     */
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
-    {
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
         listView.getPageListViewListener().onEventMethod(listView, e1, e2, distanceX, distanceY, IPageListViewListener.ON_SCROLL);
-        if (isProcessOnScroll && !isDoubleTap)
-        {
+        if (isProcessOnScroll && !isDoubleTap) {
             listView.getPageListViewListener().setDrawPictrue(false);
             isOnScroll = true;
             mXScroll -= distanceX;
             mYScroll -= distanceY;
-            if (!listView.getPageListViewListener().isChangePage())
-            {
+            if (!listView.getPageListViewListener().isChangePage()) {
                 APageListItem item = listView.getCurrentPageView();
-                if (item != null && item.getWidth() > listView.getWidth())
-                {
-                    if (distanceX > 0)
-                    {
+                if (item != null && item.getWidth() > listView.getWidth()) {
+                    if (distanceX > 0) {
                         if (listView.getWidth() - mXScroll - item.getLeft() > item.getWidth()
-                            && item.getPageIndex() < listView.getPageCount() - 1)
-                        {
+                                && item.getPageIndex() < listView.getPageCount() - 1) {
                             mXScroll = -(item.getWidth() - listView.getWidth() + item.getLeft());
                         }
-                    }
-                    else if (distanceX < 0)
-                    {
+                    } else if (distanceX < 0) {
                         if (mXScroll + item.getLeft() > 0
-                            && item.getPageIndex() != 0)
-                        {
+                                && item.getPageIndex() != 0) {
                             mXScroll = 0;
                         }
                     }
@@ -282,41 +235,35 @@ public class APageListEventManage implements
         }
         return true;
     }
-    
+
     /**
-     * 
      * @see ScaleGestureDetector.OnScaleGestureListener#onScale(ScaleGestureDetector)
-     *
      */
-    @ Override
-    public boolean onScale(ScaleGestureDetector detector)
-    {
-        if (eventPointerCount <= 1 || !listView.getPageListViewListener().isTouchZoom())
-        {
+    @Override
+    public boolean onScale(ScaleGestureDetector detector) {
+        if (eventPointerCount <= 1 || !listView.getPageListViewListener().isTouchZoom()) {
             return true;
         }
-        
+
         isTouchEventIn = true;
         float previousScale = listView.getZoom();
-        float zoom = Math.min(Math.max(listView.getZoom() * detector.getScaleFactor(), listView.getFitZoom()), listView.getFitZoom()*MAX_ZOOM);
-        if ((int)(zoom * MainConstant.ZOOM_ROUND) != (int)(previousScale * MainConstant.ZOOM_ROUND))
-        {
+        float zoom = Math.min(Math.max(listView.getZoom() * detector.getScaleFactor(), listView.getFitZoom()), listView.getFitZoom() * MAX_ZOOM);
+        if ((int) (zoom * MainConstant.ZOOM_ROUND) != (int) (previousScale * MainConstant.ZOOM_ROUND)) {
             isOnScroll = true;
             float factor = zoom / previousScale;
             listView.setZoom(zoom, false);
             APageListItem v = listView.getCurrentPageView();
-            if (v != null)
-            {
+            if (v != null) {
                 // Work out the focus point relative to the view top left
-                int viewFocusX = (int)detector.getFocusX() - (v.getLeft() + mXScroll);
-                int viewFocusY = (int)detector.getFocusY() - (v.getTop() + mYScroll);
+                int viewFocusX = (int) detector.getFocusX() - (v.getLeft() + mXScroll);
+                int viewFocusY = (int) detector.getFocusY() - (v.getTop() + mYScroll);
                 // Scroll to maintain the focus point
                 mXScroll += viewFocusX - viewFocusX * factor;
                 mYScroll += viewFocusY - viewFocusY * factor;
                 listView.requestLayout();
             }
         }
-        toast.setText((int)Math.round(zoom * 100) + "%");
+        toast.setText((int) Math.round(zoom * 100) + "%");
         toast.show();
 
 
@@ -324,15 +271,11 @@ public class APageListEventManage implements
     }
 
     /**
-     * 
      * @see ScaleGestureDetector.OnScaleGestureListener#onScaleBegin(ScaleGestureDetector)
-     *
      */
-    @ Override
-    public boolean onScaleBegin(ScaleGestureDetector detector)
-    {
-        if (eventPointerCount <= 1 || !listView.getPageListViewListener().isTouchZoom())
-        {
+    @Override
+    public boolean onScaleBegin(ScaleGestureDetector detector) {
+        if (eventPointerCount <= 1 || !listView.getPageListViewListener().isTouchZoom()) {
             return true;
         }
         isScaling = true;
@@ -340,71 +283,59 @@ public class APageListEventManage implements
         isProcessOnScroll = false;
         return true;
     }
+
     /**
-     * 
      * @see ScaleGestureDetector.OnScaleGestureListener#onScaleEnd(ScaleGestureDetector)
-     *
      */
-    @ Override
-    public void onScaleEnd(ScaleGestureDetector detector)
-    {
-        if (eventPointerCount <= 1 || !listView.getPageListViewListener().isTouchZoom())
-        {
+    @Override
+    public void onScaleEnd(ScaleGestureDetector detector) {
+        if (eventPointerCount <= 1 || !listView.getPageListViewListener().isTouchZoom()) {
             return;
         }
         isScaling = false;
     }
-    
+
     /**
-     * 
      *
      */
-    public void onShowPress(MotionEvent e)
-    {        
+    public void onShowPress(MotionEvent e) {
         listView.getPageListViewListener().onEventMethod(listView, e, null, -1.0f, -1.0f, IPageListViewListener.ON_SHOW_PRESS);
     }
 
     /**
-     * 
      *
      */
-    public boolean onSingleTapUp(MotionEvent e)
-    {
+    public boolean onSingleTapUp(MotionEvent e) {
         listView.getPageListViewListener().onEventMethod(listView, e, null, -1.0f, -1.0f, IPageListViewListener.ON_SINGLE_TAP_UP);
         return false;
     }
 
     /**
-     * 
      *
      */
-    public void onLongPress(MotionEvent e)
-    {
+    public void onLongPress(MotionEvent e) {
         listView.getPageListViewListener().onEventMethod(listView, e, null, -1.0f, -1.0f, IPageListViewListener.ON_LONG_PRESS);
     }
 
     /**
-     * 
+     *
      */
-    public void onClick(View v)
-    {   
+    public void onClick(View v) {
         listView.getPageListViewListener().onEventMethod(listView, null, null, -1.0f, -1.0f, IPageListViewListener.ON_CLICK);
     }
 
     /**
-     * 
+     *
      */
-    public boolean onSingleTapConfirmed(MotionEvent e)
-    {
+    public boolean onSingleTapConfirmed(MotionEvent e) {
         listView.getPageListViewListener().onEventMethod(listView, e, null, -1.0f, -1.0f, IPageListViewListener.ON_SINGLE_TAP_CONFIRMED);
         return false;
     }
 
     /**
-     *     
+     *
      */
-    public boolean onDoubleTap(MotionEvent e)
-    {
+    public boolean onDoubleTap(MotionEvent e) {
         isProcessOnScroll = true;
         isTouchEventIn = false;
         isDoubleTap = true;
@@ -415,21 +346,18 @@ public class APageListEventManage implements
     /**
      *
      */
-    public boolean onDoubleTapEvent(MotionEvent e)
-    {
+    public boolean onDoubleTapEvent(MotionEvent e) {
         isTouchEventIn = false;
         isDoubleTap = true;
         listView.getPageListViewListener().onEventMethod(listView, e, null, -1.0f, -1.0f, IPageListViewListener.ON_DOUBLE_TAP_EVENT);
         return false;
     }
-    
+
     /**
-     * 
+     *
      */
-    public void run()
-    {
-        if (!mScroller.isFinished())
-        {
+    public void run() {
+        if (!mScroller.isFinished()) {
             listView.getPageListViewListener().setDrawPictrue(false);
             mScroller.computeScrollOffset();
             int x = mScroller.getCurrX();
@@ -440,9 +368,7 @@ public class APageListEventManage implements
             mScrollerLastY = y;
             listView.requestLayout();
             listView.post(this);
-        }
-        else if (!isTouchEventIn)
-        {
+        } else if (!isTouchEventIn) {
             // End of an inertial scroll and the user is not interacting.
             // The layout is stable
             listView.postRepaint(listView.getCurrentPageView());
@@ -450,105 +376,87 @@ public class APageListEventManage implements
             listView.getPageListViewListener().setDrawPictrue(true);
         }
     }
-    
+
     /**
-     * 
      * @param v
      */
-    protected void slideViewOntoScreen(APageListItem pageItem)
-    {
+    protected void slideViewOntoScreen(APageListItem pageItem) {
         Point corr = listView.getCorrection(listView.getScrollBounds(pageItem));
-        if (corr.x != 0 || corr.y != 0)
-        {
+        if (corr.x != 0 || corr.y != 0) {
             mScrollerLastX = mScrollerLastY = 0;
             mScroller.startScroll(0, 0, corr.x, corr.y, 400);
             listView.post(this);
         }
         listView.getPageListViewListener().resetSearchResult(pageItem);
     }
-    
-    
+
+
     /**
      * @return Returns the mXScroll.
      */
-    protected int getScrollX()
-    {
+    protected int getScrollX() {
         return mXScroll;
     }
+
     /**
      * @return Returns the mYScroll.
      */
-    protected int getScrollY()
-    {
+    protected int getScrollY() {
         return mYScroll;
     }
-    
+
     /**
-     * 
+     *
      */
-    protected void setScrollAxisValue(int x, int y)
-    {
+    protected void setScrollAxisValue(int x, int y) {
         mXScroll = x;
         mYScroll = y;
     }
-    
+
     /**
-     * 
+     *
      */
-    protected boolean isTouchEventIn()
-    {
+    protected boolean isTouchEventIn() {
         return this.isTouchEventIn;
     }
-    
+
     /**
-     * 
+     *
      */
-    protected boolean isScrollerFinished()
-    {
+    protected boolean isScrollerFinished() {
         return mScroller.isFinished();
     }
-    
+
     /**
-     * 
+     *
      */
-    protected boolean isOnFling()
-    {
+    protected boolean isOnFling() {
         return this.isOnFling;
     }
 
     /**
-     * 
      * @param vx
      * @param vy
      * @return
      */
-    protected int directionOfTravel(float vx, float vy)
-    {
-        if (Math.abs(vx) > 2 * Math.abs(vy))
-        {
+    protected int directionOfTravel(float vx, float vy) {
+        if (Math.abs(vx) > 2 * Math.abs(vy)) {
             return (vx > 0) ? MOVING_RIGHT : MOVING_LEFT;
-        }
-        else if (Math.abs(vy) > 2 * Math.abs(vx))
-        {
+        } else if (Math.abs(vy) > 2 * Math.abs(vx)) {
             return (vy > 0) ? MOVING_DOWN : MOVING_UP;
-        }
-        else
-        {
+        } else {
             return MOVING_DIAGONALLY;
         }
     }
 
     /**
-     * 
      * @param bounds
      * @param vx
      * @param vy
      * @return
      */
-    protected boolean withinBoundsInDirectionOfTravel(Rect bounds, float vx, float vy)
-    {
-        switch (directionOfTravel(vx, vy))
-        {
+    protected boolean withinBoundsInDirectionOfTravel(Rect bounds, float vx, float vy) {
+        switch (directionOfTravel(vx, vy)) {
             case MOVING_DIAGONALLY:
                 return bounds.contains(0, 0);
             case MOVING_LEFT:
@@ -563,13 +471,12 @@ public class APageListEventManage implements
                 throw new NoSuchElementException();
         }
     }
-    
+
     /**
-     * 
+     *
      */
-    public void dispose()
-    {
-        
+    public void dispose() {
+
     }
 
     private boolean isOnFling;
@@ -580,7 +487,7 @@ public class APageListEventManage implements
     // Whether process onScroll event
     private boolean isProcessOnScroll = true;
     // Whether the user is touch event in
-    private boolean isTouchEventIn; 
+    private boolean isTouchEventIn;
     // Whether the user is currently pinch zooming
     private boolean isScaling;
     // x axis value of last time

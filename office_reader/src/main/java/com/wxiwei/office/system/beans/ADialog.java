@@ -72,10 +72,7 @@ public class ADialog extends Dialog implements OnClickListener
         //dialogFrame.addView(view, new LayoutParams(LayoutParams.MATCH_PARENT, 1));
     }
     
-    /**
-     * 
-     *
-     */
+
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -89,19 +86,13 @@ public class ADialog extends Dialog implements OnClickListener
         });
     }
     
-    /**
-     * 
-     *
-     */
+
     public void onConfigurationChanged(Configuration newConfig)
     {
         
     }
     
-    /**
-     * 
-     *
-     */
+
     public void onClick(View v)
     {
         

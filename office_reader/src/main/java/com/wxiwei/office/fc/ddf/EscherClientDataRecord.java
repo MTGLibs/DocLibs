@@ -115,10 +115,7 @@ public class EscherClientDataRecord
         this.remainingData = remainingData;
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
         remainingData = null;   

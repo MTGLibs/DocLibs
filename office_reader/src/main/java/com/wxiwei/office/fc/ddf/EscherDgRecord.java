@@ -142,10 +142,7 @@ public class EscherDgRecord
         this.field_1_numShapes++;
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
     }

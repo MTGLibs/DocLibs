@@ -32,15 +32,12 @@ public class WatermarkShape extends WPAutoShape
     
     public final static byte Watermark_Picture = 1;
 
-    /**
-     * 
-     *
-     */
+
     public short getType()
     {
     	if(watermarkType == Watermark_Text)
     	{
-    		return SHAPE_AUTOSHAPE;
+    		return SHAPE_AUTOGRAPH;
     	}
     	else
     	{

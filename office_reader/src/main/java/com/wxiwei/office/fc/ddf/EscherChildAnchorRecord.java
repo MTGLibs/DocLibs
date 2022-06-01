@@ -160,10 +160,7 @@ public class EscherChildAnchorRecord
         this.field_4_dy2 = field_4_dy2;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
         

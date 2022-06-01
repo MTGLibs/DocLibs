@@ -81,10 +81,7 @@ public class AImageTextButton extends AImageButton
 
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void onDraw(Canvas canvas)
     {
         Rect clip = canvas.getClipBounds();
@@ -210,10 +207,7 @@ public class AImageTextButton extends AImageButton
         this.rightIndent = rightIndent;
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
         super.dispose();

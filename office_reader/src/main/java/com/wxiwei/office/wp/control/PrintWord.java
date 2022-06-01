@@ -64,10 +64,7 @@ public class PrintWord extends FrameLayout implements IPageListViewListener
         super(context);
     }
 
-    /**
-     * 
-     *
-     */
+    
     public PrintWord(Context context, IControl control, PageRoot pageRoot)
     {
         super(context);
@@ -95,10 +92,7 @@ public class PrintWord extends FrameLayout implements IPageListViewListener
         }
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void setBackgroundResource(int resid)
     {
         super.setBackgroundResource(resid);
@@ -108,10 +102,7 @@ public class PrintWord extends FrameLayout implements IPageListViewListener
         }
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void setBackgroundDrawable(Drawable d) 
     {
        super.setBackgroundDrawable(d);
@@ -144,19 +135,13 @@ public class PrintWord extends FrameLayout implements IPageListViewListener
         drawPageNubmer(canvas);
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void init()
     {
         
     }
 
-    /**
-     * 
-     *
-     */
+    
     public void setZoom(float zoom, int pointX, int pointY)
     {
         listView.setZoom(zoom, pointX, pointY);
@@ -313,10 +298,7 @@ public class PrintWord extends FrameLayout implements IPageListViewListener
         return pageSize;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public void exportImage(final APageListItem pageItem, final Bitmap srcBitmap)
     {
         if (getControl() == null || !(getParent() instanceof Word))
@@ -460,6 +442,7 @@ public class PrintWord extends FrameLayout implements IPageListViewListener
             {
                 float paintZoom = Math.min(dstBitmap.getWidth() / (float)rW, dstBitmap.getHeight() / (float)rH);
                 float zoom = listView.getZoom() * paintZoom;
+                changeZoom();
                 int left = (int)(pageItem.getLeft() * paintZoom);
                 int top = (int)(pageItem.getTop() * paintZoom);
                 Canvas canvas = new Canvas(dstBitmap);
@@ -477,10 +460,7 @@ public class PrintWord extends FrameLayout implements IPageListViewListener
     }
     
     
-    /**
-     * 
-     *
-     */
+    
     public boolean isInit()
     {
         return true;
@@ -580,19 +560,13 @@ public class PrintWord extends FrameLayout implements IPageListViewListener
         return control.getMainFrame().onEventMethod(v, e1, e2, velocityX, velocityY, eventMethodType);
     }
 
-    /**
-     * 
-     *
-     */
+    
     public void updateStutus(Object obj)
     {
        control.actionEvent(EventConstant.SYS_UPDATE_TOOLSBAR_BUTTON_STATUS, obj);
     }
 
-    /**
-     * 
-     *
-     */
+    
     public void resetSearchResult(APageListItem pageItem)
     {
         if (getParent() instanceof Word)

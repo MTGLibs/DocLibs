@@ -111,10 +111,7 @@ public final class ExHyperlinkAtom extends RecordAtom
     }
 
     
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
         _header = null;

@@ -134,10 +134,7 @@ public class PDFReader extends AbstractReader
         alert.show();
     }*/
 
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
         super.dispose();

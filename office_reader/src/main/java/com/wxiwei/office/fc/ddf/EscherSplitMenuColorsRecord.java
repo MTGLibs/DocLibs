@@ -138,10 +138,7 @@ public class EscherSplitMenuColorsRecord
         this.field_4_color4 = field_4_color4;
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
     }

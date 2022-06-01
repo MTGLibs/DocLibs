@@ -43,10 +43,7 @@ class MacroOfficeToPicture implements IOfficeToPicture
         this.modeType = modeType;
     }
     
-    /**
-     * 
-     *
-     */
+
     public byte getModeType()
     {        
         return modeType;

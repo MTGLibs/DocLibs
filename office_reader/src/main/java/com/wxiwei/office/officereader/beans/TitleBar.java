@@ -74,10 +74,7 @@ public class TitleBar extends LinearLayout
         this.postInvalidate();
     }
     
-    /**
-     * 
-     *
-     */
+    
     protected void onDraw(Canvas canvas)
     {
         if(title != null)
@@ -92,10 +89,7 @@ public class TitleBar extends LinearLayout
         mBusyIndicator.setVisibility(visible ? VISIBLE : GONE);
     }
     
-    /**
-     * 
-     *
-     */
+    
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);

@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.List;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -348,17 +349,10 @@ public interface IMainFrame
 
     void pageChanged(int page, int pageCount);
 
-    void error(Throwable t);
-
     void onLoadComplete(int nbPages);
 
     boolean tap(MotionEvent e);
 
-    void errorLoadPdf(Throwable t);
+    void getSlideImages(List<Bitmap> bitmaps);
 
-    void showDialogLoading();
-
-    void dismissDialogLoading();
-
-    long getTimeLoading();
 }

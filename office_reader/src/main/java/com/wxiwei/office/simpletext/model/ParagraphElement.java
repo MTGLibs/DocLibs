@@ -34,10 +34,7 @@ public class ParagraphElement extends AbstractElement
         leaf = new ElementCollectionImpl(10);
     }
     
-    /**
-     * 
-     *
-     */
+    
     public String getText(IDocument doc)
     {
         int count = leaf.size();

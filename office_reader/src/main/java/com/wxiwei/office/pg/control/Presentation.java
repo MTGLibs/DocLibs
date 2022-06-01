@@ -37,27 +37,8 @@ import com.wxiwei.office.system.beans.CalloutView.IExportListener;
 
 import java.util.List;
 
-
-/**
- * 文件注释
- * <p>
- * <p>
- * Read版本:        Read V1.0
- * <p>
- * 作者:            ljj8494
- * <p>
- * 日期:            2011-11-2
- * <p>
- * 负责人:          ljj8494
- * <p>
- * 负责小组:
- * <p>
- * <p>
- */
 public class Presentation extends FrameLayout implements IFind, IExportListener {
-    /**
-     *
-     */
+
     public Presentation(Activity activity, PGModel pgModel, IControl control) {
         super(activity);
         this.control = control;
@@ -178,6 +159,10 @@ public class Presentation extends FrameLayout implements IFind, IExportListener 
             return true;
         }
         return false;
+    }
+
+    public void gotoPage(int page) {
+        pgPrintMode.gotoPage(page);
     }
 
     /**

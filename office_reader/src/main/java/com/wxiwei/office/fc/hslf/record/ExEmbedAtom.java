@@ -158,10 +158,7 @@ public class ExEmbedAtom extends RecordAtom
         return RecordTypes.ExEmbedAtom.typeID;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
         _header = null;

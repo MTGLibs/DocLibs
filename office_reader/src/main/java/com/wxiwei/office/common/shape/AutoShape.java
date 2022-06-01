@@ -1,54 +1,24 @@
-/*
- * 文件名称:           AutoShape.java
- *  
- * 编译器:             android2.2
- * 时间:               下午2:13:13
- */
 package com.wxiwei.office.common.shape;
 
 
-/**
- * Represents an AutoShape.
- * <p>
- * <p>
- * Read版本:       Read V1.0
- * <p>
- * 作者:           jhy1790
- * <p>
- * 日期:           2012-8-24
- * <p>
- * 负责人:         jhy1790
- * <p>
- * 负责小组:         
- * <p>
- * <p>
- */
 public class AutoShape extends AbstractShape
 {
-    /**
-     * 
-     */
+
     public AutoShape()
     {
         
     }
     
-    /**
-     * 
-     * @param type
-     */
+
     public AutoShape(int type)
     {
         this.type = type;
     }
     
-    /**
-     * 
-     *
-     */
+
     public short getType()
     {
-        return SHAPE_AUTOSHAPE;
+        return SHAPE_AUTOGRAPH;
     }
     
     /**

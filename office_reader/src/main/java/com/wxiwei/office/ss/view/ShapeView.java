@@ -195,7 +195,7 @@ public class ShapeView
                     		sheetView.getZoom(), shapeRect.width(), shapeRect.height(), ((PictureShape)shape).getPictureEffectInfor());
                     break;
                     
-                case AbstractShape.SHAPE_TEXTBOX:
+                case AbstractShape.SHAPE_TEXT:
                     drawTextbox(canvas, shapeRect, (TextBox)shape);
                     break;
                     
@@ -213,11 +213,11 @@ public class ShapeView
                     break;
                     
                 case AbstractShape.SHAPE_LINE:
-                case AbstractShape.SHAPE_AUTOSHAPE:
+                case AbstractShape.SHAPE_AUTOGRAPH:
                     AutoShapeKit.instance().drawAutoShape(canvas, control, sheetView.getSheetIndex(), (AutoShape)shape, shapeRect, sheetView.getZoom());
                     break;
                     
-                case AbstractShape.SHAPE_SMARTART:
+                case AbstractShape.SHAPE_SMART_ART:
                 	SmartArt smartArt = (SmartArt)shape;
                 	BackgroundDrawer.drawLineAndFill(canvas, control, sheetView.getSheetIndex(), smartArt, shapeRect, sheetView.getZoom());
                 	

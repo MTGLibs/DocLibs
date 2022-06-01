@@ -337,10 +337,7 @@ public class EscherClientAnchorRecord
         this.remainingData = remainingData;
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
         remainingData = null;   

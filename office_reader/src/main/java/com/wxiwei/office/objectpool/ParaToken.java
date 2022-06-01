@@ -36,10 +36,7 @@ public class ParaToken
         this.obj = obj;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public void free()
     {
        obj.free(); 

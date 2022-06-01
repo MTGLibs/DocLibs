@@ -62,19 +62,13 @@ public class SettingDialogAction implements IDialogAction
         }
     }
 
-    /**
-     * 
-     *
-     */
+    
     public IControl getControl()
     {
         return this.control;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
         control = null;

@@ -96,10 +96,7 @@ public class QuestionDialog extends ADialog
         dialogFrame.addView(linearLayoutBtn);
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void onClick(View v)
     {
         if (v == ok)
@@ -137,10 +134,7 @@ public class QuestionDialog extends ADialog
         cancel.setLayoutParams(params);
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void onConfigurationChanged(Configuration newConfig)
     {        
         doLayout();

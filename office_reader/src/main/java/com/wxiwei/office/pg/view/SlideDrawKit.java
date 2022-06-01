@@ -194,7 +194,7 @@ public class SlideDrawKit {
                 drawShape(canvas, pgModel, editor, slideNo, childShape, zoom, shapeVisible);
             }
         } else {
-            if (shape.getType() == AbstractShape.SHAPE_SMARTART) {
+            if (shape.getType() == AbstractShape.SHAPE_SMART_ART) {
                 Rect rect = getShapeRect(shape, zoom);
 
                 SmartArt smartArt = (SmartArt) shape;
@@ -206,12 +206,12 @@ public class SlideDrawKit {
                 for (IShape item : shapes) {
                     drawShape(canvas, pgModel, editor, slideNo, item, zoom, shapeVisible);
                 }
-            } else if (shape.getType() == AbstractShape.SHAPE_TEXTBOX) {
+            } else if (shape.getType() == AbstractShape.SHAPE_TEXT) {
                 // 文本框 
                 drawTextShape(canvas, pgModel, editor, slideNo, (TextBox) shape, zoom, shapeVisible);
             } else {
                 // 自选图型
-                if (shape.getType() == AbstractShape.SHAPE_LINE || shape.getType() == AbstractShape.SHAPE_AUTOSHAPE) {
+                if (shape.getType() == AbstractShape.SHAPE_LINE || shape.getType() == AbstractShape.SHAPE_AUTOGRAPH) {
                     AutoShapeKit.instance().drawAutoShape(canvas, editor.getControl(), slideNo, (AutoShape) shape, zoom);
                 }
                 // 图片
@@ -680,7 +680,7 @@ public class SlideDrawKit {
             int count = slide.getShapeCount();
             for (int i = 0; i < count; i++) {
                 IShape shape = slide.getShape(i);
-                if (shape.getType() == AbstractShape.SHAPE_TEXTBOX) // 文本框
+                if (shape.getType() == AbstractShape.SHAPE_TEXT) // 文本框
                 {
                     STRoot root = ((TextBox) shape).getRootView();
                     if (root != null) {

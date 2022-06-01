@@ -40,10 +40,7 @@ public class ADialogFrame extends LinearLayout
     }
     
 
-    /**
-     * 
-     *
-     */
+    
     public void onConfigurationChanged(Configuration newConfig)
     {
         super.onConfigurationChanged(newConfig);

@@ -38,10 +38,7 @@ public class BackReaderThread extends Thread
         this.control = control;
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void run()
     {
         control.actionEvent(EventConstant.SYS_START_BACK_READER_ID, true);

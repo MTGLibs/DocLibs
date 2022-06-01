@@ -3,10 +3,5 @@
     package="com.wxiwei.office">
 
 
-    <application>
-        <activity android:name=".officereader.FileListActivity" />
-        <activity android:name=".officereader.BaseDocActivity" />
-        <activity android:name=".officereader.SettingActivity" />
-        <activity android:name=".officereader.SysActivity" />
-    </application>
+    <application></application>
 </manifest>

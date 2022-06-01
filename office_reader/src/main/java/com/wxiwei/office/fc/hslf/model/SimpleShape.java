@@ -411,10 +411,7 @@ public abstract class SimpleShape extends Shape
 
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
        super.dispose();

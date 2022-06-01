@@ -69,10 +69,7 @@ public class APageListItem extends ViewGroup implements IExportListener
 		listView.postRepaint(listView.getCurrentPageView());
 	}
 	
-    /**
-     * 
-     *
-     */
+    
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
         int width = MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.UNSPECIFIED ?
@@ -193,10 +190,7 @@ public class APageListItem extends ViewGroup implements IExportListener
         return pageIndex;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public boolean isOpaque()
     {
         return true;

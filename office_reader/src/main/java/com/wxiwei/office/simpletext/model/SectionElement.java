@@ -60,10 +60,7 @@ public class SectionElement extends AbstractElement
         return this.paraCollection;
     }
     
-    /**
-     * 
-     *
-     */
+    
     public String getText(IDocument doc)
     {        
         int count = paraCollection.size();
@@ -83,10 +80,7 @@ public class SectionElement extends AbstractElement
         return paraCollection.getElement(offset);
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
        super.dispose();

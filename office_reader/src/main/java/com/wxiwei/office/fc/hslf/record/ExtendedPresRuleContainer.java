@@ -73,19 +73,13 @@ public class ExtendedPresRuleContainer extends PositionDependentRecordContainer
         return _extendedAtomsSets;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public long getRecordType()
     {
         return _type;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public void writeOut(OutputStream o) throws IOException
     {
         

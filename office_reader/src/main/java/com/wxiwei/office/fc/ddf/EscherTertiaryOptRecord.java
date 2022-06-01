@@ -30,10 +30,7 @@ public class EscherTertiaryOptRecord extends AbstractEscherOptRecord
     {
         return "TertiaryOpt";
     }
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
     }

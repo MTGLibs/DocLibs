@@ -116,10 +116,7 @@ public class WPEventManage extends AEventManage
         }
     }
     
-    /**
-     * 
-     *
-     */
+
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
     {
         if (word.getStatus().isSelectTextStatus())
@@ -258,10 +255,7 @@ public class WPEventManage extends AEventManage
         //
     }
     
-    /**
-     * 
-     *
-     */
+
     public boolean onDoubleTapEvent(MotionEvent e)
     {
         /*if (e.getAction() == MotionEvent.ACTION_UP)
@@ -319,10 +313,7 @@ public class WPEventManage extends AEventManage
         return super.onSingleTapConfirmed(e);
     }
 
-    /**
-     * 
-     *
-     */
+
     private static final String TAG = "WPEventManage";
     public boolean onSingleTapUp(MotionEvent e)
     {
@@ -353,10 +344,7 @@ public class WPEventManage extends AEventManage
         return true;
     }
 
-    /**
-     * 
-     *
-     */
+
     public void computeScroll()
     {
         super.computeScroll();

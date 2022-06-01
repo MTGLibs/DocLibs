@@ -75,19 +75,13 @@ public final class List extends PositionDependentRecordContainer
         return _extendedPresRuleContainer;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public long getRecordType()
     {
         return RecordTypes.List.typeID;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public void writeOut(OutputStream o) throws IOException
     {
         

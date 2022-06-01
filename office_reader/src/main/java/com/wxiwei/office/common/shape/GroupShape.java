@@ -1,30 +1,8 @@
-/*
- * 文件名称:          GroupShape.java
- *  
- * 编译器:            android2.2
- * 时间:              下午5:11:59
- */
 package com.wxiwei.office.common.shape;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * TODO: 文件注释
- * <p>
- * <p>
- * Read版本:        Read V1.0
- * <p>
- * 作者:            jqin
- * <p>
- * 日期:            2013-4-7
- * <p>
- * 负责人:           jqin
- * <p>
- * 负责小组:           
- * <p>
- * <p>
- */
 public class GroupShape extends AbstractShape
 {
     /**
@@ -35,10 +13,7 @@ public class GroupShape extends AbstractShape
         shapes = new ArrayList<IShape>();
     }
     
-    /**
-     * 
-     *
-     */
+
     public short getType()
     {
         return SHAPE_GROUP;

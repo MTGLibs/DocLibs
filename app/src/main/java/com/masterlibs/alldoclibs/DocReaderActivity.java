@@ -5,18 +5,22 @@ import static com.wxiwei.office.constant.MainConstant.INTENT_FILED_FILE_PATH;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+
+import com.wxiwei.office.common.ISlideShow;
 import com.wxiwei.office.officereader.BaseDocActivity;
+import com.wxiwei.office.pg.control.PGControl;
 
 import java.io.File;
+import java.util.List;
 
 public class DocReaderActivity extends BaseDocActivity {
     private TextView title;
-    private AlertDialog dialog;
 
     public static void start(Context context, String path) {
         Intent starter = new Intent(context, DocReaderActivity.class);
@@ -59,27 +63,12 @@ public class DocReaderActivity extends BaseDocActivity {
     }
 
     @Override
-    public void errorLoadPdf(Throwable t) {
-
+    public void getSlideImages(List<Bitmap> bitmaps) {
+        Log.d("TAG", "getSlideImages: ");
     }
 
     @Override
-    public void showDialogLoading() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Loading...");
-        dialog = builder.create();
-        dialog.show();
-    }
-
-    @Override
-    public void dismissDialogLoading() {
-        if (dialog != null) {
-            dialog.dismiss();
-        }
-    }
-
-    @Override
-    public long getTimeLoading() {
-        return 1500;
+    public void error(int i) {
+        super.error(i);
     }
 }

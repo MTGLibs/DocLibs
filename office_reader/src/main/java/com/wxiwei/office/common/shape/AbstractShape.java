@@ -1,9 +1,3 @@
-/*
- * 文件名称:          AbstractShape.java
- *  
- * 编译器:            android2.2
- * 时间:              上午10:07:59
- */
 package com.wxiwei.office.common.shape;
 
 import com.wxiwei.office.common.bg.BackgroundAndFill;
@@ -11,32 +5,16 @@ import com.wxiwei.office.common.borders.Line;
 import com.wxiwei.office.java.awt.Rectangle;
 import com.wxiwei.office.pg.animate.IAnimation;
 
-/**
- * shape的抽象类
- * <p>
- * <p>
- * Read版本:        Read V1.0
- * <p>
- * 作者:            ljj8494
- * <p>
- * 日期:            2012-2-14
- * <p>
- * 负责人:          ljj8494
- * <p>
- * 负责小组:         
- * <p>
- * <p>
- */
 public class AbstractShape implements IShape
 {
     // picture
     public static final short SHAPE_PICTURE = 0;
     // text box
-    public static final short SHAPE_TEXTBOX = SHAPE_PICTURE + 1; // 1 
+    public static final short SHAPE_TEXT = SHAPE_PICTURE + 1; // 1
     // auto shape
-    public static final short SHAPE_AUTOSHAPE = SHAPE_TEXTBOX + 1 ;// 2 
+    public static final short SHAPE_AUTOGRAPH = SHAPE_TEXT + 1 ;// 2
     //
-    public static final short SHAPE_BG_FILL = SHAPE_AUTOSHAPE + 1; // 3
+    public static final short SHAPE_BG_FILL = SHAPE_AUTOGRAPH + 1; // 3
     //
     public static final short SHAPE_LINE = SHAPE_BG_FILL + 1; // 4 
     // chart
@@ -46,47 +24,33 @@ public class AbstractShape implements IShape
     //group shape
     public static final short SHAPE_GROUP = SHAPE_TABLE + 1; // 7
     //smart art
-    public static final short SHAPE_SMARTART = SHAPE_GROUP + 1; // 8
+    public static final short SHAPE_SMART_ART = SHAPE_GROUP + 1; // 8
     
-    /**
-     * 
-     *
-     */
+
     public short getType()
     {
         return -1;
     }
 
-    /**
-     * 
-     *
-     */
+
     public IShape getParent()
     {
         return parent;
     }
     
-    /**
-     * set parent of this shape;
-     */
+
     public void setParent(IShape shape)
     {
         this.parent = shape;
     }
     
-    /**
-     * 
-     * @param id
-     */
+
     public void setGroupShapeID(int id)
     {
         grpSpID = id;
     }
     
-    /**
-     * 
-     * @return
-     */
+
     public int getGroupShapeID()
     {
         return grpSpID;
@@ -102,100 +66,73 @@ public class AbstractShape implements IShape
         return id;
     }
     
-    /**
-     *
-     *
-     */ 
+
     public Rectangle getBounds()
     {
         return rect;
     }
 
-    /**
-     * 
-     *
-     */
+
     public void setBounds(Rectangle rect)
     {
         this.rect = rect;
     }
 
-    /**
-     * 
-     *
-     */
+
     public Object getData()
     {
         return null;
     }
 
-    /**
-     * 
-     */
+
     public void setData(Object data)
     {
         
     }
     
-    /**
-     * @return Returns the bgFill.
-     */
+
     public BackgroundAndFill getBackgroundAndFill()
     {
         return bgFill;
     }
 
-    /**
-     * @param bgFill The bgFill to set.
-     */
+
     public void setBackgroundAndFill(BackgroundAndFill bgFill)
     {
         this.bgFill = bgFill;
     }
     
-    /**
-     * get horizontal flip of this shape
-     */
+
     public boolean getFlipHorizontal()
     {
         return flipH;
     }
     
-    /**
-     * set horizontal flip of this shape
-     */
+
     public void setFlipHorizontal(boolean flipH)
     {
         this.flipH = flipH;
     }
     
-    /**
-     * get vertical flip of this shape
-     */
+
     public boolean getFlipVertical()
     {
         return flipV;
     }
     
-    /**
-     * set vertical flip of this shape
-     */
+
     public void setFlipVertical(boolean flipV)
     {
         this.flipV = flipV;
     }
     
-    /**
-     * get rotation of this shape
-     */
+
     public float getRotation()
     {
         return angle;
     }
     
-    /**
-     * set rotation of this shape
-     */
+
     public void setRotation(float angle)
     {
         this.angle = angle;
@@ -211,10 +148,7 @@ public class AbstractShape implements IShape
         return hidden;
     }
     
-    /**
-     * set shape animation
-     * @param animation
-     */
+
     public void setAnimation(IAnimation animation)
     {
         this.animation = animation;
@@ -225,9 +159,6 @@ public class AbstractShape implements IShape
         return animation;
     }
     
-    /*
-     * 
-     */
     public boolean hasLine()
     {
         return line != null;
@@ -250,47 +181,30 @@ public class AbstractShape implements IShape
     	}
     }
     
-    /**
-     * 
-     * @param border
-     */
     public Line createLine()
     {
     	line = new Line();
     	return line;
     }
     
-    /**
-     * get line width
-     * @return
-     */
+
     public Line getLine()
     {
         return line;
     }
     
-    /**
-     * 
-     * @return
-     */
+
     public int getPlaceHolderID()
     {
         return placeHolderID;
     }
-    
-    /**
-     * 
-     * @param placeHolderID
-     */
+
     public void setPlaceHolderID(int placeHolderID)
     {
         this.placeHolderID = placeHolderID;
     }
     
-    /**
-     * 
-     *
-     */
+
     public void dispose()
     {
         if (parent != null)
@@ -317,22 +231,14 @@ public class AbstractShape implements IShape
         }
     }
     
-    // parent of this shape
     private IShape parent;
-    //group shape id
     private int grpSpID = -1;
-    //shape id
     private int id;
     
-    // background
     private BackgroundAndFill bgFill;
-    // size of this shape
     protected Rectangle rect;
-    // 
     private boolean flipH;
-    //
     private boolean flipV;
-    //
     private float angle;
     
     private boolean hidden;

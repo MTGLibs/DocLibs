@@ -43,10 +43,7 @@ public class EscherOptRecord extends AbstractEscherOptRecord
         return "Opt";
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     { 
     }

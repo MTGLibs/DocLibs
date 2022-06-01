@@ -69,10 +69,7 @@ public class SheetBar extends HorizontalScrollView implements OnClickListener
         init();
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void onConfigurationChanged(Configuration newConfig)
     {
         sheetbarFrame.setMinimumWidth(minimumWidth == -1 ? getResources().getDisplayMetrics().widthPixels
@@ -141,10 +138,7 @@ public class SheetBar extends HorizontalScrollView implements OnClickListener
         addView(sheetbarFrame, new LayoutParams(LayoutParams.WRAP_CONTENT, sheetbarHeight));
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void onClick(View v)
     {
         currentSheet.changeFocus(false);

@@ -35,6 +35,7 @@ import com.wxiwei.office.system.IFind;
 import com.wxiwei.office.system.IMainFrame;
 import com.wxiwei.office.system.SysKit;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -62,7 +63,20 @@ public class PGControl extends AbstractControl {
     public PGControl(IControl mainControl, PGModel pgModel, String filePath) {
         this.mainControl = mainControl;
         pgView = new Presentation(getMainFrame().getActivity(), pgModel, this);
-        Log.e("datcoi", "PGControl: " + pgView.getCurrentSlide() + " -- " + pgView.getSlideCount());
+        mainControl.getMainFrame().getSlideImages(getSlideImages());
+    }
+
+    public List<Bitmap> getSlideImages() {
+        List<Bitmap> list = new ArrayList<>();
+        try {
+            int pageSize = pgView.getSlideCount();
+            for (int i = 1; i <= pageSize; i++) {
+                list.add(pgView.slideToImage(i));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     @Override
@@ -314,7 +328,7 @@ public class PGControl extends AbstractControl {
     /**
      *
      */
-    private void showSlide(final int slideIndex) {
+    public void showSlide(final int slideIndex) {
         if (slideIndex < 0 || slideIndex >= pgView.getSlideCount()) {
             return;
         }
@@ -652,7 +666,6 @@ public class PGControl extends AbstractControl {
         pgView = null;
         mainControl = null;
     }
-
     //
     private boolean isDispose;
     //

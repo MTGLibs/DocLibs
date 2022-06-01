@@ -42,7 +42,7 @@ public class TextBox extends AbstractShape
     
     public short getType()
     {
-        return SHAPE_TEXTBOX;
+        return SHAPE_TEXT;
     }
     
     /**

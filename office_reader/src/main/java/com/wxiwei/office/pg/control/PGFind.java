@@ -8,8 +8,6 @@ package com.wxiwei.office.pg.control;
 
 import com.wxiwei.office.common.shape.AbstractShape;
 import com.wxiwei.office.common.shape.IShape;
-import com.wxiwei.office.common.shape.TableCell;
-import com.wxiwei.office.common.shape.TableShape;
 import com.wxiwei.office.common.shape.TextBox;
 import com.wxiwei.office.constant.EventConstant;
 import com.wxiwei.office.java.awt.Rectangle;
@@ -130,7 +128,7 @@ public class PGFind implements IFind
         for (; i >= 0; i--)
         {
             IShape shape = slide.getShapeForFind(i);
-            if (shape != null && shape.getType() == AbstractShape.SHAPE_TEXTBOX)
+            if (shape != null && shape.getType() == AbstractShape.SHAPE_TEXT)
             {
                 int offset = shapeIndex == i && presentation.getCurrentIndex() == slideIndex ? startOffset : -1;
                 SectionElement elem = ((TextBox)shape).getElement();
@@ -167,7 +165,7 @@ public class PGFind implements IFind
         for (int i = Math.max(0, shapeIndex); i < slide.getShapeCountForFind(); i++)
         {
             IShape shape = slide.getShapeForFind(i);
-            if (shape != null && shape.getType() == AbstractShape.SHAPE_TEXTBOX)
+            if (shape != null && shape.getType() == AbstractShape.SHAPE_TEXT)
             {
                 SectionElement elem = ((TextBox)shape).getElement();
                 if (elem == null || elem.getEndOffset() - elem.getStartOffset() == 0)

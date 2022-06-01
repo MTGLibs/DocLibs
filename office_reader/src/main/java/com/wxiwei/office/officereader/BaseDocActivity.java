@@ -3,8 +3,10 @@ package com.wxiwei.office.officereader;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,14 +22,15 @@ import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnTapListener;
 import com.wxiwei.office.R;
 import com.wxiwei.office.constant.MainConstant;
-import com.wxiwei.office.macro.DialogListener;
 import com.wxiwei.office.officereader.beans.AToolsbar;
-import com.wxiwei.office.officereader.database.DBService;
+import com.wxiwei.office.pg.control.Presentation;
 import com.wxiwei.office.res.ResKit;
 import com.wxiwei.office.system.IControl;
 import com.wxiwei.office.system.IMainFrame;
 import com.wxiwei.office.system.MainControl;
 import com.wxiwei.office.utils.RealPathUtil;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.List;
@@ -35,47 +38,25 @@ import java.util.List;
 
 public abstract class BaseDocActivity extends AppCompatActivity implements IMainFrame {
     private MainControl control;
-    private DBService dbService;
     private String filePath;
-    private boolean isDispose;
     private boolean isThumbnail;
     private boolean writeLog = true;
     private final Object bg = -3355444;
     private FrameLayout appFrame;
-
-    private final OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
-        @Override
-        public void onPageChanged(int page, int pageCount) {
-            pageChanged(page+1, pageCount);
-        }
-    };
-    private final OnErrorListener errorListener = new OnErrorListener() {
-        @Override
-        public void onError(Throwable t) {
-            error(t);
-        }
-    };
-    private final OnLoadCompleteListener onLoadListener = new OnLoadCompleteListener() {
-        @Override
-        public void loadComplete(int nbPages) {
-            onLoadComplete(nbPages);
-        }
-    };
-    private final OnTapListener onTapListener = new OnTapListener() {
-        @Override
-        public boolean onTap(MotionEvent e) {
-            return tap(e);
-        }
-    };
+    public static int ERROR_PDF = 111;
+    private final OnPageChangeListener pageChangeListener = (page, pageCount) -> pageChanged(page + 1, pageCount);
+    private final OnErrorListener errorListener = t -> error(ERROR_PDF);
+    private final OnLoadCompleteListener onLoadListener = this::onLoadComplete;
+    private final OnTapListener onTapListener = this::tap;
 
     @Override
     public void changePage() {
     }
 
+
     @Override
     public void changeZoom() {
     }
-
 
     @Override
     public void completeLayout() {
@@ -88,10 +69,6 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     @Override
     public Activity getActivity() {
         return this;
-    }
-
-    public DialogListener getDialogListener() {
-        return null;
     }
 
     @Override
@@ -169,15 +146,9 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
         return true;
     }
 
-    public void onCurrentPageChange() {
-    }
-
     @Override
     public boolean onEventMethod(View view, MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2, byte b) {
         return false;
-    }
-
-    public void onPagesCountChange() {
     }
 
     @Override
@@ -193,7 +164,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         appFrame = getFrameLayoutDoc();
-        init();
+        new Handler().post(this::init);
         initView();
         addEvent();
     }
@@ -205,17 +176,6 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     protected abstract void initView();
 
     protected abstract void addEvent();
-
-
-    @Override
-    public void onActivityResult(int i, int i2, Intent intent) {
-        super.onActivityResult(i, i2, intent);
-        if (203 == i /*&& this.control.canBackLayout()*/) {
-            finish();
-            startActivity(getIntent());
-        }
-    }
-
 
     @Override
     public void onDestroy() {
@@ -230,7 +190,6 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
     private void init() {
         Intent intent = getIntent();
-        this.dbService = new DBService(getApplicationContext());
         Uri fileUri;
         if ("android.intent.action.VIEW".equals(intent.getAction())) {
             Uri data = intent.getData();
@@ -245,7 +204,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
             this.filePath = intent.getStringExtra(MainConstant.INTENT_FILED_FILE_PATH);
         }
         if (filePath.toLowerCase().endsWith(".pdf")) {
-            readPdfFile();
+            readPdfFile(null);
             return;
         }
         this.control = new MainControl(this);
@@ -268,10 +227,10 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
     }
 
-    private void readPdfFile() {
+    public void readPdfFile(String pass) {
         PDFView pdfView = new PDFView(this);
         pdfView.fromFile(new File(filePath)).onPageChange(pageChangeListener)
-                .onError(errorListener).onLoad(onLoadListener).onTap(onTapListener).load();
+                .onError(errorListener).onLoad(onLoadListener).password(pass).onTap(onTapListener).load();
         appFrame.addView(pdfView);
     }
 
@@ -282,15 +241,6 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
     @Override
     public void updateToolsbarStatus() {
-        if (!this.isDispose) {
-            int childCount = appFrame.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View childAt = appFrame.getChildAt(i);
-                if (childAt instanceof AToolsbar) {
-                    ((AToolsbar) childAt).updateStatus();
-                }
-            }
-        }
     }
 
 
@@ -325,10 +275,6 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     @SuppressLint({"WrongConstant", "ResourceType"})
     @Override
     public void fullScreen(boolean z) {
-    }
-
-    public void destroyEngine() {
-        super.onBackPressed();
     }
 
     @Override
@@ -372,17 +318,12 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
     @Override
     public void dispose() {
-        this.isDispose = true;
         MainControl mainControl = this.control;
         if (mainControl != null) {
             mainControl.dispose();
             this.control = null;
         }
-        DBService dBService = this.dbService;
-        if (dBService != null) {
-            dBService.dispose();
-            this.dbService = null;
-        }
+
         int childCount = appFrame.getChildCount();
         for (int i = 0; i < childCount; i++) {
             View childAt = appFrame.getChildAt(i);
@@ -399,11 +340,6 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     }
 
     @Override
-    public void error(Throwable t) {
-
-    }
-
-    @Override
     public void onLoadComplete(int nbPages) {
 
     }
@@ -414,17 +350,20 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     }
 
     @Override
-    public void showDialogLoading() {
-
+    public void updateServiceGroup(ServiceConnection conn, int group, int importance) {
+        super.updateServiceGroup(conn, group, importance);
     }
 
-    @Override
-    public void dismissDialogLoading() {
-
+    @NotNull
+    public Presentation getPresentation() {
+        try {
+            return (Presentation) control.getView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
-
-    @Override
-    public long getTimeLoading() {
-        return 1500;
+    public void gotoSlide(int page) {
+        getPresentation().gotoPage(page);
     }
 }

@@ -66,13 +66,10 @@ public class WPAutoShape extends WPAbstractShape
         
     }
     
-    /**
-     * 
-     *
-     */
+
     public short getType()
     {
-        return SHAPE_AUTOSHAPE;
+        return SHAPE_AUTOGRAPH;
     }
     
     /**

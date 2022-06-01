@@ -156,10 +156,7 @@ public class STDocument implements IDocument
         
     }
 
-    /**
-     * 
-     *
-     */
+    
     public IElement getLeaf(long offset)
     {
         IElement para = getParagraph(offset);
@@ -171,10 +168,7 @@ public class STDocument implements IDocument
         return null;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public void setSectionAttr(long start, int len, IAttributeSet attr)
     {
         section.getAttribute().mergeAttribute(attr);        

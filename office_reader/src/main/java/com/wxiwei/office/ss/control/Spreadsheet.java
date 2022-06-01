@@ -478,10 +478,7 @@ public class Spreadsheet extends LinearLayout implements IFind, IReaderListener,
         return sheetview.getThumbnail(sheet, width, height, zoomValue);        
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void onConfigurationChanged(Configuration newConfig)
     {
         super.onConfigurationChanged(newConfig);

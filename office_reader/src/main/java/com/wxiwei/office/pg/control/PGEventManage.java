@@ -55,10 +55,7 @@ public class PGEventManage extends AEventManage
         return false;
     }
     
-    /**
-     * 
-     *
-     */
+
     public boolean onDoubleTap(MotionEvent e)
     {
         super.onDoubleTap(e);
@@ -67,10 +64,7 @@ public class PGEventManage extends AEventManage
 
     
     
-    /**
-     * 
-     *
-     */
+
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
     {
         super.onScroll(e1, e2, distanceX, distanceY); 
@@ -87,7 +81,7 @@ public class PGEventManage extends AEventManage
     {
         if(presentation.isSlideShow())
         {          
-            if (Math.abs(velocityY) < 400 &&   Math.abs(velocityX) < 400)
+            if (Math.abs(velocityY) < 1 &&   Math.abs(velocityX) < 1)
             {
                 presentation.slideShow(ISlideShow.SlideShow_NextStep);
                 return;
@@ -128,10 +122,7 @@ public class PGEventManage extends AEventManage
         
     }
     
-    /**
-     * 
-     *
-     */
+
     public boolean onSingleTapUp(MotionEvent e)
     {
         super.onSingleTapUp(e);

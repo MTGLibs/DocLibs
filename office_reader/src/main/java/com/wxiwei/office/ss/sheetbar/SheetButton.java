@@ -78,10 +78,7 @@ public class SheetButton extends LinearLayout
         addView(right);
     }
     
-    /**
-     * 
-     *
-     */
+    
     public boolean onTouchEvent(MotionEvent event)
     {
         int action = event.getAction();

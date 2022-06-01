@@ -82,10 +82,7 @@ public class MessageDialog extends ADialog
         dialogFrame.addView(ok);
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void onClick(View v)
     {
         if (action != null)
@@ -95,10 +92,7 @@ public class MessageDialog extends ADialog
         dismiss();
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void doLayout()
     {
         int mWidth = getContext().getResources().getDisplayMetrics().widthPixels;
@@ -119,10 +113,7 @@ public class MessageDialog extends ADialog
         textView.setLayoutParams(params);
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void onConfigurationChanged(Configuration newConfig)
     {        
         doLayout();

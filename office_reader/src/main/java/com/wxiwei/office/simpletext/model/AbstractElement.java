@@ -41,37 +41,25 @@ public abstract class AbstractElement implements IElement
         return -1;
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void setStartOffset(long start)
     {
         this.start = start;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public long getStartOffset()
     {
         return start;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public void setEndOffset(long end)
     {
         this.end = end;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public long getEndOffset()
     {
         return this.end;
@@ -84,28 +72,19 @@ public abstract class AbstractElement implements IElement
     {
         this.attr = attrSet;
     }
-    /**
-     * 
-     *
-     */
+    
     public IAttributeSet getAttribute()
     {
         return this.attr;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public String getText(IDocument doc)
     {
         return null;
     }
     
-    /**
-     * 
-     *
-     */
+    
     public String toString()
     {
         return "[" + start + ", " + end  + "]：" + getText(null);

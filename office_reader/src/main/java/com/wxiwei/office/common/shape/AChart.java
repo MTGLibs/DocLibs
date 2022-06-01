@@ -1,9 +1,3 @@
-/*
- * 文件名称:          aChartData.java
- *
- * 编译器:            android2.2
- * 时间:              下午3:16:53
- */
 package com.wxiwei.office.common.shape;
 
 import android.graphics.Bitmap;
@@ -18,46 +12,22 @@ import com.wxiwei.office.thirdpart.achartengine.chart.AbstractChart;
 import java.io.File;
 import java.io.FileOutputStream;
 
-/**
- * TODO: 文件注释
- * <p>
- * <p>
- * Read版本:        Read V1.0
- * <p>
- * 作者:            jqin
- * <p>
- * 日期:            2012-1-19
- * <p>
- * 负责人:           jqin
- * <p>
- * 负责小组:
- * <p>
- * <p>
- */
+
 public class AChart extends AbstractShape {
     public AChart() {
         super();
     }
 
-    /**
-     * (non-Javadoc)
-     *
-     * @see AbstractShape#getType()
-     */
+
     public short getType() {
         return SHAPE_CHART;
     }
 
-    /**
-     * @param chart
-     */
     public void setAChart(AbstractChart chart) {
         this.chart = chart;
     }
 
-    /**
-     * @return
-     */
+
     public AbstractChart getAChart() {
         return chart;
     }
@@ -98,9 +68,6 @@ public class AChart extends AbstractShape {
         }
     }
 
-    /**
-     * @return
-     */
     public int getDrawingPicture(IControl control) {
         if (picIndex == -1) {
             saveChartToPicture(control);
@@ -114,7 +81,6 @@ public class AChart extends AbstractShape {
         chart = null;
     }
 
-    //    private Bitmap bmp;
     private int picIndex = -1;
 
     private AbstractChart chart;

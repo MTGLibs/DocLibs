@@ -8,11 +8,14 @@ package com.wxiwei.office.system;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.graphics.Bitmap;
 import android.view.View;
 
 import com.wxiwei.office.common.ICustomDialog;
 import com.wxiwei.office.common.IOfficeToPicture;
 import com.wxiwei.office.common.ISlideShow;
+
+import java.util.List;
 
 /**
  * control接口

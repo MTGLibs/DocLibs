@@ -641,10 +641,7 @@ public final class CharacterRun extends Range implements Cloneable
         return _props.getLidDefault();
     }
     
-    /**
-     * 
-     *
-     */
+    
     public String text()
     {
         if (text == null)

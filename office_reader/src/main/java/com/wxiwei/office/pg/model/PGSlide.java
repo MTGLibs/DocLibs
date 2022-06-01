@@ -359,7 +359,7 @@ public class PGSlide
                     }
                 }
             }
-            else if (rect.contains(x,  y) && shape.getType() == AbstractShape.SHAPE_TEXTBOX)
+            else if (rect.contains(x,  y) && shape.getType() == AbstractShape.SHAPE_TEXT)
             {
                 return shape;
             }
@@ -470,7 +470,7 @@ public class PGSlide
         for (int i = 0; i < shapeCnt; i++)
         {
             IShape shape = shapes.get(i);
-            if (shape.getType() == AbstractShape.SHAPE_TEXTBOX && shape.getPlaceHolderID() == placeHolderID)
+            if (shape.getType() == AbstractShape.SHAPE_TEXT && shape.getPlaceHolderID() == placeHolderID)
             {
                 return shape;
             }

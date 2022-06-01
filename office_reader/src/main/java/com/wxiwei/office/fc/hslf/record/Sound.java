@@ -134,10 +134,7 @@ public final class Sound extends RecordContainer
         return _data == null ? null : _data.getData();
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
        super.dispose();

@@ -32,10 +32,7 @@ public class LineShape extends AutoShape
         
     }
     
-    /**
-     * 
-     *
-     */
+
     public short getType()
     {
         return SHAPE_LINE;

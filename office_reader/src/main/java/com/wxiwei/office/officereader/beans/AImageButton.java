@@ -97,10 +97,7 @@ public class AImageButton extends View implements OnGestureListener, OnClickList
     }
     
     
-    /**
-     * 
-     *
-     */
+    
     public boolean onTouchEvent(MotionEvent event)
     {
         gesture.onTouchEvent(event);
@@ -139,10 +136,7 @@ public class AImageButton extends View implements OnGestureListener, OnClickList
         return super.onTouchEvent(event);
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void onDraw(Canvas canvas)
     {
         if (bitmap == null)

@@ -51,10 +51,7 @@ public class PGEditor implements IWord
         highlight = new Highlight(this);
     }
 
-    /**
-     * 
-     *
-     */
+    
     public IHighlight getHighlight()
     {
         return highlight;
@@ -78,19 +75,13 @@ public class PGEditor implements IWord
         return rect;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public IDocument getDocument()
     {
         return null;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public String getText(long start, long end)
     {
         if (editorTextBox != null)
@@ -109,10 +100,7 @@ public class PGEditor implements IWord
         return null;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public long viewToModel(int x, int y, boolean isBack)
     {
         if (pgView == null)
@@ -122,7 +110,7 @@ public class PGEditor implements IWord
         IShape shape = pgView.getCurrentSlide().getShape(x, y);
         if (shape != null)
         {
-            if(shape.getType() == AbstractShape.SHAPE_TEXTBOX) // 文本框 
+            if(shape.getType() == AbstractShape.SHAPE_TEXT) // 文本框 
             {
                 STRoot root = ((TextBox)shape).getRootView();
                 if (root !=  null)

@@ -121,10 +121,7 @@ public class SetRecentCountDialog extends ADialog
         dialogFrame.addView(linearLayoutBtn); 
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void onClick(View v)
     {
         if (v == ok)
@@ -136,10 +133,7 @@ public class SetRecentCountDialog extends ADialog
         dismiss();
     }
   
-    /**
-     * 
-     *
-     */
+    
     public void doLayout()
     {
         int mWidth = getContext().getResources().getDisplayMetrics().widthPixels;
@@ -163,10 +157,7 @@ public class SetRecentCountDialog extends ADialog
         cancel.setLayoutParams(params);
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void onConfigurationChanged(Configuration newConfig)
     {
         doLayout();
@@ -214,10 +205,7 @@ public class SetRecentCountDialog extends ADialog
         }       
     };
     
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
         super.dispose();

@@ -36,10 +36,7 @@ public class AUncaughtExceptionHandler implements UncaughtExceptionHandler
         this.control = control;
     }
 
-    /**
-     * 
-     *
-     */
+    
     public void uncaughtException(Thread thread, final Throwable ex)
     {
         control.getSysKit().getErrorKit().writerLog(ex);

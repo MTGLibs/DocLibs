@@ -103,10 +103,7 @@ public final class AnimationInfo extends RecordContainer
         return animationAtom;
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
         super.dispose();

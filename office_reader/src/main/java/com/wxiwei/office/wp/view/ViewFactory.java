@@ -77,7 +77,7 @@ public class ViewFactory
                     AbstractShape shape = control.getSysKit().getWPShapeManage().getShape(AttrManage.instance().getShapeID(elem.getAttribute()));
                     if (shape != null)
                     {
-                        if (shape.getType() == AbstractShape.SHAPE_AUTOSHAPE 
+                        if (shape.getType() == AbstractShape.SHAPE_AUTOGRAPH 
                         		|| shape.getType() == AbstractShape.SHAPE_CHART)
                         {
                             view = new ShapeView(paraElem, elem, (AutoShape)shape); 

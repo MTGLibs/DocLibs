@@ -159,10 +159,7 @@ public class EscherSpgrRecord
         this.field_4_rectY2 = rectY2;
     }
     
-    /**
-     * 
-     *
-     */
+    
     public void dispose()
     {
         

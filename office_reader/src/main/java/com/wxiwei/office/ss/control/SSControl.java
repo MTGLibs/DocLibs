@@ -502,10 +502,7 @@ public class SSControl extends AbstractControl
         return mainControl.getCustomDialog();
     }
     
-    /**
-     * 
-     *
-     */
+
     public byte getApplicationType()
     {
         return  MainConstant.APPLICATION_TYPE_SS;

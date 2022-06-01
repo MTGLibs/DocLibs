@@ -1,27 +1,5 @@
-/*
- * 文件名称:          Arrow.java
- *  
- * 编译器:            android2.2
- * 时间:              上午10:44:59
- */
 package com.wxiwei.office.common.shape;
 
-/**
- * TODO: 文件注释
- * <p>
- * <p>
- * Read版本:        Read V1.0
- * <p>
- * 作者:            jqin
- * <p>
- * 日期:            2013-5-22
- * <p>
- * 负责人:           jqin
- * <p>
- * 负责小组:           
- * <p>
- * <p>
- */
 public class Arrow
 {
     public static final byte Arrow_None = 0;    //No arrow
@@ -58,11 +36,6 @@ public class Arrow
         }
     }
     
-    /**
-     * parse arrow type
-     * @param type
-     * @return
-     */
     public static byte getArrowType(String type)
     {
         if(type != null && type.length() > 0)
@@ -117,7 +90,7 @@ public class Arrow
         this.type = type;
     }
     
-    private int width = 1;    
-    private int length = 1;
+    private int width;
+    private int length;
     private byte type;
 }

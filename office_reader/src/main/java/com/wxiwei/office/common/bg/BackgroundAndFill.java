@@ -54,10 +54,7 @@ public class BackgroundAndFill
     // Use the background fill color/pattern
     public static final byte FILL_BACKGROUND = 9;
     
-    /**
-     * 
-     *
-     */
+
     public short getType()
     {
         return AbstractShape.SHAPE_BG_FILL;
@@ -164,10 +161,7 @@ public class BackgroundAndFill
 		this.stretch = stretch;
 	}
 	
-	 /**
-     * 
-     *
-     */
+
     public void dispose()
     {
     	stretch =  null;

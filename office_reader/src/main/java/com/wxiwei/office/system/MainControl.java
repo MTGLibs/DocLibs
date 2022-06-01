@@ -12,6 +12,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
@@ -41,6 +42,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.util.List;
 
 public class MainControl extends AbstractControl {
     private Uri uri;
@@ -266,7 +268,7 @@ public class MainControl extends AbstractControl {
      */
     public boolean openFile(String filePath, String extension, Uri uri) {
         this.filePath = filePath;
-        this.uri=uri;
+        this.uri = uri;
         String fileName = filePath.toLowerCase();
         // word
         if (fileName.endsWith(MainConstant.FILE_TYPE_DOC)
@@ -314,9 +316,8 @@ public class MainControl extends AbstractControl {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else
-            {
-                new FileReaderThread(this, handler, filePath, null,uri).start();
+            } else {
+                new FileReaderThread(this, handler, filePath, null, uri).start();
             }
         }
         return true;
@@ -462,7 +463,6 @@ public class MainControl extends AbstractControl {
     }
 
 
-
     public Object getActionValue(int actionID, Object obj) {
         switch (actionID) {
             case EventConstant.SYS_FILEPAHT_ID: // 文件路径
@@ -567,11 +567,9 @@ public class MainControl extends AbstractControl {
     }
 
 
-
     public byte getApplicationType() {
         return applicationType;
     }
-
 
 
     public void setOffictToPicture(IOfficeToPicture opt) {

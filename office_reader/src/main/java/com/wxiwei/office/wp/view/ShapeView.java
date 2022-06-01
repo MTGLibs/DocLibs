@@ -265,7 +265,7 @@ public class ShapeView extends LeafView
             {
                 drawGroupShape(canvas, wpShape.getGroupShape(), rect, zoom);
             }
-            else if(wpShape.getType() == AbstractShape.SHAPE_AUTOSHAPE)
+            else if(wpShape.getType() == AbstractShape.SHAPE_AUTOGRAPH)
             {
                 AutoShapeKit.instance().drawAutoShape(canvas, getControl(), getPageNumber(), wpShape, rect, zoom);
             }
@@ -343,7 +343,7 @@ public class ShapeView extends LeafView
                 	AutoShapeKit.instance().drawAutoShape(canvas, getControl(), getPageNumber(), wpShape, rect, zoom);
                     drawGroupShape(canvas, wpShape.getGroupShape(), rect, zoom);
                 }
-                else if(wpShape.getType() == AbstractShape.SHAPE_AUTOSHAPE)
+                else if(wpShape.getType() == AbstractShape.SHAPE_AUTOGRAPH)
                 {
                     AutoShapeKit.instance().drawAutoShape(canvas, getControl(), getPageNumber(), wpShape, rect, zoom);
                 }
@@ -417,7 +417,7 @@ public class ShapeView extends LeafView
                                 ((PictureShape)shape).getPictureEffectInfor());
                         }
                     }
-                    else if (shape.getType() == AbstractShape.SHAPE_AUTOSHAPE)
+                    else if (shape.getType() == AbstractShape.SHAPE_AUTOGRAPH)
                     {
                         gsRect.setEmpty();
                         r = shape.getBounds();
