@@ -13,8 +13,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Handler;
 import android.text.ClipboardManager;
-import android.util.Log;
 import android.view.View;
 
 import com.wxiwei.office.common.ICustomDialog;
@@ -25,7 +25,6 @@ import com.wxiwei.office.constant.DialogConstant;
 import com.wxiwei.office.constant.EventConstant;
 import com.wxiwei.office.constant.MainConstant;
 import com.wxiwei.office.constant.PGConstant;
-import com.wxiwei.office.constant.wp.WPViewConstant;
 import com.wxiwei.office.java.awt.Dimension;
 import com.wxiwei.office.java.awt.Rectangle;
 import com.wxiwei.office.pg.model.PGModel;
@@ -63,7 +62,12 @@ public class PGControl extends AbstractControl {
     public PGControl(IControl mainControl, PGModel pgModel, String filePath) {
         this.mainControl = mainControl;
         pgView = new Presentation(getMainFrame().getActivity(), pgModel, this);
-        mainControl.getMainFrame().getSlideImages(getSlideImages());
+        new Handler(getActivity().getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mainControl.getMainFrame().getSlideImages(getSlideImages());
+            }
+        }, 1000);
     }
 
     public List<Bitmap> getSlideImages() {
@@ -492,7 +496,7 @@ public class PGControl extends AbstractControl {
                 break;
 
             case EventConstant.PG_GET_SLIDE_NOTE:
-                return pgView.getSldieNote((Integer) obj);
+                return pgView.getSlideNote((Integer) obj);
 
             case EventConstant.PG_GET_SLIDE_SIZE:
                 int index = (Integer) obj;

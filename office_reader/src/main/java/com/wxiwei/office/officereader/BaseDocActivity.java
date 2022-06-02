@@ -28,6 +28,7 @@ import com.wxiwei.office.res.ResKit;
 import com.wxiwei.office.system.IControl;
 import com.wxiwei.office.system.IMainFrame;
 import com.wxiwei.office.system.MainControl;
+import com.wxiwei.office.system.beans.pagelist.IPageListViewListener;
 import com.wxiwei.office.utils.RealPathUtil;
 
 import java.io.File;
@@ -53,7 +54,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
     @Override
     public void changeZoom(int percent) {
-        Log.d("TAG", "changeZoom: "+percent);
+        Log.d("TAG", "changeZoom: " + percent);
     }
 
     @Override
@@ -71,7 +72,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
     @Override
     public byte getPageListViewMovingPosition() {
-        return 0;
+        return IPageListViewListener.Moving_Horizontal;
     }
 
     @Override

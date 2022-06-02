@@ -362,7 +362,7 @@ public class Presentation extends FrameLayout implements IFind, IExportListener 
      * @param slideNumber slide number
      * @return slide note
      */
-    public String getSldieNote(int slideNumber) {
+    public String getSlideNote(int slideNumber) {
         if (slideNumber <= 0 || slideNumber > getSlideCount()) {
             return null;
         }

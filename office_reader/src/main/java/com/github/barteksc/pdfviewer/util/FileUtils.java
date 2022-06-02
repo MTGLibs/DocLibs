@@ -15,7 +15,21 @@
  */
 package com.github.barteksc.pdfviewer.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.Uri;
+import android.os.Build;
+import android.print.PrintManager;
+
+import androidx.annotation.RequiresApi;
+import androidx.print.PrintHelper;
+
+import com.github.barteksc.pdfviewer.PrintDocumentAdapter;
+import com.shockwave.pdfium.PdfPasswordException;
+import com.shockwave.pdfium.PdfiumCore;
+import com.tom_roush.pdfbox.pdmodel.common.PDPageLabelRange;
+import com.tom_roush.pdfbox.pdmodel.interactive.action.PDWindowsLaunchParams;
+import com.wxiwei.office.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,6 +41,27 @@ public class FileUtils {
 
     private FileUtils() {
         // Prevents instantiation
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public static void printPdfFile(Context context, String path) {
+        try {
+            Uri uri = Uri.fromFile(new File(path));
+            new PdfiumCore(context).newDocument(context.getContentResolver().openFileDescriptor(uri, PDPageLabelRange.STYLE_ROMAN_LOWER));
+            if (PrintHelper.systemSupportsPrint()) {
+                @SuppressLint("WrongConstant") PrintManager printManager = (PrintManager) context.getSystemService(PDWindowsLaunchParams.OPERATION_PRINT);
+                StringBuilder sb = new StringBuilder();
+                sb.append(context.getString(R.string.app_name));
+                sb.append(" Document");
+                if (printManager != null) {
+                    printManager.print(sb.toString(), new PrintDocumentAdapter(context, uri), null);
+                    return;
+                }
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static File fileFromAsset(Context context, String assetName) throws IOException {

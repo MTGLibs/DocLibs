@@ -2,7 +2,6 @@ package com.masterlibs.alldoclibs;
 
 import static com.wxiwei.office.constant.MainConstant.INTENT_FILED_FILE_PATH;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,10 +10,7 @@ import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-
-import com.wxiwei.office.common.ISlideShow;
 import com.wxiwei.office.officereader.BaseDocActivity;
-import com.wxiwei.office.pg.control.PGControl;
 
 import java.io.File;
 import java.util.List;
