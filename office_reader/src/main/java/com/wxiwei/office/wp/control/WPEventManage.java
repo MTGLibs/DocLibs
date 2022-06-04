@@ -1,6 +1,6 @@
 /*
  * 文件名称:          SSEventManage.java
- *  
+ *
  * 编译器:            android2.2
  * 时间:              下午1:43:24
  */
@@ -16,6 +16,7 @@ import com.wxiwei.office.java.awt.Rectangle;
 import com.wxiwei.office.simpletext.model.AttrManage;
 import com.wxiwei.office.simpletext.model.IElement;
 import com.wxiwei.office.system.IControl;
+import com.wxiwei.office.system.IMainFrame;
 import com.wxiwei.office.system.beans.AEventManage;
 
 import android.animation.ValueAnimator;
@@ -35,90 +36,76 @@ import android.view.View;
  * <p>
  * 负责人:          ljj8494
  * <p>
- * 负责小组:         
+ * 负责小组:
  * <p>
  * <p>
  */
-public class WPEventManage extends AEventManage
-{
-    public WPEventManage(Word word, IControl control)
-    {
+public class WPEventManage extends AEventManage {
+    public WPEventManage(Word word, IControl control) {
         super(word.getContext(), control);
         this.word = word;
     }
-    
+
     /**
      * 触摸事件
-     *
      */
-    public boolean onTouch(View v, MotionEvent event)
-    {
-        try
-        {
+    public boolean onTouch(View v, MotionEvent event) {
+        try {
             super.onTouch(v, event);
             int action = event.getAction();
-            switch (action)
-            {
+            switch (action) {
                 case MotionEvent.ACTION_DOWN:
                     PictureKit.instance().setDrawPictrue(true);
                     processDown(v, event);
                     break;
-                    
+
                 case MotionEvent.ACTION_MOVE:
                     break;
-                    
+
                 case MotionEvent.ACTION_UP:
-                    if (zoomChange)
-                    {
+                    if (zoomChange) {
                         zoomChange = false;
-                        if (word.getCurrentRootType() == WPViewConstant.PAGE_ROOT)
-                        {
+                        if (word.getCurrentRootType() == WPViewConstant.PAGE_ROOT) {
                             control.actionEvent(EventConstant.APP_GENERATED_PICTURE_ID, null);
                         }
-                        if (control.getMainFrame().isZoomAfterLayoutForWord())
-                        {   
+                        if (control.getMainFrame().isZoomAfterLayoutForWord()) {
                             control.actionEvent(EventConstant.WP_LAYOUT_NORMAL_VIEW, null);
                         }
                     }
                     word.getControl().actionEvent(EventConstant.SYS_UPDATE_TOOLSBAR_BUTTON_STATUS, null);
                     break;
-                    
+
                 default:
                     break;
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             //ErrorUtil.instance().writerLog(e);
             control.getSysKit().getErrorKit().writerLog(e);
         }
         return false;
     }
-    
-    
+
+
     /**
      * process touch event of down
+     *
      * @param v
      * @param event
      */
-    protected void processDown(View v, MotionEvent event)
-    {
+    protected void processDown(View v, MotionEvent event) {
         int x = convertCoorForX(event.getX());
         int y = convertCoorForY(event.getY());
         long offset = word.viewToModel(x, y, false);
-        if (word.getHighlight().isSelectText())
-        {
+        if (word.getHighlight().isSelectText()) {
             word.getHighlight().removeHighlight();
             word.getStatus().setPressOffset(offset);
             word.postInvalidate();
         }
     }
-    
 
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
-    {
-        if (word.getStatus().isSelectTextStatus())
-        {
+
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        if (word.getStatus().isSelectTextStatus()) {
             return true;
         }
         super.onScroll(e1, e2, distanceX, distanceY);
@@ -131,76 +118,58 @@ public class WPEventManage extends AEventManage
         float zoom = word.getZoom();
         int wW = 0;
         if (word.getCurrentRootType() == WPViewConstant.NORMAL_ROOT
-            && control.getMainFrame().isZoomAfterLayoutForWord())
-        {
-            if (word.getWidth() == word.getWordWidth())
-            {
+                && control.getMainFrame().isZoomAfterLayoutForWord()) {
+            if (word.getWidth() == word.getWordWidth()) {
                 wW = word.getWidth();
+            } else {
+                wW = (int) (word.getWordWidth() * zoom);
             }
-            else
-            {
-                wW = (int)(word.getWordWidth() * zoom);
-            }
+        } else {
+            wW = (int) (word.getWordWidth() * zoom);
         }
-        else
-        {
-            wW = (int)(word.getWordWidth() * zoom);
-        }
-        int wH = (int)(word.getWordHeight() * zoom);
+        int wH = (int) (word.getWordHeight() * zoom);
         // X方向
-        if (isScrollX)
-        {
+        if (isScrollX) {
             // 向右
-            if (distanceX > 0 && sX + r.width < wW)
-            {
+            if (distanceX > 0 && sX + r.width < wW) {
                 sX += distanceX;
-                if (sX + r.width > wW)
-                {
+                if (sX + r.width > wW) {
                     sX = wW - r.width;
                 }
                 change = true;
             }
             // 向左
-            else if (distanceX < 0 && sX > 0)
-            {
+            else if (distanceX < 0 && sX > 0) {
                 sX += distanceX;
-                if (sX < 0)
-                {
+                if (sX < 0) {
                     sX = 0;
                 }
                 change = true;
             }
         }
         // Y方向
-        else
-        {
+        else {
             // 向下
-            if (distanceY > 0 && sY + r.height < wH)
-            {
+            if (distanceY > 0 && sY + r.height < wH) {
                 sY += distanceY;
-                if (sY + r.height > wH)
-                {
+                if (sY + r.height > wH) {
                     sY = wH - r.height;
                 }
-                if (sY < word.getMinScroll())
-                {
+                if (sY < word.getMinScroll()) {
                     sY = word.getMinScroll();
                 }
                 change = true;
             }
             // 向上
-            else
-            {
+            else {
                 sY += distanceY;
-                if (sY < word.getMinScroll())
-                {
+                if (sY < word.getMinScroll()) {
                     sY = word.getMinScroll();
                 }
                 change = true;
             }
         }
-        if (change)
-        {
+        if (change) {
             isScroll = true;
             word.scrollTo(sX, sY);
         }
@@ -210,52 +179,42 @@ public class WPEventManage extends AEventManage
     /**
      * Fling the scroll view
      *
-     * @param velocityX  X方向速率
-     * @param velocityY  Y方向速率 
+     * @param velocityX X方向速率
+     * @param velocityY Y方向速率
      */
-    public void fling(int velocityX, int velocityY)
-    {
+    public void fling(int velocityX, int velocityY) {
         super.fling(velocityX, velocityY);
-        Rectangle r = ((Word)word).getVisibleRect();
+        Rectangle r = ((Word) word).getVisibleRect();
         float zoom = word.getZoom();
         // Y方向滚动
         oldY = 0;
         oldX = 0;
         int wW = 0;
         if (word.getCurrentRootType() == WPViewConstant.NORMAL_ROOT
-            && control.getMainFrame().isZoomAfterLayoutForWord())
-        {
-            if (word.getWidth() == word.getWordWidth())
-            {
+                && control.getMainFrame().isZoomAfterLayoutForWord()) {
+            if (word.getWidth() == word.getWordWidth()) {
                 wW = word.getWidth();
+            } else {
+                wW = (int) (word.getWordWidth() * zoom) + 5;
             }
-            else
-            {
-                wW = (int)(word.getWordWidth() * zoom) + 5;
-            }
+        } else {
+            wW = (int) (word.getWordWidth() * zoom);
         }
-        else
-        {
-            wW = (int)(word.getWordWidth() * zoom);
-        }
-        if (Math.abs(velocityY) > Math.abs(velocityX))
-        {
+        if (Math.abs(velocityY) > Math.abs(velocityX)) {
             oldY = r.y;
-            mScroller.fling(r.x, r.y, 0, velocityY, 0, r.x, word.getMinScroll(), (int)(word.getWordHeight() * zoom) - r.height);
+            mScroller.fling(r.x, r.y, 0, velocityY, 0, r.x, word.getMinScroll(), (int) (word.getWordHeight() * zoom) - r.height);
         }
         // X方向流动
-        else
-        {
+        else {
             oldX = r.x;
-            mScroller.fling(r.x, r.y, velocityX, 0, 0, wW - r.width, r.y+word.getMinScroll(), 0);
+            mScroller.fling(r.x, r.y, velocityX, 0, 0, wW - r.width, r.y + word.getMinScroll(), 0);
         }
         word.postInvalidate();
         //
     }
-    
 
-    public boolean onDoubleTapEvent(MotionEvent e)
-    {
+
+    public boolean onDoubleTapEvent(MotionEvent e) {
         /*if (e.getAction() == MotionEvent.ACTION_UP)
         {
             int x = convertCoorForX(e.getX());
@@ -276,26 +235,26 @@ public class WPEventManage extends AEventManage
             final float pointY = e.getY();
             doubleTapZoomAnim.cancel();
             doubleTapZoomAnim.removeAllUpdateListeners();
-            if (Math.abs(zoom - fitZoomValue)<=0.01){
-                final float zoomValue = fitZoomValue*(1+ZOOM_DOUBLE) - zoom;
+            if (Math.abs(zoom - fitZoomValue) <= 0.01) {
+                final float zoomValue = fitZoomValue * (1 + ZOOM_DOUBLE) - zoom;
                 doubleTapZoomAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
                         mScroller.abortAnimation();
-                        float zoomNew = fitZoomValue*(1 + zoomValue*(float)valueAnimator.getAnimatedValue());
-                        control.actionEvent(EventConstant.APP_ZOOM_ID,new int[]{(int)(zoomNew* MainConstant.STANDARD_RATE), (int) pointX, (int)pointY});
+                        float zoomNew = fitZoomValue * (1 + zoomValue * (float) valueAnimator.getAnimatedValue());
+                        control.actionEvent(EventConstant.APP_ZOOM_ID, new int[]{(int) (zoomNew * MainConstant.STANDARD_RATE), (int) pointX, (int) pointY});
                     }
                 });
                 doubleTapZoomAnim.setDuration(300);
                 doubleTapZoomAnim.start();
-            }else {
+            } else {
                 final float zoomValue = (zoom - fitZoomValue);
                 doubleTapZoomAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
                         mScroller.abortAnimation();
-                        float zoomNew = (zoom - zoomValue*(float)valueAnimator.getAnimatedValue());
-                        control.actionEvent(EventConstant.APP_ZOOM_ID,new int[]{(int)(zoomNew* MainConstant.STANDARD_RATE), (int) pointX, (int)pointY});
+                        float zoomNew = (zoom - zoomValue * (float) valueAnimator.getAnimatedValue());
+                        control.actionEvent(EventConstant.APP_ZOOM_ID, new int[]{(int) (zoomNew * MainConstant.STANDARD_RATE), (int) pointX, (int) pointY});
                     }
                 });
                 doubleTapZoomAnim.setDuration(300);
@@ -305,6 +264,7 @@ public class WPEventManage extends AEventManage
         super.onDoubleTapEvent(e);
         return true;
     }
+
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e) {
         Log.d(TAG, "onSingleTapConfirmed: ");
@@ -313,26 +273,21 @@ public class WPEventManage extends AEventManage
 
 
     private static final String TAG = "WPEventManage";
-    public boolean onSingleTapUp(MotionEvent e)
-    {
+
+    public boolean onSingleTapUp(MotionEvent e) {
         Log.d(TAG, "onSingleTapUp: ");
         super.onSingleTapUp(e);
-        if (e.getAction() == MotionEvent.ACTION_UP)
-        {
+        if (e.getAction() == MotionEvent.ACTION_UP) {
             int x = convertCoorForX(e.getX());
             int y = convertCoorForY(e.getY());
             long offset = word.viewToModel(x, y, false);
-            if (offset >= 0)
-            {
+            if (offset >= 0) {
                 IElement leaf = word.getDocument().getLeaf(offset);
-                if (leaf != null)
-                {
+                if (leaf != null) {
                     int hyID = AttrManage.instance().getHperlinkID(leaf.getAttribute());
-                    if (hyID >= 0)
-                    {
+                    if (hyID >= 0) {
                         Hyperlink hylink = control.getSysKit().getHyperlinkManage().getHyperlink(hyID);
-                        if (hylink != null)
-                        {
+                        if (hylink != null) {
                             control.actionEvent(EventConstant.APP_HYPERLINK, hylink);
                         }
                     }
@@ -343,18 +298,15 @@ public class WPEventManage extends AEventManage
     }
 
 
-    public void computeScroll()
-    {
+    public void computeScroll() {
         super.computeScroll();
-        if (mScroller.computeScrollOffset())
-        {
+        if (mScroller.computeScrollOffset()) {
             isFling = true;
             PictureKit.instance().setDrawPictrue(false);
             int sX = mScroller.getCurrX();
             int sY = mScroller.getCurrY();
             if ((oldX == sX && oldY == sY)
-                ||(sX == word.getScrollX() && sY == word.getScrollY()))
-            {   
+                    || (sX == word.getScrollX() && sY == word.getScrollY())) {
                 PictureKit.instance().setDrawPictrue(true);
 //                mScroller.abortAnimation();
                 word.postInvalidate();
@@ -363,44 +315,36 @@ public class WPEventManage extends AEventManage
             oldX = sX;
             oldY = sY;
             word.scrollTo(sX, sY);
-        }
-        else
-        {
-            if (!PictureKit.instance().isDrawPictrue())
-            {
+        } else {
+            if (!PictureKit.instance().isDrawPictrue()) {
                 PictureKit.instance().setDrawPictrue(true);
                 word.postInvalidate();
             }
         }
     }
-    
+
     /**
-     * 
      * @return
      */
-    protected int convertCoorForX(float x)
-    {
-        return (int)((x + word.getScrollX()) / word.getZoom());
+    protected int convertCoorForX(float x) {
+        return (int) ((x + word.getScrollX()) / word.getZoom());
     }
-    
+
     /**
-     * 
      * @return
      */
-    protected int convertCoorForY(float y)
-    {
-        return (int)((y + word.getScrollY()) / word.getZoom());
+    protected int convertCoorForY(float y) {
+        return (int) ((y + word.getScrollY()) / word.getZoom());
     }
-    
+
     /**
-     * 
+     *
      */
-    public void dispose()
-    {
+    public void dispose() {
         super.dispose();
         word = null;
     }
-    
+
     //
     private int oldX;
     //

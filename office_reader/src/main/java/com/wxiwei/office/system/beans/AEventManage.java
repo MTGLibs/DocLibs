@@ -73,6 +73,7 @@ public abstract class AEventManage implements OnTouchListener,
                 if (isZoom) {
                     if (event.getAction() == MotionEvent.ACTION_UP) {
                         isZoom = false;
+                        control.getMainFrame().onEventMethod(null, null, null, -1f, -1f, IMainFrame.ON_ZOOM_END);
                     }
                     return true;
                 }
@@ -191,6 +192,7 @@ public abstract class AEventManage implements OnTouchListener,
                 break;
             case MotionEvent.ACTION_POINTER_1_UP:
                 //zoomRateChanged = true;
+                Log.d("android_log", "zoom: ACTION_POINTER_1_UP");
                 break;
 
             case MotionEvent.ACTION_MOVE:

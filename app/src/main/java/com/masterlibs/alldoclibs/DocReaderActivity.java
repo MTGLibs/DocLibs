@@ -61,6 +61,21 @@ public class DocReaderActivity extends BaseDocActivity {
         });
     }
 
+    @Override
+    protected void showPageToast() {
+        Log.d("android_log", "showPageToast: ");
+    }
+
+    @Override
+    protected void hidePageToast() {
+        Log.d("android_log", "hidePageToast: ");
+    }
+
+    @Override
+    protected void hideZoomToast() {
+        Log.d("android_log", "hideZoomToast: ");
+    }
+
 
     @Override
     public void pageChanged(int page, int pageCount) {
@@ -74,5 +89,6 @@ public class DocReaderActivity extends BaseDocActivity {
     public void error(int i) {
         super.error(i);
     }
+
 
 }

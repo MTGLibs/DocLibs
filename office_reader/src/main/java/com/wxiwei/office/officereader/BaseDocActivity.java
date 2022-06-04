@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -56,6 +57,11 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     private boolean isFileDoc;
     private boolean isScrollBarTouching;
     private ScrollHandle scrollHandel;
+
+    public boolean isScrollBarTouching() {
+        return isScrollBarTouching;
+    }
+
 
     public void setScrollHandel(ScrollHandle scrollHandel) {
         this.scrollHandel = scrollHandel;
@@ -138,6 +144,10 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
     @Override
     public boolean onEventMethod(View view, MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2, byte eventMethodType) {
+        if (eventMethodType == IMainFrame.ON_ZOOM_END) {
+            hideZoomToast();
+            return true;
+        }
         if (isFileDoc && eventMethodType == IMainFrame.ON_SINGLE_TAP_CONFIRMED) {
             try {
                 scrollBarView.setStatusScroll(!isShowToolbar, 5000);
@@ -148,6 +158,8 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
         }
         return true;
     }
+
+    protected abstract void hideZoomToast();
 
     @Override
     public void updateViewImages(List<Integer> list) {
@@ -229,6 +241,11 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
                 scrollBarView.setTouchScrollListener(aBoolean -> {
                     isScrollBarTouching = aBoolean;
+                    if (!isScrollBarTouching) {
+                        hidePageToast();
+                    } else {
+                        showPageToast();
+                    }
                     return null;
                 });
             }
@@ -249,6 +266,10 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
 
     }
+
+    protected abstract void showPageToast();
+
+    protected abstract void hidePageToast();
 
 
     public void readPdfFile(String pass) {
@@ -399,9 +420,9 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     @Override
     public void pageChanged(int page, int pageCount) {
         if (isScrollBarTouching) {
-            Log.d("android_log", "pageChanged: " + isScrollBarTouching);
+            showPageToast();
         } else {
-            Log.d("android_log", "pageChanged: " + isScrollBarTouching);
+            hidePageToast();
         }
     }
 }

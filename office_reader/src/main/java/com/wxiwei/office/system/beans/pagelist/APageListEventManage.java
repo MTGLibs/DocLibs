@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.wxiwei.office.constant.MainConstant;
 import com.wxiwei.office.system.IControl;
+import com.wxiwei.office.system.IMainFrame;
 
 import java.util.NoSuchElementException;
 
@@ -283,6 +284,8 @@ public class APageListEventManage implements
      */
     @Override
     public void onScaleEnd(ScaleGestureDetector detector) {
+        control.getMainFrame().onEventMethod(null, null, null, -1f, -1f, IMainFrame.ON_ZOOM_END);
+
         if (eventPointerCount <= 1 || !listView.getPageListViewListener().isTouchZoom()) {
             return;
         }
