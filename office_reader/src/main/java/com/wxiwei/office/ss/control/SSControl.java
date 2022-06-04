@@ -171,18 +171,6 @@ public class SSControl extends AbstractControl
             case EventConstant.APP_ZOOM_ID:
                 int[] params = (int[])obj;
                 spreadSheet.setZoom(params[0] / (float)MainConstant.STANDARD_RATE); //zoom
-                spreadSheet.post(new Runnable()
-                {   
-                    @ Override
-                    public void run()
-                    {
-                        if (!isDispose)
-                        {
-                            getMainFrame().changeZoom((int) (spreadSheet.getZoom()*100));
-                            updateStatus();
-                        }
-                    }
-                });
                 break;
                 
             case EventConstant.APP_CONTENT_SELECTED:

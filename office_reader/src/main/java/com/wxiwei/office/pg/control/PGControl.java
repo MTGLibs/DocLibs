@@ -207,14 +207,6 @@ public class PGControl extends AbstractControl {
                 if (!pgView.isSlideShow()) {
                     int[] params = (int[]) obj;
                     pgView.setZoom(params[0] / (float) MainConstant.STANDARD_RATE, params[1], params[2]);
-                    pgView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!isDispose) {
-                                getMainFrame().changeZoom((int) ((params[0] / (float) MainConstant.STANDARD_RATE) * 100));
-                            }
-                        }
-                    });
                 }
                 break;
 

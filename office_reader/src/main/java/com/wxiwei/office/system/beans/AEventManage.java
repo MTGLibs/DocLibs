@@ -7,6 +7,7 @@
 package com.wxiwei.office.system.beans;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
@@ -42,9 +43,7 @@ import com.wxiwei.office.system.IMainFrame;
  */
 public abstract class AEventManage implements OnTouchListener,
         OnGestureListener, OnDoubleTapListener, OnClickListener {
-    /**
-     * @param spreadsheet
-     */
+
     public AEventManage(Context context, IControl control) {
         this.control = control;
         gesture = new GestureDetector(context, this, null, true);
@@ -52,7 +51,6 @@ public abstract class AEventManage implements OnTouchListener,
         ViewConfiguration configuration = ViewConfiguration.get(context);
         mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
         mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
-        toast = Toast.makeText(context, "", Toast.LENGTH_SHORT);
     }
 
     /**
@@ -120,8 +118,6 @@ public abstract class AEventManage implements OnTouchListener,
                             mVelocityTracker.recycle();
                             mVelocityTracker = null;
                         }
-                        toast.cancel();
-
                         if (isScroll) {
                             isScroll = false;
                             if (control.getApplicationType() == MainConstant.APPLICATION_TYPE_WP && zoomChange) {
@@ -167,17 +163,17 @@ public abstract class AEventManage implements OnTouchListener,
      * @param event
      * @return
      */
+    float distance = 0;
+
     protected boolean zoom(MotionEvent event) {
         if (!control.getMainFrame().isTouchZoom()) {
             return true;
         }
-        float zoom = (Float) control.getActionValue(EventConstant.APP_ZOOM_ID, null);
-        float fitZoom = (Float) control.getActionValue(EventConstant.APP_FIT_ZOOM_ID, null);
-
-        Float maxZoom = (Float) control.getActionValue(EventConstant.APP_ZOOM_MAX_ID, null);
-        if (maxZoom == null) maxZoom = 6f;
+        float zoom = ((Float) control.getActionValue(EventConstant.APP_ZOOM_ID, null)).floatValue();
+        float fitZoom = ((Float) control.getActionValue(EventConstant.APP_FIT_ZOOM_ID, null)).floatValue();
         boolean isMinZoom = (int) (zoom * MainConstant.STANDARD_RATE) == (int) (fitZoom * MainConstant.STANDARD_RATE);
         boolean zoomRateChanged = false;
+        float dist = distance;
         int action = event.getActionMasked();
         switch (action) {
             case MotionEvent.ACTION_POINTER_1_DOWN:
@@ -185,34 +181,51 @@ public abstract class AEventManage implements OnTouchListener,
                 float y1 = event.getY(0);
                 float x2 = event.getX(1);
                 float y2 = event.getY(1);
+
                 float min = Math.min(x1, x2);
                 midXDoublePoint = (int) (min + Math.abs(x1 - x2) / 2);
                 min = Math.min(y1, y2);
                 midYDoublePoint = (int) (min + Math.abs(y1 - y2) / 2);
-                downDistance = calculateDistance(event);
-                downZoom = zoom;
-                control.actionEvent(EventConstant.APP_ZOOM_DOWN_ID, new int[]{(int) (zoom * MainConstant.STANDARD_RATE), midXDoublePoint, midYDoublePoint});
-                control.getMainFrame().onEventMethod(null, event, null, -1.0f, -1.0f, IMainFrame.ON_ZOOM_START);
 
+                distance = (float) (Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) / 2);
                 break;
             case MotionEvent.ACTION_POINTER_1_UP:
                 //zoomRateChanged = true;
-//                if (event.getPointerCount()<2) {
-                    control.actionEvent(EventConstant.APP_ZOOM_UP_ID, null);
-                    control.getMainFrame().onEventMethod(null, event, null, -1.0f, -1.0f, IMainFrame.ON_ZOOM_END);
-//                }
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                float newDistance = calculateDistance(event);
-                zoom = downZoom * newDistance / downDistance;
-                if (zoom > maxZoom) {
-                    zoom = maxZoom;
-                } else if (zoom < fitZoom)//MainConstant.ZOOM_MIN_RATE)
-                {
-                    zoom = fitZoom;//MainConstant.ZOOM_MIN_RATE;
+
+                float tx1 = event.getX(0);
+                float ty1 = event.getY(0);
+                float tx2 = event.getX(1);
+                float ty2 = event.getY(1);
+                dist = (float) (Math.sqrt((tx1 - tx2) * (tx1 - tx2) + (ty1 - ty2) * (ty1 - ty2)) / 2);
+                if (Math.abs(distance - dist) > 8) {
+                    boolean increased = dist > distance;
+                    if (Math.abs(zoom - fitZoom) < 0.01 && !increased && isMinZoom) {
+                        //current zoom rate is ZOOM_MIN_RATE, can not decrease it
+                        zoomRateChanged = false;
+                    } else if (Math.abs(zoom - 3.0f) < 0.001 && increased) {
+                        //current zoom rate is ZOOM_MAX_RATE, can not increase it
+                        zoomRateChanged = false;
+                    } else {
+                        zoom = increased ? zoom + 0.1f : zoom - 0.1f;
+                        //zoomRate ranges from ZOOM_MIN_RATE to ZOOM_MAX_RATE
+                        if (zoom > 3.0f) {
+                            zoom = 3.0f;
+                        } else if (zoom < fitZoom)//MainConstant.ZOOM_MIN_RATE)
+                        {
+                            zoom = fitZoom;//MainConstant.ZOOM_MIN_RATE;
+                        }
+                        // 当前zoom为最少zoom，为了zoom必须是50%、60%、70%、80%、90%、100%、110%、120%、130%、140%等
+                        // 故需要做一下修正
+                        if (increased && isMinZoom) {
+                            zoom = ((int) (zoom * 10)) / 10.f;
+                        }
+                        zoomRateChanged = true;
+                    }
+                    distance = zoomRateChanged ? dist : distance;
                 }
-                zoomRateChanged = true;
                 break;
             default:
                 break;
@@ -224,11 +237,20 @@ public abstract class AEventManage implements OnTouchListener,
             zoomChange = true;
             control.actionEvent(EventConstant.APP_ZOOM_ID, new int[]{(int) (zoom * MainConstant.STANDARD_RATE), midXDoublePoint, midYDoublePoint});
             control.getView().postInvalidate();
-            control.getMainFrame().onEventMethod(null, event, null, zoom, fitZoom, IMainFrame.ON_ZOOM_CHANGE);
-
+            // 提示
+            if (control.getMainFrame().isShowZoomingMsg()) {
+                if (control.getApplicationType() == MainConstant.APPLICATION_TYPE_PPT
+                        && control.isSlideShow()) {
+                    return true;
+                }
+                int zoomPercent = (int) Math.round(zoom * 100);
+                Log.d("android_log", "zoom: " + zoomPercent);
+                control.getMainFrame().changeZoom(zoomPercent);
+            }
         }
         return true;
     }
+
 
     /**
      *
@@ -370,7 +392,6 @@ public abstract class AEventManage implements OnTouchListener,
         control = null;
         gesture = null;
         mVelocityTracker = null;
-        toast = null;
         if (mScroller != null && !mScroller.isFinished()) {
             mScroller.abortAnimation();
         }
@@ -404,7 +425,6 @@ public abstract class AEventManage implements OnTouchListener,
     // 
     protected Scroller mScroller;
     //toast
-    protected Toast toast = null;
 
     private float downZoom = 1f;
     private float downDistance = 1f;

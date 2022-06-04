@@ -581,7 +581,7 @@ public class Word extends LinearLayout implements IWord {
         super.scrollTo(Math.max(x, 0), Math.max(y, minScroll));
         getControl().getMainFrame().onWordScrollPercentY(getScrollPercentY());
 
-        scrollHandle.setScroll(getScrollPercentY() * 100);
+        scrollHandle.setScroll(getScrollPercentY());
     }
 
     public void scrollToY(float y) {
@@ -1223,11 +1223,9 @@ public class Word extends LinearLayout implements IWord {
     }
 
     public void setPositionOffset(float progress, boolean moveHandle) {
-//        if (isSwipeVertical()) {
-//            moveTo(currentXOffset, (-pdfFile.getDocLen(zoom) + getHeight()) * progress, moveHandle);
-//        } else {
-//            moveTo((-pdfFile.getDocLen(zoom) + getWidth()) * progress, currentYOffset, moveHandle);
-//        }
+        if (isSwipeVertical()) {
+            scrollTo(0, (int) ((-getWordHeight() + getHeight()) * progress));
+        }
 //        loadPageByOffset();
     }
 
