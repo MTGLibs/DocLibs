@@ -18,6 +18,7 @@ import com.wxiwei.office.simpletext.model.IElement;
 import com.wxiwei.office.system.IControl;
 import com.wxiwei.office.system.IMainFrame;
 import com.wxiwei.office.system.beans.AEventManage;
+import com.wxiwei.office.wp.scroll.ScrollHandle;
 
 import android.animation.ValueAnimator;
 import android.util.Log;
@@ -42,11 +43,12 @@ import android.view.View;
  */
 public class WPEventManage extends AEventManage
 {
-
+    private ScrollHandle scrollHandle;
     public WPEventManage(Word word, IControl control)
     {
         super(word.getContext(), control);
         this.word = word;
+        scrollHandle=word.getScrollHandle();
     }
     
     /**

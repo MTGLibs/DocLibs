@@ -41,6 +41,8 @@ import com.wxiwei.office.system.IControl;
 import com.wxiwei.office.system.IDialogAction;
 import com.wxiwei.office.system.SysKit;
 import com.wxiwei.office.system.beans.pagelist.APageListView;
+import com.wxiwei.office.wp.scroll.DefaultScrollHandle;
+import com.wxiwei.office.wp.scroll.ScrollHandle;
 import com.wxiwei.office.wp.view.LayoutKit;
 import com.wxiwei.office.wp.view.NormalRoot;
 import com.wxiwei.office.wp.view.PageRoot;
@@ -64,6 +66,11 @@ import com.wxiwei.office.wp.view.WPViewKit;
  * <p>
  */
 public class Word extends LinearLayout implements IWord {
+    private ScrollHandle scrollHandle;
+
+    public ScrollHandle getScrollHandle() {
+        return scrollHandle;
+    }
 
     /**
      * @param context
@@ -78,7 +85,8 @@ public class Word extends LinearLayout implements IWord {
      */
     public Word(Context context, IDocument doc, String filePath, IControl control) {
         super(context);
-
+        scrollHandle = new DefaultScrollHandle(context);
+        scrollHandle.setupLayout(this);
         this.control = control;
         this.doc = doc;
         WPViewConstant.PAGE_SPACE = convertDpToPixel(8);
@@ -572,6 +580,8 @@ public class Word extends LinearLayout implements IWord {
         y = Math.min(Math.max(y, minScroll), (int) (getWordHeight() * getZoom() - getHeight()));
         super.scrollTo(Math.max(x, 0), Math.max(y, minScroll));
         getControl().getMainFrame().onWordScrollPercentY(getScrollPercentY());
+
+        scrollHandle.setScroll(getScrollPercentY() * 100);
     }
 
     public void scrollToY(float y) {
@@ -1203,4 +1213,25 @@ public class Word extends LinearLayout implements IWord {
     private float fullScreenZoom = 1f;
 
 
+    public boolean isSwipeVertical() {
+        return true;
+    }
+
+    public void stopFling() {
+
+        eventManage.stopFling();
+    }
+
+    public void setPositionOffset(float progress, boolean moveHandle) {
+//        if (isSwipeVertical()) {
+//            moveTo(currentXOffset, (-pdfFile.getDocLen(zoom) + getHeight()) * progress, moveHandle);
+//        } else {
+//            moveTo((-pdfFile.getDocLen(zoom) + getWidth()) * progress, currentYOffset, moveHandle);
+//        }
+//        loadPageByOffset();
+    }
+
+    public void performPageSnap() {
+
+    }
 }

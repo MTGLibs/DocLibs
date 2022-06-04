@@ -1,6 +1,6 @@
-package com.github.barteksc.pdfviewer.scroll;
+package com.wxiwei.office.wp.scroll;
 
-import com.github.barteksc.pdfviewer.PDFView;
+import com.wxiwei.office.wp.control.Word;
 
 public interface ScrollHandle {
 
@@ -18,7 +18,7 @@ public interface ScrollHandle {
      *
      * @param pdfView PDFView instance
      */
-    void setupLayout(PDFView pdfView);
+    void setupLayout(Word word);
 
     /**
      * Method called by PDFView when handle should be removed from layout
