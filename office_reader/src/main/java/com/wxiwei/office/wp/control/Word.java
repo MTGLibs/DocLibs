@@ -42,6 +42,7 @@ import com.wxiwei.office.system.IDialogAction;
 import com.wxiwei.office.system.SysKit;
 import com.wxiwei.office.system.beans.pagelist.APageListView;
 import com.wxiwei.office.wp.scroll.DefaultScrollHandle;
+import com.wxiwei.office.wp.scroll.ScrollBarView;
 import com.wxiwei.office.wp.scroll.ScrollHandle;
 import com.wxiwei.office.wp.view.LayoutKit;
 import com.wxiwei.office.wp.view.NormalRoot;
@@ -66,11 +67,12 @@ import com.wxiwei.office.wp.view.WPViewKit;
  * <p>
  */
 public class Word extends LinearLayout implements IWord {
-    private ScrollHandle scrollHandle;
+//    private ScrollHandle scrollHandle;
 
-    public ScrollHandle getScrollHandle() {
-        return scrollHandle;
-    }
+    //    public ScrollHandle getScrollHandle() {
+//        return scrollHandle;
+//    }
+//    private ScrollBarView scrollBarView;
 
     /**
      * @param context
@@ -85,8 +87,11 @@ public class Word extends LinearLayout implements IWord {
      */
     public Word(Context context, IDocument doc, String filePath, IControl control) {
         super(context);
-        scrollHandle = new DefaultScrollHandle(context);
-        scrollHandle.setupLayout(this);
+//        scrollHandle = new DefaultScrollHandle(context);
+//        scrollHandle.setupLayout(this);
+//        scrollBarView = new ScrollBarView(context);
+//        addView(scrollBarView);
+//
         this.control = control;
         this.doc = doc;
         WPViewConstant.PAGE_SPACE = convertDpToPixel(8);
@@ -580,8 +585,8 @@ public class Word extends LinearLayout implements IWord {
         y = Math.min(Math.max(y, minScroll), (int) (getWordHeight() * getZoom() - getHeight()));
         super.scrollTo(Math.max(x, 0), Math.max(y, minScroll));
         getControl().getMainFrame().onWordScrollPercentY(getScrollPercentY());
-
-        scrollHandle.setScroll(getScrollPercentY());
+//        scrollBarView.setScrollPercent(getScrollPercentY());
+//        scrollHandle.setScroll(getScrollPercentY());
     }
 
     public void scrollToY(float y) {

@@ -43,12 +43,10 @@ import android.view.View;
  */
 public class WPEventManage extends AEventManage
 {
-    private ScrollHandle scrollHandle;
     public WPEventManage(Word word, IControl control)
     {
         super(word.getContext(), control);
         this.word = word;
-        scrollHandle=word.getScrollHandle();
     }
     
     /**
