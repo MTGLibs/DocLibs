@@ -74,7 +74,7 @@ public class PGPrintMode extends FrameLayout implements IPageListViewListener {
         this.pgModel = pgModel;
         this.editor = editor;
 
-        listView = new APageListView(context, this);
+        listView = new APageListView(context,control, this);
         addView(listView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
         paint = new Paint();
@@ -542,7 +542,6 @@ public class PGPrintMode extends FrameLayout implements IPageListViewListener {
      *
      */
     public void changeZoom(int percent) {
-        control.getMainFrame().changeZoom(percent);
     }
 
     /**

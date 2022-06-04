@@ -21,6 +21,7 @@ import android.widget.Scroller;
 import android.widget.Toast;
 
 import com.wxiwei.office.constant.MainConstant;
+import com.wxiwei.office.system.IControl;
 
 import java.util.NoSuchElementException;
 
@@ -51,21 +52,17 @@ public class APageListEventManage implements
     private static final int MOVING_DOWN = 4;
 
     private static final float MAX_ZOOM = 3.0f;
+    private final IControl control;
 
-    /**
-     * @param pdfListView
-     */
-    public APageListEventManage(APageListView listView) {
+    public APageListEventManage(IControl control, APageListView listView) {
+        this.control = control;
         this.listView = listView;
         gesture = new GestureDetector(listView.getContext(), this);
         mScroller = new Scroller(listView.getContext());
         mScaleGestureDetector = new ScaleGestureDetector(listView.getContext(), this);
-        toast = Toast.makeText(listView.getContext(), "", Toast.LENGTH_SHORT);
     }
 
-    /**
-     * @see com.wxiwei.office.system.beans.AEventManage#zoom(MotionEvent)
-     */
+
     protected boolean zoom(MotionEvent event) {
         return false;
     }
@@ -107,8 +104,6 @@ public class APageListEventManage implements
             }
             isDoubleTap = false;
             isOnScroll = false;
-            toast.cancel();
-
         }
         //listView.requestLayout();
         return true;
@@ -263,9 +258,8 @@ public class APageListEventManage implements
                 listView.requestLayout();
             }
         }
-        toast.setText((int) Math.round(zoom * 100) + "%");
-        toast.show();
-
+        int zoomPercent = (int) Math.round(zoom * 100);
+        control.getMainFrame().changeZoom(zoomPercent);
 
         return true;
     }
@@ -377,9 +371,7 @@ public class APageListEventManage implements
         }
     }
 
-    /**
-     * @param v
-     */
+
     protected void slideViewOntoScreen(APageListItem pageItem) {
         Point corr = listView.getCorrection(listView.getScrollBounds(pageItem));
         if (corr.x != 0 || corr.y != 0) {
@@ -508,7 +500,5 @@ public class APageListEventManage implements
     protected GestureDetector gesture;
     // 
     protected Scroller mScroller;
-    //
-    //toast
-    protected Toast toast = null;
+
 }

@@ -9,6 +9,7 @@ package com.wxiwei.office.system.beans.pagelist;
 import java.util.LinkedList;
 
 import com.wxiwei.office.constant.MainConstant;
+import com.wxiwei.office.system.IControl;
 import com.wxiwei.office.system.IMainFrame;
 
 import android.content.Context;
@@ -46,6 +47,8 @@ public class APageListView extends AdapterView<Adapter> {
 
     private static final int GAP = 20;
 
+
+
     /**
      * @param context
      */
@@ -54,10 +57,10 @@ public class APageListView extends AdapterView<Adapter> {
     }
 
 
-    public APageListView(Context context, IPageListViewListener listener) {
+    public APageListView(Context context,IControl control, IPageListViewListener listener) {
         super(context);
         this.pageListViewListener = listener;
-        eventManage = new APageListEventManage(this);
+        eventManage = new APageListEventManage(control,this);
         pageAdapter = new APageListAdapter(this);
         setLongClickable(true);
         this.post(new Runnable() {

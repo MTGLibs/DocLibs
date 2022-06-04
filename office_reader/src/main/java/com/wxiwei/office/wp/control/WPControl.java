@@ -191,15 +191,6 @@ public class WPControl extends AbstractControl {
                 int[] params = (int[]) obj;
                 wpView.setZoom(params[0] / (float) MainConstant.STANDARD_RATE, params[1], params[2]);
 
-
-                wpView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (!isDispose) {
-                            getMainFrame().changeZoom((int) (wpView.getZoom() * 100));
-                        }
-                    }
-                });
                 break;
             case EventConstant.APP_SCROLL_PERCENT_Y:
                 float scrollY = (float) obj;

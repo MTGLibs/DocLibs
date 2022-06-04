@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
         //sdcard/Download/súhsha.xls
         ///storage/emulated/0/UnRAR/FileDecompressed/Compressed_20220415_1335/JD-Android-VNT.pdf
         findViewById(R.id.readeFile).setOnClickListener(view -> {
-            DocReaderActivity.start(this, "sdcard/Download/file_example_PPT_500kB.ppt");
-//            DocReaderActivity.start(this, "sdcard/Download/351_ Trần Thị Thu Hà_Đường lối quốc phòng và an ninh Đảng cộng sản Việt Nam done.doc");
+//            DocReaderActivity.start(this, "sdcard/Download/file_example_PPT_500kB.ppt");
+            DocReaderActivity.start(this, "sdcard/Download/351_ Trần Thị Thu Hà_Đường lối quốc phòng và an ninh Đảng cộng sản Việt Nam done.doc");
 //            DocReaderActivity.start(this, "sdcard/Download/súhsha.xls");
 //            DocReaderActivity.start(this, "/storage/emulated/0/UnRAR/FileDecompressed/Compressed_20220415_1335/JD-Android-VNT.pdf");
 //            Dialog.start(this);
