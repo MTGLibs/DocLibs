@@ -7,13 +7,21 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.wxiwei.office.constant.EventConstant;
 import com.wxiwei.office.officereader.BaseDocActivity;
+import com.wxiwei.office.system.IMainFrame;
+import com.wxiwei.office.wp.scroll.ScrollBarView;
 
 import java.io.File;
 import java.util.List;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 public class DocReaderActivity extends BaseDocActivity {
     private TextView title;
@@ -35,7 +43,12 @@ public class DocReaderActivity extends BaseDocActivity {
     }
 
     @Override
-    protected void initView() {
+    protected ScrollBarView getScrollBarView() {
+        return findViewById(R.id.scrollBarView);
+    }
+
+    @Override
+    protected void initView(String filePath) {
         try {
             title = findViewById(R.id.title);
             String path = getIntent().getStringExtra(INTENT_FILED_FILE_PATH);
@@ -43,28 +56,23 @@ public class DocReaderActivity extends BaseDocActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected void addEvent() {
         findViewById(R.id.iv_back).setOnClickListener(v -> {
             finish();
         });
     }
 
-    @Override
-    public void pageChanged(int page, int pageCount) {
-        title.setText(page + "/" + pageCount);
-        Log.d("TAG", "pageChanged: " + page + "__" + pageCount);
-    }
 
     @Override
-    public void getSlideImages(List<Bitmap> bitmaps) {
-        Log.d("TAG", "getSlideImages: ");
+    public void pageChanged(int page, int pageCount) {
+        super.pageChanged(page, pageCount);
+        title.setText(page + "/" + pageCount);
+
+        Log.d("TAG", "pageChanged: " + page + "__" + pageCount);
     }
 
     @Override
     public void error(int i) {
         super.error(i);
     }
+
 }

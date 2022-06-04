@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ASMSmaliIdeaPluginConfiguration">
-    <asm skipDebug="true" skipFrames="true" skipCode="false" expandFrames="false" />
-    <groovy codeStyle="LEGACY" />
-  </component>
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
@@ -11,6 +7,8 @@
         <entry key="..\:/ATruong/AllDocLibs/app/src/main/res/layout/activity_reader.xml" value="0.212253829321663" />
         <entry key="..\:/ATruong/AllDocLibs/office_reader/src/main/res/drawable/bacnground_edt_rename.xml" value="0.1" />
         <entry key="..\:/ATruong/AllDocLibs/office_reader/src/main/res/drawable/bg_dialog.xml" value="0.1545" />
+        <entry key="..\:/ATruong/AllDocLibs/office_reader/src/main/res/drawable/default_scroll_handle_left.xml" value="0.202" />
+        <entry key="..\:/ATruong/AllDocLibs/office_reader/src/main/res/drawable/default_scroll_handle_top.xml" value="0.202" />
         <entry key="..\:/ATruong/AllDocLibs/office_reader/src/main/res/layout/activity_view_office.xml" value="0.20726495726495728" />
         <entry key="..\:/ATruong/AllDocLibs/office_reader/src/main/res/layout/layout_sheet_button_item.xml" value="0.10989583333333333" />
         <entry key="..\:/ATruong/AllDocLibs/office_reader/src/main/res/layout/layout_sheet_buttons.xml" value="0.10989583333333333" />
@@ -19,13 +17,6 @@
         <entry key="..\:/ATruong/AllDocLibs/office_reader/src/main/res/layout/setting_dialog_item.xml" value="0.1" />
         <entry key="..\:/OutSourceProject/DocLibs/app/src/main/res/layout/activity_reader.xml" value="0.1" />
         <entry key="..\:/OutSourceProject/DocLibs/office_reader/src/main/res/drawable/default_scroll_handle_bottom.xml" value="0.20625" />
-        <entry key="..\:/OutSourceProject/DocLibs/office_reader/src/main/res/layout/layout_sheet_button_item.xml" value="0.1" />
-        <entry key="..\:/OutSourceProject/DocLibs/office_reader/src/main/res/layout/layout_sheet_buttons.xml" value="0.1" />
-        <entry key="..\:/OutSourceProject/DocLibs/office_reader/src/main/res/layout/pen_setting_dialog.xml" value="0.25" />
-        <entry key="..\:/OutSourceProject/DocLibs/office_reader/src/main/res/layout/select_dialog_singlechoice.xml" value="0.1" />
-        <entry key="..\:/OutSourceProject/DocLibs/office_reader/src/main/res/layout/setting_dialog_item.xml" value="0.1" />
-        <entry key="..\:/wordkspace/company/DocLibs/office_reader/src/main/res/drawable/default_scroll_handle_bottom.xml" value="0.269" />
-        <entry key="..\:/wordkspace/company/DocLibs/office_reader/src/main/res/drawable/default_scroll_handle_right.xml" value="0.269" />
       </map>
     </option>
   </component>

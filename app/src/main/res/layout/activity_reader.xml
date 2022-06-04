@@ -23,9 +23,19 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <FrameLayout
-        android:id="@+id/app_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
 
+        <FrameLayout
+            android:id="@+id/app_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.wxiwei.office.wp.scroll.ScrollBarView
+            android:id="@+id/scrollBarView"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right" />
+    </FrameLayout>
 </LinearLayout>
 

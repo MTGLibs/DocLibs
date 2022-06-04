@@ -237,7 +237,6 @@ public class Presentation extends FrameLayout implements IFind, IExportListener 
                 }
             }
             if (preShowSlideIndex != currentIndex) {
-                control.getMainFrame().changePage();
                 preShowSlideIndex = currentIndex;
             }
         } catch (NullPointerException ex) {
@@ -741,19 +740,9 @@ public class Presentation extends FrameLayout implements IFind, IExportListener 
             }
 
             postInvalidate();
-
-            if (isChangedSlide && getControl().getMainFrame() != null) {
-                getControl().getMainFrame().changePage();
-            }
-
-            // to picture
-            post(new Runnable() {
-
-                @Override
-                public void run() {
-                    initSlidebar();
-                    control.actionEvent(EventConstant.APP_GENERATED_PICTURE_ID, null);
-                }
+            post(() -> {
+                initSlidebar();
+                control.actionEvent(EventConstant.APP_GENERATED_PICTURE_ID, null);
             });
         }
     }
@@ -837,9 +826,6 @@ public class Presentation extends FrameLayout implements IFind, IExportListener 
                 slideIndex_SlideShow = slideIndex_SlideShow - 1;
                 if (slideIndex_SlideShow >= 0) {
                     slideView.initSlideShow(pgModel.getSlide(slideIndex_SlideShow), true);
-                    if (getControl().getMainFrame() != null) {
-                        getControl().getMainFrame().changePage();
-                    }
                 }
 //                else
 //                {
@@ -862,16 +848,6 @@ public class Presentation extends FrameLayout implements IFind, IExportListener 
                                     slideView.initSlideShow(slide, true);
                                     slideView.gotoLastAction();
                                 }
-//                                else
-//                                {
-//                                    slideIndex_SlideShow = 0;
-//                                    showTips("It's first action of first slide now.");
-//                                    return;
-//                                }
-
-                                if (getControl().getMainFrame() != null) {
-                                    getControl().getMainFrame().changePage();
-                                }
                             } else {
                                 slideView.previousActionSlideShow();
                             }
@@ -882,9 +858,6 @@ public class Presentation extends FrameLayout implements IFind, IExportListener 
                         if (hasNextAction_Slideshow()) {
                             if (slideView.gotoNextSlide()) {
                                 slideView.initSlideShow(pgModel.getSlide(++slideIndex_SlideShow), true);
-                                if (getControl().getMainFrame() != null) {
-                                    getControl().getMainFrame().changePage();
-                                }
                             } else {
                                 slideView.nextActionSlideShow();
                             }
@@ -894,9 +867,6 @@ public class Presentation extends FrameLayout implements IFind, IExportListener 
                     case ISlideShow.SlideShow_NextSlide:
                         if (hasNextSlide_Slideshow()) {
                             slideView.initSlideShow(pgModel.getSlide(++slideIndex_SlideShow), true);
-                            if (getControl().getMainFrame() != null) {
-                                getControl().getMainFrame().changePage();
-                            }
                         }
                         break;
                 }

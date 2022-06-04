@@ -62,12 +62,6 @@ public class PGControl extends AbstractControl {
     public PGControl(IControl mainControl, PGModel pgModel, String filePath) {
         this.mainControl = mainControl;
         pgView = new Presentation(getMainFrame().getActivity(), pgModel, this);
-        new Handler(getActivity().getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mainControl.getMainFrame().getSlideImages(getSlideImages());
-            }
-        }, 1000);
     }
 
     public List<Bitmap> getSlideImages() {

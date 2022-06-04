@@ -3,6 +3,7 @@ package com.wxiwei.office.officereader;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,7 +21,10 @@ import com.github.barteksc.pdfviewer.listener.OnErrorListener;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnTapListener;
+import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
+import com.github.barteksc.pdfviewer.scroll.ScrollHandle;
 import com.wxiwei.office.R;
+import com.wxiwei.office.constant.EventConstant;
 import com.wxiwei.office.constant.MainConstant;
 import com.wxiwei.office.officereader.beans.AToolsbar;
 import com.wxiwei.office.pg.control.Presentation;
@@ -30,6 +34,7 @@ import com.wxiwei.office.system.IMainFrame;
 import com.wxiwei.office.system.MainControl;
 import com.wxiwei.office.system.beans.pagelist.IPageListViewListener;
 import com.wxiwei.office.utils.RealPathUtil;
+import com.wxiwei.office.wp.scroll.ScrollBarView;
 
 import java.io.File;
 import java.util.List;
@@ -46,19 +51,19 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     private final OnErrorListener errorListener = t -> error(ERROR_PDF);
     private final OnLoadCompleteListener onLoadListener = this::onLoadComplete;
     private final OnTapListener onTapListener = this::tap;
+    private ScrollBarView scrollBarView;
+    private boolean isShowToolbar;
+    private boolean isFileDoc;
+    private boolean isScrollBarTouching;
+    private ScrollHandle scrollHandel;
 
-    @Override
-    public void changePage() {
+    public void setScrollHandel(ScrollHandle scrollHandel) {
+        this.scrollHandel = scrollHandel;
     }
-
 
     @Override
     public void changeZoom(int percent) {
         Log.d("TAG", "changeZoom: " + percent);
-    }
-
-    @Override
-    public void completeLayout() {
     }
 
     @Override
@@ -132,8 +137,16 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     }
 
     @Override
-    public boolean onEventMethod(View view, MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2, byte b) {
-        return false;
+    public boolean onEventMethod(View view, MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2, byte eventMethodType) {
+        if (isFileDoc && eventMethodType == IMainFrame.ON_SINGLE_TAP_CONFIRMED) {
+            try {
+                scrollBarView.setStatusScroll(!isShowToolbar, 5000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            isShowToolbar = !isShowToolbar;
+        }
+        return true;
     }
 
     @Override
@@ -141,22 +154,21 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         appFrame = getFrameLayoutDoc();
         new Handler().post(this::init);
-        initView();
-        addEvent();
     }
+
 
     protected abstract int getLayoutId();
 
     protected abstract FrameLayout getFrameLayoutDoc();
 
-    protected abstract void initView();
+    protected abstract ScrollBarView getScrollBarView();
 
-    protected abstract void addEvent();
+    protected abstract void initView(String filePath);
 
     @Override
     public void onDestroy() {
@@ -184,12 +196,6 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
         } else {
             this.filePath = intent.getStringExtra(MainConstant.INTENT_FILED_FILE_PATH);
         }
-        if (filePath.toLowerCase().endsWith(".pdf")) {
-            readPdfFile(null);
-            return;
-        }
-        this.control = new MainControl(this);
-
         if (TextUtils.isEmpty(this.filePath)) {
             this.filePath = intent.getDataString();
             int indexOf = getFilePath().indexOf(":");
@@ -202,16 +208,52 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
             String str = this.filePath;
             this.filePath = str.substring(str.indexOf("/raw:") + 5);
         }
-        String fileName = new File(filePath).getName();
 
+        initView(filePath);
+
+        this.control = new MainControl(this);
+        scrollBarView = getScrollBarView();
+        if (control.getApplicationType(new File(filePath).getName()) == MainConstant.APPLICATION_TYPE_WP) {
+            scrollBarView.setStatusScroll(true, 0);
+            isFileDoc = true;
+            if (scrollBarView != null) {
+                scrollBarView.setScrollListener(aFloat -> {
+                    try {
+                        getControl().actionEvent(EventConstant.APP_SCROLL_PERCENT_Y, aFloat);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+
+                scrollBarView.setTouchScrollListener(aBoolean -> {
+                    isScrollBarTouching = aBoolean;
+                    return null;
+                });
+            }
+
+        } else {
+            scrollBarView.setStatusScroll(false, 0);
+        }
+
+
+        if (filePath.toLowerCase().endsWith(".pdf")) {
+            readPdfFile(null);
+            return;
+        }
+
+        String fileName = new File(filePath).getName();
         this.control.openFile(this.filePath, fileName, Uri.fromFile(new File(filePath)));
+
 
     }
 
+
     public void readPdfFile(String pass) {
+        scrollHandel = new DefaultScrollHandle(this);
         PDFView pdfView = new PDFView(this);
         pdfView.fromFile(new File(filePath)).onPageChange(pageChangeListener)
-                .onError(errorListener).onLoad(onLoadListener).password(pass).onTap(onTapListener).load();
+                .onError(errorListener).onLoad(onLoadListener).scrollHandle(scrollHandel).password(pass).onTap(onTapListener).load();
         appFrame.addView(pdfView);
     }
 
@@ -313,6 +355,11 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
     @Override
     public void onWordScrollPercentY(float scrollY) {
+        try {
+            scrollBarView.setScrollPercent(scrollY);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -336,9 +383,22 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
         return null;
     }
 
+    public Bitmap getSlideBitmap(int index) {
+        return getPresentation().slideToImage(index);
+    }
+
     public void gotoSlide(int page) {
         if (getPresentation() != null) {
             getPresentation().gotoPage(page);
+        }
+    }
+
+    @Override
+    public void pageChanged(int page, int pageCount) {
+        if (isScrollBarTouching) {
+            Log.d("android_log", "pageChanged: " + isScrollBarTouching);
+        } else {
+            Log.d("android_log", "pageChanged: " + isScrollBarTouching);
         }
     }
 }

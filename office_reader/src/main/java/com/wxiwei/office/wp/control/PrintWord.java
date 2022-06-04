@@ -561,33 +561,16 @@ public class PrintWord extends FrameLayout implements IPageListViewListener {
 
         if (preShowPageIndex != listView.getCurrentPageNumber()
                 || prePageCount != getPageCount()) {
-            changePage();
             preShowPageIndex = listView.getCurrentPageNumber();
             prePageCount = getPageCount();
         }
     }
 
-    /**
-     *
-     */
-    public void changePage() {
-        control.getMainFrame().changePage();
-    }
-
-    /**
-     * set change page flag, Only when effectively the PageSize greater than ViewSize.
-     * (for PPT, word print mode, PDF)
-     *
-     * @param b = true, change page
-     *          = false, don't change page
-     */
     public boolean isChangePage() {
         return control.getMainFrame().isChangePage();
     }
 
-    /**
-     *
-     */
+
     public void dispose() {
         control = null;
         if (listView != null) {

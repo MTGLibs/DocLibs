@@ -13,7 +13,6 @@ import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -41,9 +40,6 @@ import com.wxiwei.office.system.IControl;
 import com.wxiwei.office.system.IDialogAction;
 import com.wxiwei.office.system.SysKit;
 import com.wxiwei.office.system.beans.pagelist.APageListView;
-import com.wxiwei.office.wp.scroll.DefaultScrollHandle;
-import com.wxiwei.office.wp.scroll.ScrollBarView;
-import com.wxiwei.office.wp.scroll.ScrollHandle;
 import com.wxiwei.office.wp.view.LayoutKit;
 import com.wxiwei.office.wp.view.NormalRoot;
 import com.wxiwei.office.wp.view.PageRoot;
@@ -685,16 +681,11 @@ public class Word extends LinearLayout implements IWord {
 //        }
         if (preShowPageIndex != currentNumber
                 || prePageCount != getPageCount()) {
-            control.getMainFrame().changePage();
             preShowPageIndex = currentNumber;
             prePageCount = getPageCount();
         }
     }
 
-    /**
-     * @param x 为100%的值
-     * @param y 为100%的值
-     */
     public long viewToModel(int x, int y, boolean isBack) {
         if (getCurrentRootType() == WPViewConstant.PAGE_ROOT) {
             return pageRoot.viewToModel(x, y, isBack);

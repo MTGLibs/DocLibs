@@ -300,17 +300,6 @@ public class WPControl extends AbstractControl {
             case EventConstant.WP_LAYOUT_COMPLETED:
                 if (wpView != null) {
                     wpView.updateFieldText();
-
-                    if (wpView.getParent() == null) {
-                        getMainFrame().completeLayout();
-                        break;
-                    }
-                    wpView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            getMainFrame().completeLayout();
-                        }
-                    });
                 }
 
                 break;

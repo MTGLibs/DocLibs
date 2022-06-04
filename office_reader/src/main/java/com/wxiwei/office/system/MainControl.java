@@ -270,6 +270,29 @@ public class MainControl extends AbstractControl {
         this.filePath = filePath;
         this.uri = uri;
         String fileName = filePath.toLowerCase();
+
+        applicationType = getApplicationType(fileName);
+
+        boolean isSupport = FileKit.instance().isSupport(fileName);
+        if (fileName.endsWith(MainConstant.FILE_TYPE_TXT)
+                || !isSupport) {
+            TXTKit.instance().readText(this, handler, uri);
+        } else {
+            if (applicationType == MainConstant.APPLICATION_TYPE_PDF) {
+                try {
+                    reader = new PDFReader(this, filePath);
+                    createApplication(reader.getModel());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                new FileReaderThread(this, handler, filePath, null, uri).start();
+            }
+        }
+        return true;
+    }
+
+    public byte getApplicationType(String fileName) {
         // word
         if (fileName.endsWith(MainConstant.FILE_TYPE_DOC)
                 || fileName.endsWith(MainConstant.FILE_TYPE_DOCX)
@@ -303,24 +326,7 @@ public class MainControl extends AbstractControl {
         } else {
             applicationType = MainConstant.APPLICATION_TYPE_WP;
         }
-
-        boolean isSupport = FileKit.instance().isSupport(fileName);
-        if (fileName.endsWith(MainConstant.FILE_TYPE_TXT)
-                || !isSupport) {
-            TXTKit.instance().readText(this, handler, uri);
-        } else {
-            if (applicationType == MainConstant.APPLICATION_TYPE_PDF) {
-                try {
-                    reader = new PDFReader(this, filePath);
-                    createApplication(reader.getModel());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                new FileReaderThread(this, handler, filePath, null, uri).start();
-            }
-        }
-        return true;
+        return applicationType;
     }
 
     @Override

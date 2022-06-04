@@ -595,9 +595,7 @@ public class PGPrintMode extends FrameLayout implements IPageListViewListener {
     /**
      *
      */
-    public void changePage() {
-        control.getMainFrame().changePage();
-    }
+
 
     /**
      * set change page flag, Only when effectively the PageSize greater than ViewSize.

@@ -191,15 +191,7 @@ public interface IMainFrame {
      */
     void changeZoom(int percent);
 
-    /**
-     *
-     */
-    void changePage();
 
-    /**
-     *
-     */
-    void completeLayout();
 
     /**
      * when engine error occurred callback this method
@@ -294,6 +286,5 @@ public interface IMainFrame {
 
     boolean tap(MotionEvent e);
 
-    void getSlideImages(List<Bitmap> bitmaps);
 
 }

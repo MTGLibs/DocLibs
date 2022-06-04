@@ -16,9 +16,7 @@ import com.wxiwei.office.java.awt.Rectangle;
 import com.wxiwei.office.simpletext.model.AttrManage;
 import com.wxiwei.office.simpletext.model.IElement;
 import com.wxiwei.office.system.IControl;
-import com.wxiwei.office.system.IMainFrame;
 import com.wxiwei.office.system.beans.AEventManage;
-import com.wxiwei.office.wp.scroll.ScrollHandle;
 
 import android.animation.ValueAnimator;
 import android.util.Log;

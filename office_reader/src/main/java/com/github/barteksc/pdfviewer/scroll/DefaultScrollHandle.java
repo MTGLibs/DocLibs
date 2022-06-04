@@ -1,6 +1,7 @@
 package com.github.barteksc.pdfviewer.scroll;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -10,15 +11,20 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.util.Util;
 import com.wxiwei.office.R;
 
 public class DefaultScrollHandle extends RelativeLayout implements ScrollHandle {
 
-    private final static int HANDLE_LONG = 65;
+    private final static int HANDLE_LONG = 40;
     private final static int HANDLE_SHORT = 40;
     private final static int DEFAULT_TEXT_SIZE = 16;
 
@@ -37,6 +43,7 @@ public class DefaultScrollHandle extends RelativeLayout implements ScrollHandle 
             hide();
         }
     };
+    private Bitmap bitmapScroll;
 
     public DefaultScrollHandle(Context context) {
         this(context, false);
@@ -50,6 +57,20 @@ public class DefaultScrollHandle extends RelativeLayout implements ScrollHandle 
         setVisibility(INVISIBLE);
         setTextColor(Color.BLACK);
         setTextSize(DEFAULT_TEXT_SIZE);
+        Glide.with(context).asBitmap().load(R.drawable.ic_scroll_to_page).into(new CustomTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                bitmapScroll = resource;
+                postInvalidate();
+            }
+
+            @Override
+            public void onLoadCleared(@Nullable Drawable placeholder) {
+
+            }
+        });
+
+
     }
 
     @Override
@@ -60,40 +81,24 @@ public class DefaultScrollHandle extends RelativeLayout implements ScrollHandle 
         if (pdfView.isSwipeVertical()) {
             width = HANDLE_LONG;
             height = HANDLE_SHORT;
-            if (inverted) { // left
-                align = ALIGN_PARENT_LEFT;
-                background = ContextCompat.getDrawable(context, R.drawable.default_scroll_handle_left);
-            } else { // right
-                align = ALIGN_PARENT_RIGHT;
-                background = ContextCompat.getDrawable(context, R.drawable.default_scroll_handle_right);
-            }
+
         } else {
             width = HANDLE_SHORT;
             height = HANDLE_LONG;
-            if (inverted) { // top
-                align = ALIGN_PARENT_TOP;
-                background = ContextCompat.getDrawable(context, R.drawable.default_scroll_handle_top);
-            } else { // bottom
-                align = ALIGN_PARENT_BOTTOM;
-                background = ContextCompat.getDrawable(context, R.drawable.default_scroll_handle_bottom);
-            }
+
         }
 
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            setBackgroundDrawable(background);
-        } else {
-            setBackground(background);
-        }
+        setBackgroundResource(R.drawable.ic_scroll_to_page);
 
         LayoutParams lp = new LayoutParams(Util.getDP(context, width), Util.getDP(context, height));
         lp.setMargins(0, 0, 0, 0);
 
-        LayoutParams tvlp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        tvlp.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+//        LayoutParams tvlp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        tvlp.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
 
-        addView(textView, tvlp);
+//        addView(textView, tvlp);
 
-        lp.addRule(align);
+        lp.addRule(ALIGN_PARENT_RIGHT);
         pdfView.addView(this, lp);
 
         this.pdfView = pdfView;
