@@ -21,7 +21,6 @@ class ScrollBarView @JvmOverloads constructor(
     private var bitmapScroll: Bitmap? = null
     private var rectScroll = RectF()
     private var rectBitmap = Rect()
-    private var isShowScroll = true
     private var scrollTo: ((scrollY: Float) -> Unit) = {
     }
     private var onTouchScroll: ((isTouchDown: Boolean) -> Unit) = {
@@ -31,8 +30,7 @@ class ScrollBarView @JvmOverloads constructor(
 
     }
     private var runnableShow: Runnable = Runnable {
-        isShowScroll = false
-        onShowScroll(isShowScroll)
+        onShowScroll(true)
         postInvalidate()
     }
 
@@ -111,23 +109,20 @@ class ScrollBarView @JvmOverloads constructor(
         if (isShow) {
             handler.postDelayed(runnableShow, timeHide)
         }
-        isShowScroll = isShow
-        onShowScroll(isShowScroll)
+        onShowScroll(isShow)
         postInvalidate()
     }
 
     override fun onDraw(canvas: Canvas?) {
-        if (isShowScroll) {
-            canvas?.apply {
-                Log.d("zzz", "onDraw: ${bitmapScroll == null}")
-                save()
-                val scale = rectScroll.width() / rectBitmap.width()
-                scale(scale, scale, 0f, rectScroll.top)
-                bitmapScroll?.let { bitmap ->
-                    drawBitmap(bitmap, 0f, rectScroll.top, null)
-                }
-                restore()
+        canvas?.apply {
+            Log.d("zzz", "onDraw: ${bitmapScroll == null}")
+            save()
+            val scale = rectScroll.width() / rectBitmap.width()
+            scale(scale, scale, 0f, rectScroll.top)
+            bitmapScroll?.let { bitmap ->
+                drawBitmap(bitmap, 0f, rectScroll.top, null)
             }
+            restore()
         }
     }
 
@@ -135,7 +130,7 @@ class ScrollBarView @JvmOverloads constructor(
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
-                if (!rectScroll.contains(event.x, event.y) || !isShowScroll) {
+                if (!rectScroll.contains(event.x, event.y)) {
                     return false
                 }
                 onTouchScroll(true)

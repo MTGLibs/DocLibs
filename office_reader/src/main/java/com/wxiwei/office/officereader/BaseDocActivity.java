@@ -213,7 +213,8 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
         this.control = new MainControl(this);
         scrollBarView = getScrollBarView();
-        if (control.getApplicationType(new File(filePath).getName()) == MainConstant.APPLICATION_TYPE_WP) {
+        if (control.getApplicationType(filePath.toLowerCase()) == MainConstant.APPLICATION_TYPE_WP) {
+            scrollBarView.setVisibility(View.VISIBLE);
             scrollBarView.setStatusScroll(true, 0);
             isFileDoc = true;
             if (scrollBarView != null) {
@@ -233,6 +234,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
             }
 
         } else {
+            scrollBarView.setVisibility(View.GONE);
             scrollBarView.setStatusScroll(false, 0);
         }
 
@@ -250,6 +252,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
 
     public void readPdfFile(String pass) {
+        scrollBarView.setVisibility(View.GONE);
         scrollHandel = new DefaultScrollHandle(this);
         PDFView pdfView = new PDFView(this);
         pdfView.fromFile(new File(filePath)).onPageChange(pageChangeListener)
