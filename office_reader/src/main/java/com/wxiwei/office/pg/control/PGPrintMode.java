@@ -531,16 +531,7 @@ public class PGPrintMode extends FrameLayout implements IPageListViewListener {
         return control.getMainFrame().isTouchZoom();
     }
 
-    /**
-     *
-     */
-    public boolean isShowZoomingMsg() {
-        return control.getMainFrame().isShowZoomingMsg();
-    }
 
-    /**
-     *
-     */
     public void changeZoom(int percent) {
     }
 

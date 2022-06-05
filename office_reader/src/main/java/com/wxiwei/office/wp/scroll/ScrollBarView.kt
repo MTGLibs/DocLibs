@@ -1,7 +1,9 @@
 package com.wxiwei.office.wp.scroll
-
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Rect
+import android.graphics.RectF
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.Log
@@ -21,6 +23,8 @@ class ScrollBarView @JvmOverloads constructor(
     private var bitmapScroll: Bitmap? = null
     private var rectScroll = RectF()
     private var rectBitmap = Rect()
+    private var isShowScroll = false
+    private var timeHide: Long = 5000
     private var scrollTo: ((scrollY: Float) -> Unit) = {
     }
     private var onTouchScroll: ((isTouchDown: Boolean) -> Unit) = {
@@ -30,7 +34,8 @@ class ScrollBarView @JvmOverloads constructor(
 
     }
     private var runnableShow: Runnable = Runnable {
-        onShowScroll(true)
+        isShowScroll = false
+        onShowScroll(isShowScroll)
         postInvalidate()
     }
 
@@ -104,25 +109,29 @@ class ScrollBarView @JvmOverloads constructor(
 
     }
 
-     fun setStatusScroll(isShow: Boolean, timeHide: Long = 0) {
+    public fun setStatusScroll(isShow: Boolean) {
+        this.timeHide = 2000
         handler.removeCallbacks(runnableShow)
         if (isShow) {
-            handler.postDelayed(runnableShow, timeHide)
+            handler.postDelayed(runnableShow, this.timeHide)
         }
-        onShowScroll(isShow)
+        isShowScroll = isShow
+        onShowScroll(isShowScroll)
         postInvalidate()
     }
 
     override fun onDraw(canvas: Canvas?) {
-        canvas?.apply {
-            Log.d("zzz", "onDraw: ${bitmapScroll == null}")
-            save()
-            val scale = rectScroll.width() / rectBitmap.width()
-            scale(scale, scale, 0f, rectScroll.top)
-            bitmapScroll?.let { bitmap ->
-                drawBitmap(bitmap, 0f, rectScroll.top, null)
+        if (isShowScroll) {
+            canvas?.apply {
+                Log.d("zzz", "onDraw: ${bitmapScroll == null}")
+                save()
+                val scale = rectScroll.width() / rectBitmap.width()
+                scale(scale, scale, 0f, rectScroll.top)
+                bitmapScroll?.let { bitmap ->
+                    drawBitmap(bitmap, 0f, rectScroll.top, null)
+                }
+                restore()
             }
-            restore()
         }
     }
 
@@ -130,7 +139,7 @@ class ScrollBarView @JvmOverloads constructor(
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
-                if (!rectScroll.contains(event.x, event.y)) {
+                if (!rectScroll.contains(event.x, event.y) || !isShowScroll) {
                     return false
                 }
                 onTouchScroll(true)
@@ -148,8 +157,8 @@ class ScrollBarView @JvmOverloads constructor(
                 rectScroll.top = newTop
                 postInvalidate()
                 scrollTo((rectScroll.top - scrollBarMarginTop) / (height - scrollBarMarginBottom - scrollBarMarginTop - rectScroll.height()))
-//                handler.removeCallbacks(runnableShow)
-//                handler.postDelayed(runnableShow, timeHide)
+                handler.removeCallbacks(runnableShow)
+                handler.postDelayed(runnableShow, timeHide)
             }
             MotionEvent.ACTION_UP -> {
                 onTouchScroll(false)

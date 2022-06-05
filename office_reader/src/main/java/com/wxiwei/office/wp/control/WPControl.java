@@ -401,14 +401,7 @@ public class WPControl extends AbstractControl {
      *
      */
     private void updateStatus() {
-        wpView.post(new Runnable() {
-            @Override
-            public void run() {
-                if (!isDispose) {
-                    getMainFrame().updateToolsbarStatus();
-                }
-            }
-        });
+
     }
 
     /**

@@ -244,14 +244,7 @@ public class MainControl extends AbstractControl {
                 actionEvent(EventConstant.SYS_SET_PROGRESS_BAR_ID, false);
                 // 初始化数
                 actionEvent(EventConstant.SYS_INIT_ID, null);
-                // 更新状态
-                if (applicationType == MainConstant.APPLICATION_TYPE_PDF) {
-                    if (!hassPassword) {
-                        frame.updateToolsbarStatus();
-                    }
-                } else {
-                    frame.updateToolsbarStatus();
-                }
+
                 //
                 getView().postInvalidate();
             }
@@ -405,7 +398,6 @@ public class MainControl extends AbstractControl {
 
             case EventConstant.APP_CONTENT_SELECTED:  //selected interesting content
                 appControl.actionEvent(actionID, obj);
-                frame.updateToolsbarStatus();
                 break;
 
             case EventConstant.APP_ABORTREADING:
@@ -488,15 +480,14 @@ public class MainControl extends AbstractControl {
                 || actionID == EventConstant.PG_SLIDE_TO_IMAGE
                 || actionID == EventConstant.PG_SLIDESHOW_SLIDESHOWTOIMAGE) {
             boolean b = PictureKit.instance().isDrawPictrue();
-            boolean isThumbnail = frame.isThumbnail();
             PictureKit.instance().setDrawPictrue(true);
-            if (actionID == EventConstant.APP_THUMBNAIL_ID) {
-                frame.setThumbnail(true);
-            }
+//            if (actionID == EventConstant.APP_THUMBNAIL_ID) {
+//                frame.setThumbnail(true);
+//            }
             ret = appControl.getActionValue(actionID, obj);
-            if (actionID == EventConstant.APP_THUMBNAIL_ID) {
-                frame.setThumbnail(isThumbnail);
-            }
+//            if (actionID == EventConstant.APP_THUMBNAIL_ID) {
+//                frame.setThumbnail(isThumbnail);
+//            }
             PictureKit.instance().setDrawPictrue(b);
         } else {
             ret = appControl.getActionValue(actionID, obj);

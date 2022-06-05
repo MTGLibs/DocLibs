@@ -380,18 +380,8 @@ public class SSControl extends AbstractControl
     /**
      * 
      */
-    private void updateStatus()
-    {
-        spreadSheet.post(new Runnable()
-        {
-            public void run()
-            {
-                if (!isDispose)
-                {
-                    getMainFrame().updateToolsbarStatus();
-                }
-            }
-        });
+    private void updateStatus(){
+
     }
     
     

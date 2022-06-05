@@ -239,16 +239,13 @@ public abstract class AEventManage implements OnTouchListener,
             zoomChange = true;
             control.actionEvent(EventConstant.APP_ZOOM_ID, new int[]{(int) (zoom * MainConstant.STANDARD_RATE), midXDoublePoint, midYDoublePoint});
             control.getView().postInvalidate();
-            // 提示
-            if (control.getMainFrame().isShowZoomingMsg()) {
-                if (control.getApplicationType() == MainConstant.APPLICATION_TYPE_PPT
-                        && control.isSlideShow()) {
-                    return true;
-                }
-                int zoomPercent = (int) Math.round(zoom * 100);
-                Log.d("android_log", "zoom: " + zoomPercent);
-                control.getMainFrame().changeZoom(zoomPercent);
+            if (control.getApplicationType() == MainConstant.APPLICATION_TYPE_PPT
+                    && control.isSlideShow()) {
+                return true;
             }
+            int zoomPercent = (int) Math.round(zoom * 100);
+            Log.d("android_log", "zoom: " + zoomPercent);
+            control.getMainFrame().changeZoom(zoomPercent);
         }
         return true;
     }

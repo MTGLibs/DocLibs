@@ -141,8 +141,7 @@ public interface IPageListViewListener
     * false: not show message when zooming
     * @return
     */
-   public boolean isShowZoomingMsg();
-   
+
    /**
     * callback this method after zoom change
     */

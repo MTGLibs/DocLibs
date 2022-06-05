@@ -6,24 +6,6 @@
  */
 package com.wxiwei.office.wp.control;
 
-import com.wxiwei.office.common.IOfficeToPicture;
-import com.wxiwei.office.common.hyperlink.Hyperlink;
-import com.wxiwei.office.common.picture.PictureKit;
-import com.wxiwei.office.constant.EventConstant;
-import com.wxiwei.office.constant.MainConstant;
-import com.wxiwei.office.java.awt.Rectangle;
-import com.wxiwei.office.macro.TouchEventListener;
-import com.wxiwei.office.simpletext.model.AttrManage;
-import com.wxiwei.office.simpletext.model.IAttributeSet;
-import com.wxiwei.office.simpletext.model.IElement;
-import com.wxiwei.office.system.IControl;
-import com.wxiwei.office.system.SysKit;
-import com.wxiwei.office.system.beans.pagelist.APageListItem;
-import com.wxiwei.office.system.beans.pagelist.APageListView;
-import com.wxiwei.office.system.beans.pagelist.IPageListViewListener;
-import com.wxiwei.office.wp.view.PageRoot;
-import com.wxiwei.office.wp.view.PageView;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -36,6 +18,23 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
+import com.wxiwei.office.common.IOfficeToPicture;
+import com.wxiwei.office.common.hyperlink.Hyperlink;
+import com.wxiwei.office.common.picture.PictureKit;
+import com.wxiwei.office.constant.EventConstant;
+import com.wxiwei.office.constant.MainConstant;
+import com.wxiwei.office.java.awt.Rectangle;
+import com.wxiwei.office.macro.TouchEventListener;
+import com.wxiwei.office.simpletext.model.AttrManage;
+import com.wxiwei.office.simpletext.model.IAttributeSet;
+import com.wxiwei.office.simpletext.model.IElement;
+import com.wxiwei.office.system.IControl;
+import com.wxiwei.office.system.beans.pagelist.APageListItem;
+import com.wxiwei.office.system.beans.pagelist.APageListView;
+import com.wxiwei.office.system.beans.pagelist.IPageListViewListener;
+import com.wxiwei.office.wp.view.PageRoot;
+import com.wxiwei.office.wp.view.PageView;
 
 /**
  * print mode component
@@ -414,7 +413,7 @@ public class PrintWord extends FrameLayout implements IPageListViewListener {
     /**
      * page list view moving position
      *
-     * @param position horizontal or vertical
+     * @paramposition horizontal or vertical
      */
     public byte getPageListViewMovingPosition() {
         return control.getMainFrame().getPageListViewMovingPosition();
@@ -437,12 +436,12 @@ public class PrintWord extends FrameLayout implements IPageListViewListener {
     /**
      * event method, office engine dispatch
      *
-     * @param v               event source
-     * @param e1              MotionEvent instance
-     * @param e2              MotionEvent instance
-     * @param velocityX       x axis velocity
-     * @param velocityY       y axis velocity
-     * @param eventNethodType event method
+     * @param v         event source
+     * @param e1        MotionEvent instance
+     * @param e2        MotionEvent instance
+     * @param velocityX x axis velocity
+     * @param velocityY y axis velocity
+     * @parameventNethodType event method
      * @see TouchEventListener#EVENT_CLICK
      * @see TouchEventListener#EVENT_DOUBLE_TAP
      * @see TouchEventListener#EVENT_DOUBLE_TAP_EVENT
@@ -506,16 +505,7 @@ public class PrintWord extends FrameLayout implements IPageListViewListener {
         return control.getMainFrame().isTouchZoom();
     }
 
-    /**
-     *
-     */
-    public boolean isShowZoomingMsg() {
-        return control.getMainFrame().isShowZoomingMsg();
-    }
 
-    /**
-     *
-     */
     public void changeZoom(int percent) {
     }
 
@@ -541,23 +531,23 @@ public class PrintWord extends FrameLayout implements IPageListViewListener {
      * 绘制页信息
      *
      * @param canvas
-     * @param zoom
+     * @paramzoom
      */
     private void drawPageNubmer(Canvas canvas) {
-        if (control.getMainFrame().isDrawPageNumber()) {
-            String pn = String.valueOf((listView.getCurrentPageNumber()) + " / " + pageRoot.getChildCount());
-            int w = (int) paint.measureText(pn);
-            int h = (int) (paint.descent() - paint.ascent());
-            int x = (int) ((getWidth() - w) / 2);
-            int y = (int) ((getHeight() - h) - 20);
-
-            Drawable drawable = SysKit.getPageNubmerDrawable();
-            drawable.setBounds((int) (x - 10), y - 10, x + w + 10, y + h + 10);
-            drawable.draw(canvas);
-
-            y -= paint.ascent();
-            canvas.drawText(pn, x, y, paint);
-        }
+//        if (control.getMainFrame().isDrawPageNumber()) {
+//            String pn = String.valueOf((listView.getCurrentPageNumber()) + " / " + pageRoot.getChildCount());
+//            int w = (int) paint.measureText(pn);
+//            int h = (int) (paint.descent() - paint.ascent());
+//            int x = (int) ((getWidth() - w) / 2);
+//            int y = (int) ((getHeight() - h) - 20);
+//
+//            Drawable drawable = SysKit.getPageNubmerDrawable();
+//            drawable.setBounds((int) (x - 10), y - 10, x + w + 10, y + h + 10);
+//            drawable.draw(canvas);
+//
+//            y -= paint.ascent();
+//            canvas.drawText(pn, x, y, paint);
+//        }
 
         if (preShowPageIndex != listView.getCurrentPageNumber()
                 || prePageCount != getPageCount()) {

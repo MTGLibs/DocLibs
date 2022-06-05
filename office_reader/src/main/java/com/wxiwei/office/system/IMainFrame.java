@@ -89,7 +89,6 @@ public interface IMainFrame {
     /**
      * update tool bar status
      */
-    void updateToolsbarStatus();
 
     /**
      * set the find back button and find forward button state
@@ -115,22 +114,8 @@ public interface IMainFrame {
 
     boolean onEventMethod(View v, MotionEvent e1, MotionEvent e2, float xValue, float yValue, byte eventMethodType);
 
-    boolean isDrawPageNumber();
 
-    /**
-     * true: show message when zooming
-     * false: not show message when zooming
-     *
-     * @return
-     */
-    boolean isShowZoomingMsg();
 
-    /**
-     * true: pop up dialog when throw err
-     * false: not pop up dialog when throw err
-     *
-     * @return
-     */
     boolean isPopUpErrorDlg();
 
     /**
@@ -196,7 +181,7 @@ public interface IMainFrame {
     /**
      * when engine error occurred callback this method
      */
-    void error(int errorCode);
+    void onError(int errorCode);
 
     /**
      * full screen, not show top tool bar
@@ -237,21 +222,7 @@ public interface IMainFrame {
      */
     public boolean isWriteLog();
 
-    /**
-     * @param isThumbnail
-     */
-    public void setThumbnail(boolean isThumbnail);
 
-    /**
-     * @return
-     */
-    public boolean isThumbnail();
-
-    /**
-     * get view backgrouond
-     *
-     * @return
-     */
     public Object getViewBackground();
 
     /**
@@ -278,7 +249,6 @@ public interface IMainFrame {
     void dispose();
 
     void onWordScrollPercentY(float scrollY);
-
 
     void pageChanged(int page, int pageCount);
 

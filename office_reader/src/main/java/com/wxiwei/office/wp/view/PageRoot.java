@@ -75,7 +75,7 @@ public class PageRoot extends AbstractView implements IRoot {
             IDocument doc = getDocument();
             setParaCount(doc.getParaCount(WPModelConstant.MAIN));
             wpLayouter.doLayout();
-            if (!wpLayouter.isLayoutFinish() && !word.getControl().getMainFrame().isThumbnail()) {
+            if (!wpLayouter.isLayoutFinish() /*&& !word.getControl().getMainFrame().isThumbnail()*/) {
                 layoutThread.start();
                 word.getControl().actionEvent(EventConstant.SYS_SET_PROGRESS_BAR_ID, true);
                 //word.getControl().getMainFrame().getActivity().setProgressBarIndeterminateVisibility(true);

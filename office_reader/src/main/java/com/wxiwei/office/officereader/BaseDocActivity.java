@@ -8,12 +8,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,11 +28,13 @@ import com.wxiwei.office.constant.MainConstant;
 import com.wxiwei.office.officereader.beans.AToolsbar;
 import com.wxiwei.office.pg.control.Presentation;
 import com.wxiwei.office.res.ResKit;
+import com.wxiwei.office.ss.control.ExcelView;
 import com.wxiwei.office.system.IControl;
 import com.wxiwei.office.system.IMainFrame;
 import com.wxiwei.office.system.MainControl;
 import com.wxiwei.office.system.beans.pagelist.IPageListViewListener;
 import com.wxiwei.office.utils.RealPathUtil;
+import com.wxiwei.office.wp.control.Word;
 import com.wxiwei.office.wp.scroll.ScrollBarView;
 
 import java.io.File;
@@ -44,12 +44,11 @@ import java.util.List;
 public abstract class BaseDocActivity extends AppCompatActivity implements IMainFrame {
     private MainControl control;
     private String filePath;
-    private boolean isThumbnail;
     private final Object bg = -3355444;
     private FrameLayout appFrame;
     public static int ERROR_PDF = 111;
     private final OnPageChangeListener pageChangeListener = (page, pageCount) -> pageChanged(page + 1, pageCount);
-    private final OnErrorListener errorListener = t -> error(ERROR_PDF);
+    private final OnErrorListener errorListener = t -> onError(ERROR_PDF);
     private final OnLoadCompleteListener onLoadListener = this::onLoadComplete;
     private final OnTapListener onTapListener = this::tap;
     private ScrollBarView scrollBarView;
@@ -62,19 +61,42 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
         return isScrollBarTouching;
     }
 
+    public void setControl(MainControl control) {
+        this.control = control;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public void setAppFrame(FrameLayout appFrame) {
+        this.appFrame = appFrame;
+    }
+
+    public static void setErrorPdf(int errorPdf) {
+        ERROR_PDF = errorPdf;
+    }
+
+    public void setScrollBarView(ScrollBarView scrollBarView) {
+        this.scrollBarView = scrollBarView;
+    }
+
+    public void setShowToolbar(boolean showToolbar) {
+        isShowToolbar = showToolbar;
+    }
+
+    public void setFileDoc(boolean fileDoc) {
+        isFileDoc = fileDoc;
+    }
+
+    public void setScrollBarTouching(boolean scrollBarTouching) {
+        isScrollBarTouching = scrollBarTouching;
+    }
 
     public void setScrollHandel(ScrollHandle scrollHandel) {
         this.scrollHandel = scrollHandel;
     }
 
-    @Override
-    public void changeZoom(int percent) {
-        Log.d("TAG", "changeZoom: " + percent);
-    }
-
-    @Override
-    public void error(int i) {
-    }
 
     @Override
     public Activity getActivity() {
@@ -102,10 +124,6 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
         return true;
     }
 
-    @Override
-    public boolean isDrawPageNumber() {
-        return false;
-    }
 
     @Override
     public boolean isIgnoreOriginalSize() {
@@ -124,12 +142,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
     @Override
     public boolean isShowTXTEncodeDlg() {
-        return true;
-    }
-
-    @Override
-    public boolean isShowZoomingMsg() {
-        return true;
+        return false;
     }
 
     @Override
@@ -148,9 +161,10 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
             hideZoomToast();
             return true;
         }
+
         if (isFileDoc && eventMethodType == IMainFrame.ON_SINGLE_TAP_CONFIRMED) {
             try {
-                scrollBarView.setStatusScroll(!isShowToolbar, 5000);
+                scrollBarView.setStatusScroll(!isShowToolbar);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -227,7 +241,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
         scrollBarView = getScrollBarView();
         if (control.getApplicationType(filePath.toLowerCase()) == MainConstant.APPLICATION_TYPE_WP) {
             scrollBarView.setVisibility(View.VISIBLE);
-            scrollBarView.setStatusScroll(true, 0);
+            scrollBarView.setStatusScroll(true);
             isFileDoc = true;
             if (scrollBarView != null) {
                 scrollBarView.setScrollListener(aFloat -> {
@@ -252,7 +266,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
         } else {
             scrollBarView.setVisibility(View.GONE);
-            scrollBarView.setStatusScroll(false, 0);
+            scrollBarView.setStatusScroll(false);
         }
 
 
@@ -278,16 +292,12 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
         PDFView pdfView = new PDFView(this);
         pdfView.fromFile(new File(filePath)).onPageChange(pageChangeListener)
                 .onError(errorListener).onLoad(onLoadListener).scrollHandle(scrollHandel).password(pass).onTap(onTapListener).load();
+        appFrame.removeAllViews();
         appFrame.addView(pdfView);
     }
 
     @Override
     public void setFindBackForwardState(boolean z) {
-    }
-
-
-    @Override
-    public void updateToolsbarStatus() {
     }
 
 
@@ -306,6 +316,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
     @Override
     public void openFileFinish() {
+        appFrame.removeAllViews();
         appFrame.addView(this.control.getView(), new LinearLayout.LayoutParams(-1, -1));
     }
 
@@ -335,20 +346,12 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
         return true;
     }
 
-    @Override
-    public void setThumbnail(boolean z) {
-        this.isThumbnail = z;
-    }
 
     @Override
     public Object getViewBackground() {
         return bg;
     }
 
-    @Override
-    public boolean isThumbnail() {
-        return this.isThumbnail;
-    }
 
     @Override
     public File getTemporaryDirectory() {
@@ -380,6 +383,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     @Override
     public void onWordScrollPercentY(float scrollY) {
         try {
+            scrollBarView.setStatusScroll(true);
             scrollBarView.setScrollPercent(scrollY);
         } catch (Exception e) {
             e.printStackTrace();
@@ -398,6 +402,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     }
 
 
+    @Deprecated
     public Presentation getPresentation() {
         try {
             return (Presentation) control.getView();
@@ -405,6 +410,22 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
             e.printStackTrace();
         }
         return null;
+    }
+
+    public Presentation getPPTView() {
+        try {
+            return (Presentation) control.getView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Word getWordView() {
+        return (Word) control.getView();
+    }
+    public ExcelView getXLSView(){
+        return (ExcelView) control.getView();
     }
 
     public Bitmap getSlideBitmap(int index) {
@@ -415,6 +436,10 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
         if (getPresentation() != null) {
             getPresentation().gotoPage(page);
         }
+    }
+
+    public int getPageCount() {
+        return (int) ((IControl) control).getActionValue(EventConstant.APP_COUNT_PAGES_ID, null);
     }
 
     @Override

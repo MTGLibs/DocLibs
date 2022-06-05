@@ -205,7 +205,7 @@ public class ErrorUtil {
                         }
                         if (err.length() > 0) {
                             // dispatch error code to Application
-                            control.getMainFrame().error(errorCode);
+                            control.getMainFrame().onError(errorCode);
                             control.actionEvent(EventConstant.APP_ABORTREADING, true);
                             if (control.getMainFrame().isPopUpErrorDlg() && message == null) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);

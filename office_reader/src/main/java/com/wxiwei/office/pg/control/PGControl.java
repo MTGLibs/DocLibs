@@ -163,16 +163,6 @@ public class PGControl extends AbstractControl {
                 break;
 
             case EventConstant.SYS_UPDATE_TOOLSBAR_BUTTON_STATUS:   // 更新toolsbar button状态
-                pgView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (!isDispose) {
-                            if (getMainFrame() != null) {
-                                getMainFrame().updateToolsbarStatus();
-                            }
-                        }
-                    }
-                });
                 break;
 
             case EventConstant.APP_PAGE_UP_ID:

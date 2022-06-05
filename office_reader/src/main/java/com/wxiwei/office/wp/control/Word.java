@@ -68,7 +68,7 @@ public class Word extends LinearLayout implements IWord {
     //    public ScrollHandle getScrollHandle() {
 //        return scrollHandle;
 //    }
-//    private ScrollBarView scrollBarView;
+//    private com.wxiwei.office.wp.scroll.ScrollBarView scrollBarView;
 
     /**
      * @param context
@@ -85,7 +85,7 @@ public class Word extends LinearLayout implements IWord {
         super(context);
 //        scrollHandle = new DefaultScrollHandle(context);
 //        scrollHandle.setupLayout(this);
-//        scrollBarView = new ScrollBarView(context);
+//        scrollBarView = new com.wxiwei.office.wp.scroll.ScrollBarView(context);
 //        addView(scrollBarView);
 //
         this.control = control;
@@ -1027,8 +1027,9 @@ public class Word extends LinearLayout implements IWord {
                 viewWidth = ((View) getParent()).getWidth();
             }
             z = (float) (viewWidth - WPViewConstant.PAGE_SPACE) / pageWidth;
+            return Math.min(z, 1.0f);
         }
-        return Math.min(z, 1.0f);
+        return 1.0f;
     }
 
     /**
