@@ -257,4 +257,7 @@ public interface IMainFrame {
     boolean tap(MotionEvent e);
 
 
+    void touchPDFScroll();
+
+    void hidePDFScroll();
 }

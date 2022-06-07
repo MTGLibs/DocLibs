@@ -20,16 +20,19 @@ import static com.github.barteksc.pdfviewer.util.Constants.Pinch.MINIMUM_ZOOM;
 
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
 import com.github.barteksc.pdfviewer.model.LinkTapEvent;
+import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.scroll.ScrollHandle;
 import com.github.barteksc.pdfviewer.util.SnapEdge;
 import com.shockwave.pdfium.PdfDocument;
 import com.shockwave.pdfium.util.SizeF;
+import com.wxiwei.office.system.MainControl;
 
 /**
  * This Manager takes care of moving the PDFView,
@@ -253,6 +256,13 @@ class DragPinchManager implements GestureDetector.OnGestureListener, GestureDete
     public boolean onScale(ScaleGestureDetector detector) {
         float dr = detector.getScaleFactor();
         float wantedZoom = pdfView.getZoom() * dr;
+        int round = Math.round(90 + wantedZoom * 10);
+        Log.d("android_log", "onScale: " + round);
+        if (pdfView.getScrollHandle() instanceof DefaultScrollHandle) {
+            DefaultScrollHandle handle = (DefaultScrollHandle) pdfView.getScrollHandle();
+            MainControl control = handle.getControl();
+            control.getMainFrame().changeZoom(round);
+        }
         if (wantedZoom < MINIMUM_ZOOM) {
             dr = MINIMUM_ZOOM / pdfView.getZoom();
         } else if (wantedZoom > MAXIMUM_ZOOM) {

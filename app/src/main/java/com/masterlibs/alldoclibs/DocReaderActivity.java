@@ -76,7 +76,7 @@ public class DocReaderActivity extends BaseDocActivity {
 
     @Override
     public void changeZoom(int percent) {
-
+        Log.d("android_log", "changeZoom: " + percent);
     }
 
     @Override
