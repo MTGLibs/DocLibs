@@ -128,7 +128,15 @@ public class Word extends LinearLayout implements IWord {
      */
     private void initManage() {
         //
-
+        eventManage = new WPEventManage(this, control);
+        setOnTouchListener(eventManage);
+        setLongClickable(true);
+        //
+        wpFind = new WPFind(this);
+        //
+        status = new StatusManage();
+        //
+        highlight = new Highlight(this);
 
     }
 

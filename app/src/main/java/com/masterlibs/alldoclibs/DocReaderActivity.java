@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.wxiwei.office.officereader.BaseDocActivity;
+import com.wxiwei.office.wp.control.Word;
 import com.wxiwei.office.wp.scroll.ScrollBarView;
 
 import java.io.File;
