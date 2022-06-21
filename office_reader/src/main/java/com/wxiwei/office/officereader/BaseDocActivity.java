@@ -58,6 +58,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     private ScrollHandle scrollHandel;
     private PDFView pdfView;
 
+
     public boolean isScrollBarTouching() {
         return isScrollBarTouching;
     }
