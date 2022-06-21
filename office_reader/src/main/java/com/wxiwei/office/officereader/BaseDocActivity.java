@@ -56,6 +56,7 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     private boolean isFileDoc;
     private boolean isScrollBarTouching;
     private ScrollHandle scrollHandel;
+    private PDFView pdfView;
 
     public boolean isScrollBarTouching() {
         return isScrollBarTouching;
@@ -289,12 +290,17 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     public void readPdfFile(String pass) {
         scrollBarView.setVisibility(View.GONE);
         scrollHandel = new DefaultScrollHandle(this);
-        PDFView pdfView = new PDFView(this);
+        pdfView = new PDFView(this);
         pdfView.fromFile(new File(filePath)).onPageChange(pageChangeListener)
                 .onError(errorListener).onLoad(onLoadListener).scrollHandle(scrollHandel).password(pass).onTap(onTapListener).load();
         appFrame.removeAllViews();
         appFrame.addView(pdfView);
     }
+
+    public PDFView getPdfView() {
+        return pdfView;
+    }
+
 
     @Override
     public void setFindBackForwardState(boolean z) {
@@ -424,7 +430,8 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     public Word getWordView() {
         return (Word) control.getView();
     }
-    public ExcelView getXLSView(){
+
+    public ExcelView getXLSView() {
         return (ExcelView) control.getView();
     }
 

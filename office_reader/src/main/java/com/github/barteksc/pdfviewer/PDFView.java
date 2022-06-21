@@ -261,6 +261,11 @@ public class PDFView extends RelativeLayout {
         pdfiumCore = new PdfiumCore(context);
         setWillNotDraw(false);
     }
+
+    public CacheManager getCacheManager() {
+        return cacheManager;
+    }
+
     public PDFView(Context context) {
         super(context);
 
