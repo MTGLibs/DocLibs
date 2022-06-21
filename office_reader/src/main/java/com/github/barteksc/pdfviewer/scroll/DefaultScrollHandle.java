@@ -7,13 +7,11 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.TypedValue;
 import android.view.MotionEvent;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
@@ -21,12 +19,18 @@ import com.bumptech.glide.request.transition.Transition;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.util.Util;
 import com.wxiwei.office.R;
+import com.wxiwei.office.system.MainControl;
 
 public class DefaultScrollHandle extends RelativeLayout implements ScrollHandle {
 
     private final static int HANDLE_LONG = 40;
     private final static int HANDLE_SHORT = 40;
     private final static int DEFAULT_TEXT_SIZE = 16;
+    private MainControl control;
+
+    public MainControl getControl() {
+        return control;
+    }
 
     private float relativeHandlerMiddle = 0f;
 
@@ -45,8 +49,9 @@ public class DefaultScrollHandle extends RelativeLayout implements ScrollHandle 
     };
     private Bitmap bitmapScroll;
 
-    public DefaultScrollHandle(Context context) {
+    public DefaultScrollHandle(Context context, MainControl control) {
         this(context, false);
+        this.control = control;
     }
 
     public DefaultScrollHandle(Context context, boolean inverted) {
@@ -213,6 +218,7 @@ public class DefaultScrollHandle extends RelativeLayout implements ScrollHandle 
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                control.getMainFrame().touchPDFScroll();
             case MotionEvent.ACTION_POINTER_DOWN:
                 pdfView.stopFling();
                 handler.removeCallbacks(hidePageScrollerRunnable);
@@ -230,8 +236,10 @@ public class DefaultScrollHandle extends RelativeLayout implements ScrollHandle 
                     pdfView.setPositionOffset(relativeHandlerMiddle / (float) getWidth(), false);
                 }
                 return true;
-            case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
+                control.getMainFrame().hidePDFScroll();
+                return true;
+            case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_POINTER_UP:
                 hideDelayed();
                 pdfView.performPageSnap();

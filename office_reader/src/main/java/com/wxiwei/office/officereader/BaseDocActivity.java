@@ -289,8 +289,8 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
 
     public void readPdfFile(String pass) {
         scrollBarView.setVisibility(View.GONE);
-        scrollHandel = new DefaultScrollHandle(this);
-        pdfView = new PDFView(this);
+        scrollHandel = new DefaultScrollHandle(this, control);
+         pdfView = new PDFView(this);
         pdfView.fromFile(new File(filePath)).onPageChange(pageChangeListener)
                 .onError(errorListener).onLoad(onLoadListener).scrollHandle(scrollHandel).password(pass).onTap(onTapListener).load();
         appFrame.removeAllViews();
@@ -456,5 +456,17 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
         } else {
             hidePageToast();
         }
+    }
+
+    @Override
+    public void touchPDFScroll() {
+        isScrollBarTouching = true;
+        showPageToast();
+    }
+
+    @Override
+    public void hidePDFScroll() {
+        isScrollBarTouching = false;
+        hidePageToast();
     }
 }
