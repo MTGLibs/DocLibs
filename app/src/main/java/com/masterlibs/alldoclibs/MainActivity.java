@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
             this.startActivityForResult(intent, 1);
+
         }
         //sdcard/Download/351_ Trần Thị Thu Hà_Đường lối quốc phòng và an ninh Đảng cộng sản Việt Nam done.doc
         //sdcard/Download/Zalo/Dickinson_Template_white.pptx
