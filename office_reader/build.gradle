@@ -7,7 +7,7 @@ android {
     compileSdkVersion 32
 
     defaultConfig {
-        minSdkVersion 22
+        minSdkVersion 19
         targetSdkVersion 32
 
     }
@@ -23,7 +23,7 @@ android {
 dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.print:print:1.0.0'
     def multidex_version = "2.0.1"
@@ -31,8 +31,8 @@ dependencies {
     api 'com.github.barteksc:pdfium-android:1.9.0'
     implementation 'com.tom_roush:pdfbox-android:1.8.10.1'
     // Glide
-    implementation "com.github.bumptech.glide:glide:4.12.0"
-    annotationProcessor "com.github.bumptech.glide:compiler:4.12.0"
+    implementation "com.github.bumptech.glide:glide:4.13.0"
+    annotationProcessor "com.github.bumptech.glide:compiler:4.13.0"
 
 
 }
