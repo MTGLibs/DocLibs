@@ -15,16 +15,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 //
-        try {
-            Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-            intent.addCategory("android.intent.category.DEFAULT");
-            intent.setData(Uri.parse(String.format("package:%s", this.getPackageName())));
-            this.startActivityForResult(intent, 1);
-        } catch (Exception e) {
-            Intent intent = new Intent();
-            intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-            this.startActivityForResult(intent, 1);
-        }
+//        try {
+//            Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+//            intent.addCategory("android.intent.category.DEFAULT");
+//            intent.setData(Uri.parse(String.format("package:%s", this.getPackageName())));
+//            this.startActivityForResult(intent, 1);
+//        } catch (Exception e) {
+//            Intent intent = new Intent();
+//            intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+//            this.startActivityForResult(intent, 1);
+//        }
         //sdcard/Download/351_ Trần Thị Thu Hà_Đường lối quốc phòng và an ninh Đảng cộng sản Việt Nam done.doc
         //sdcard/Download/Zalo/Dickinson_Template_white.pptx
         //sdcard/Download/súhsha.xls
