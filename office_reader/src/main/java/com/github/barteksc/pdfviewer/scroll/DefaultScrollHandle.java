@@ -35,7 +35,7 @@ public class DefaultScrollHandle extends RelativeLayout implements ScrollHandle 
 
     private float relativeHandlerMiddle = 0f;
 
-//    protected TextView textView;
+    //    protected TextView textView;
     protected Context context;
     private boolean inverted;
     private PDFView pdfView;
@@ -224,6 +224,8 @@ public class DefaultScrollHandle extends RelativeLayout implements ScrollHandle 
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                control.getMainFrame().touchPDFScroll();
+
             case MotionEvent.ACTION_POINTER_DOWN:
                 pdfView.stopFling();
                 handler.removeCallbacks(hidePageScrollerRunnable);
@@ -241,8 +243,10 @@ public class DefaultScrollHandle extends RelativeLayout implements ScrollHandle 
                     pdfView.setPositionOffset(relativeHandlerMiddle / (float) getWidth(), false);
                 }
                 return true;
-            case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
+                control.getMainFrame().hidePDFScroll();
+                return true;
+            case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_POINTER_UP:
                 hideDelayed();
                 pdfView.performPageSnap();
