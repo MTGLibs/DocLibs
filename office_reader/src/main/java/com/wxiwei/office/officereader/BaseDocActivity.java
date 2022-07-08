@@ -57,6 +57,16 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     private boolean isScrollBarTouching;
     private ScrollHandle scrollHandel;
     private PDFView pdfView;
+    private int defaultPagePDF;
+    private boolean swipeHorizontal;
+
+    public void setSwipeHorizontal(boolean swipeHorizontal) {
+        this.swipeHorizontal = swipeHorizontal;
+    }
+
+    public void setDefaultPagePDF(int defaultPagePDF) {
+        this.defaultPagePDF = defaultPagePDF;
+    }
 
 
     public boolean isScrollBarTouching() {
@@ -291,9 +301,9 @@ public abstract class BaseDocActivity extends AppCompatActivity implements IMain
     public void readPdfFile(String pass) {
         scrollBarView.setVisibility(View.GONE);
         scrollHandel = new DefaultScrollHandle(this, control);
-         pdfView = new PDFView(this);
+        pdfView = new PDFView(this);
         pdfView.fromFile(new File(filePath)).onPageChange(pageChangeListener)
-                .onError(errorListener).onLoad(onLoadListener).scrollHandle(scrollHandel).password(pass).onTap(onTapListener).load();
+                .onError(errorListener).onLoad(onLoadListener).defaultPage(defaultPagePDF).swipeHorizontal(!swipeHorizontal).scrollHandle(scrollHandel).password(pass).onTap(onTapListener).load();
         appFrame.removeAllViews();
         appFrame.addView(pdfView);
     }

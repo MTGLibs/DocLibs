@@ -400,6 +400,126 @@ public class PDFView extends RelativeLayout {
         return pdfFile.getPagesCount();
     }
 
+    public void setScrollDir(ScrollDir scrollDir) {
+        this.scrollDir = scrollDir;
+    }
+
+    public void setCacheManager(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
+    }
+
+    public void setAnimationManager(AnimationManager animationManager) {
+        this.animationManager = animationManager;
+    }
+
+    public void setDragPinchManager(DragPinchManager dragPinchManager) {
+        this.dragPinchManager = dragPinchManager;
+    }
+
+    public void setPdfFile(PdfFile pdfFile) {
+        this.pdfFile = pdfFile;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public void setCurrentXOffset(float currentXOffset) {
+        this.currentXOffset = currentXOffset;
+    }
+
+    public void setCurrentYOffset(float currentYOffset) {
+        this.currentYOffset = currentYOffset;
+    }
+
+    public void setZoom(float zoom) {
+        this.zoom = zoom;
+    }
+
+    public void setRecycled(boolean recycled) {
+        this.recycled = recycled;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public void setDecodingAsyncTask(DecodingAsyncTask decodingAsyncTask) {
+        this.decodingAsyncTask = decodingAsyncTask;
+    }
+
+    public void setRenderingHandler(RenderingHandler renderingHandler) {
+        this.renderingHandler = renderingHandler;
+    }
+
+    public void setPagesLoader(PagesLoader pagesLoader) {
+        this.pagesLoader = pagesLoader;
+    }
+
+    public void setCallbacks(Callbacks callbacks) {
+        this.callbacks = callbacks;
+    }
+
+    public void setPaint(Paint paint) {
+        this.paint = paint;
+    }
+
+    public void setDebugPaint(Paint debugPaint) {
+        this.debugPaint = debugPaint;
+    }
+
+    public void setEnableSwipe(boolean enableSwipe) {
+        this.enableSwipe = enableSwipe;
+    }
+
+    public void setDoubletapEnabled(boolean doubletapEnabled) {
+        this.doubletapEnabled = doubletapEnabled;
+    }
+
+    public void setPdfiumCore(PdfiumCore pdfiumCore) {
+        this.pdfiumCore = pdfiumCore;
+    }
+
+    public void setScrollHandleInit(boolean scrollHandleInit) {
+        isScrollHandleInit = scrollHandleInit;
+    }
+
+    public void setBestQuality(boolean bestQuality) {
+        this.bestQuality = bestQuality;
+    }
+
+    public void setAnnotationRendering(boolean annotationRendering) {
+        this.annotationRendering = annotationRendering;
+    }
+
+    public void setRenderDuringScale(boolean renderDuringScale) {
+        this.renderDuringScale = renderDuringScale;
+    }
+
+    public void setEnableAntialiasing(boolean enableAntialiasing) {
+        this.enableAntialiasing = enableAntialiasing;
+    }
+
+    public void setAntialiasFilter(PaintFlagsDrawFilter antialiasFilter) {
+        this.antialiasFilter = antialiasFilter;
+    }
+
+    public void setSpacingPx(int spacingPx) {
+        this.spacingPx = spacingPx;
+    }
+
+    public void setOnDrawPagesNums(List<Integer> onDrawPagesNums) {
+        this.onDrawPagesNums = onDrawPagesNums;
+    }
+
+    public void setHasSize(boolean hasSize) {
+        this.hasSize = hasSize;
+    }
+
+    public void setWaitingDocumentConfigurator(Configurator waitingDocumentConfigurator) {
+        this.waitingDocumentConfigurator = waitingDocumentConfigurator;
+    }
+
     public void setSwipeEnabled(boolean enableSwipe) {
         this.enableSwipe = enableSwipe;
     }

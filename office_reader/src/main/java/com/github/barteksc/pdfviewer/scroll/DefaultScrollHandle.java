@@ -7,11 +7,12 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.TypedValue;
 import android.view.MotionEvent;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
@@ -34,7 +35,7 @@ public class DefaultScrollHandle extends RelativeLayout implements ScrollHandle 
 
     private float relativeHandlerMiddle = 0f;
 
-    protected TextView textView;
+//    protected TextView textView;
     protected Context context;
     private boolean inverted;
     private PDFView pdfView;
@@ -58,23 +59,10 @@ public class DefaultScrollHandle extends RelativeLayout implements ScrollHandle 
         super(context);
         this.context = context;
         this.inverted = inverted;
-        textView = new TextView(context);
+//        textView = new TextView(context);
         setVisibility(INVISIBLE);
         setTextColor(Color.BLACK);
         setTextSize(DEFAULT_TEXT_SIZE);
-        Glide.with(context).asBitmap().load(R.drawable.ic_scroll_to_page).into(new CustomTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                bitmapScroll = resource;
-                postInvalidate();
-            }
-
-            @Override
-            public void onLoadCleared(@Nullable Drawable placeholder) {
-
-            }
-        });
-
 
     }
 
@@ -86,24 +74,40 @@ public class DefaultScrollHandle extends RelativeLayout implements ScrollHandle 
         if (pdfView.isSwipeVertical()) {
             width = HANDLE_LONG;
             height = HANDLE_SHORT;
-
+            if (inverted) { // left
+                align = ALIGN_PARENT_LEFT;
+                background = ContextCompat.getDrawable(context, R.drawable.ic_scroll_to_page);
+            } else { // right
+                align = ALIGN_PARENT_RIGHT;
+                background = ContextCompat.getDrawable(context, R.drawable.ic_scroll_to_page);
+            }
         } else {
             width = HANDLE_SHORT;
             height = HANDLE_LONG;
-
+            if (inverted) { // top
+                align = ALIGN_PARENT_TOP;
+                background = ContextCompat.getDrawable(context, R.drawable.ic_scroll_to_page_hor);
+            } else { // bottom
+                align = ALIGN_PARENT_TOP;
+                background = ContextCompat.getDrawable(context, R.drawable.ic_scroll_to_page_hor);
+            }
         }
 
-        setBackgroundResource(R.drawable.ic_scroll_to_page);
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            setBackgroundDrawable(background);
+        } else {
+            setBackground(background);
+        }
 
         LayoutParams lp = new LayoutParams(Util.getDP(context, width), Util.getDP(context, height));
         lp.setMargins(0, 0, 0, 0);
 
-//        LayoutParams tvlp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        tvlp.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+        LayoutParams tvlp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        tvlp.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
 
 //        addView(textView, tvlp);
 
-        lp.addRule(ALIGN_PARENT_RIGHT);
+        lp.addRule(align);
         pdfView.addView(this, lp);
 
         this.pdfView = pdfView;
@@ -121,7 +125,9 @@ public class DefaultScrollHandle extends RelativeLayout implements ScrollHandle 
         } else {
             handler.removeCallbacks(hidePageScrollerRunnable);
         }
-        setPosition((pdfView.isSwipeVertical() ? pdfView.getHeight() : pdfView.getWidth()) * position);
+        if (pdfView != null) {
+            setPosition((pdfView.isSwipeVertical() ? pdfView.getHeight() : pdfView.getWidth()) * position);
+        }
     }
 
     private void setPosition(float pos) {
@@ -174,9 +180,9 @@ public class DefaultScrollHandle extends RelativeLayout implements ScrollHandle 
     @Override
     public void setPageNum(int pageNum) {
         String text = String.valueOf(pageNum);
-        if (!textView.getText().equals(text)) {
-            textView.setText(text);
-        }
+//        if (!textView.getText().equals(text)) {
+//            textView.setText(text);
+//        }
     }
 
     @Override
@@ -195,14 +201,14 @@ public class DefaultScrollHandle extends RelativeLayout implements ScrollHandle 
     }
 
     public void setTextColor(int color) {
-        textView.setTextColor(color);
+//        textView.setTextColor(color);
     }
 
     /**
      * @param size text size in dp
      */
     public void setTextSize(int size) {
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, size);
+//        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, size);
     }
 
     private boolean isPDFViewReady() {
@@ -218,7 +224,6 @@ public class DefaultScrollHandle extends RelativeLayout implements ScrollHandle 
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                control.getMainFrame().touchPDFScroll();
             case MotionEvent.ACTION_POINTER_DOWN:
                 pdfView.stopFling();
                 handler.removeCallbacks(hidePageScrollerRunnable);
@@ -236,10 +241,8 @@ public class DefaultScrollHandle extends RelativeLayout implements ScrollHandle 
                     pdfView.setPositionOffset(relativeHandlerMiddle / (float) getWidth(), false);
                 }
                 return true;
-            case MotionEvent.ACTION_UP:
-                control.getMainFrame().hidePDFScroll();
-                return true;
             case MotionEvent.ACTION_CANCEL:
+            case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
                 hideDelayed();
                 pdfView.performPageSnap();
